@@ -134,17 +134,9 @@ section {
 .fade-in-delay-5 { transition-delay: 0.5s; }
 .fade-in-delay-6 { transition-delay: 0.6s; }
 
-.nav-logo {
-  font-family: "Barlow Condensed", sans-serif;
-  font-weight: 800;
-  font-size: 1.8rem;
-  color: var(--color-white);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+
+.nav-logo-icon {
+
 }
 
 .nav-logo span {
@@ -160,11 +152,6 @@ section {
   letter-spacing: 3px;
   text-transform: uppercase;
   line-height: 1;
-}
-
-.nav-logo-wrap {
-  display: flex;
-  flex-direction: column;
 }
 
 .btn {

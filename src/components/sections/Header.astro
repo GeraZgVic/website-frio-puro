@@ -7,13 +7,11 @@
 </div>
 
 <header id="navbar">
-  <a href="#inicio" class="nav-logo">
-    <span aria-hidden="true" class="nav-logo-icon">&#10052;</span>
-    <span class="nav-logo-wrap">
-      <span>FRÍO PURO</span>
-      <small>Hielo Premium</small>
-    </span>
-  </a>
+  <div class="max-w-xs">
+    <a href="#inicio" class="header-logo-link">
+      <img class="w-auto h-16" src="/public/images/FrioPuroLogo.png" alt="" />
+    </a>
+  </div>
 
   <nav>
     <ul>
@@ -45,33 +43,56 @@
 </header>
 
 <style>
+  #navbar,
+  .mobile-menu {
+    box-sizing: border-box;
+  }
+
   #navbar {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
-    padding: 18px 60px;
+    padding: clamp(12px, 2vw, 18px) clamp(16px, 5vw, 60px);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    transition: background 0.4s ease, backdrop-filter 0.4s ease,
-      padding 0.4s ease, box-shadow 0.4s ease;
+    gap: 16px;
+    min-height: 84px;
+    transition:
+      background 0.4s ease,
+      backdrop-filter 0.4s ease,
+      padding 0.4s ease,
+      box-shadow 0.4s ease;
   }
 
   #navbar.scrolled {
     background: rgba(50, 59, 129, 0.97);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    padding: 12px 60px;
+    padding: clamp(10px, 1.8vw, 14px) clamp(16px, 5vw, 60px);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .header-logo-link {
+    display: inline-flex;
+    align-items: center;
+    line-height: 0;
+    flex-shrink: 0;
+  }
+
+  .header-logo-link img {
+    width: auto;
+    height: 3.5rem;
   }
 
   nav ul {
     list-style: none;
     display: flex;
-    gap: 36px;
+    gap: clamp(18px, 3vw, 36px);
     align-items: center;
+    flex-wrap: nowrap;
   }
 
   nav ul li a {
@@ -185,14 +206,21 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 32px;
+    gap: clamp(18px, 4vw, 34px);
     opacity: 0;
+    transform: translateY(-8px);
+    visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.35s ease;
+    transition:
+      opacity 0.35s ease,
+      transform 0.35s ease,
+      visibility 0.35s ease;
   }
 
   .mobile-menu.open {
+    visibility: visible;
     opacity: 1;
+    transform: translateY(0);
     pointer-events: all;
   }
 
@@ -200,10 +228,10 @@
     color: var(--color-white);
     text-decoration: none;
     font-family: "Barlow Condensed", sans-serif;
-    font-size: 2.5rem;
+    font-size: clamp(1.9rem, 7vw, 2.6rem);
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 3px;
+    letter-spacing: clamp(2px, 0.8vw, 3px);
     transition: color var(--transition);
   }
 
@@ -213,11 +241,15 @@
 
   @media (max-width: 768px) {
     #navbar {
-      padding: 16px 24px;
+      padding-left: clamp(12px, 3vw, 24px);
+      padding-right: clamp(12px, 3vw, 24px);
+      min-height: 74px;
+      gap: 10px;
     }
 
     #navbar.scrolled {
-      padding: 12px 24px;
+      padding-left: clamp(12px, 3vw, 24px);
+      padding-right: clamp(12px, 3vw, 24px);
     }
 
     nav ul,
@@ -227,6 +259,27 @@
 
     .hamburger {
       display: flex;
+    }
+  }
+
+  @media (max-width: 360px) {
+    #navbar {
+      padding-left: 10px;
+      padding-right: 10px;
+      min-height: 70px;
+    }
+
+    .header-logo-link img {
+      height: 2.3rem;
+    }
+
+    .hamburger span {
+      width: 24px;
+    }
+
+    .mobile-menu a {
+      font-size: 1.8rem;
+      letter-spacing: 2px;
     }
   }
 </style>

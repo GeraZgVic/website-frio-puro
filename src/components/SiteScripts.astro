@@ -75,17 +75,40 @@
     // ===== HAMBURGER MENU =====
     const hamburger = document.getElementById("hamburger") as HTMLElement | null;
     const mobileMenu = document.getElementById("mobileMenu") as HTMLElement | null;
+    const body = document.body;
+
+    const closeMobileMenu = (): void => {
+      hamburger?.classList.remove("open");
+      mobileMenu?.classList.remove("open");
+      body.style.overflow = "";
+    };
+
+    const openMobileMenu = (): void => {
+      hamburger?.classList.add("open");
+      mobileMenu?.classList.add("open");
+      body.style.overflow = "hidden";
+    };
 
     hamburger?.addEventListener("click", (): void => {
-      hamburger.classList.toggle("open");
-      mobileMenu?.classList.toggle("open");
+      const isOpen = hamburger?.classList.contains("open");
+
+      if (isOpen) {
+        closeMobileMenu();
+      } else {
+        openMobileMenu();
+      }
     });
 
     document.querySelectorAll<HTMLElement>(".mobile-link").forEach((link) => {
       link.addEventListener("click", (): void => {
-        hamburger?.classList.remove("open");
-        mobileMenu?.classList.remove("open");
+        closeMobileMenu();
       });
+    });
+
+    window.addEventListener("resize", (): void => {
+      if (window.innerWidth > 768) {
+        closeMobileMenu();
+      }
     });
 
     // ===== SCROLL SPY =====
