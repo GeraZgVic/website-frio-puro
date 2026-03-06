@@ -43,3 +43,190 @@
     <span></span><span></span><span></span>
   </div>
 </header>
+
+<style>
+  #navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 18px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease,
+      padding 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  #navbar.scrolled {
+    background: rgba(50, 59, 129, 0.97);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 12px 60px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 36px;
+    align-items: center;
+  }
+
+  nav ul li a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-family: "Barlow", sans-serif;
+    font-weight: 600;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    position: relative;
+    transition: color var(--transition);
+  }
+
+  nav ul li a::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-accent);
+    transition: width 0.3s ease;
+  }
+
+  nav ul li a:hover {
+    color: var(--color-white);
+  }
+
+  nav ul li a:hover::after {
+    width: 100%;
+  }
+
+  nav ul li a.active {
+    color: var(--color-accent);
+  }
+
+  nav ul li a.active::after {
+    width: 100%;
+  }
+
+  .btn-whatsapp {
+    background: var(--color-accent);
+    color: var(--color-white);
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-family: "Barlow", sans-serif;
+    font-weight: 600;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all var(--transition);
+    box-shadow: 0 4px 15px rgba(65, 171, 226, 0.4);
+  }
+
+  .btn-whatsapp:hover {
+    background: #25d366;
+    box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .btn-whatsapp svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 5px;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background: var(--color-white);
+    transition: all 0.35s ease;
+    border-radius: 2px;
+  }
+
+  .hamburger.open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .hamburger.open span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  .hamburger.open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(26, 31, 78, 0.98);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+
+  .mobile-menu.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .mobile-menu a {
+    color: var(--color-white);
+    text-decoration: none;
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    transition: color var(--transition);
+  }
+
+  .mobile-menu a:hover {
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 768px) {
+    #navbar {
+      padding: 16px 24px;
+    }
+
+    #navbar.scrolled {
+      padding: 12px 24px;
+    }
+
+    nav ul,
+    .btn-whatsapp {
+      display: none;
+    }
+
+    .hamburger {
+      display: flex;
+    }
+  }
+</style>

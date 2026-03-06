@@ -1,2 +1,43 @@
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursor-ring"></div>
+
+<style>
+  .cursor {
+    width: 12px;
+    height: 12px;
+    background: var(--color-accent);
+    border-radius: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 99999;
+    transition: transform 0.15s ease, background 0.2s ease;
+    transform: translate(-50%, -50%);
+  }
+
+  .cursor-ring {
+    width: 36px;
+    height: 36px;
+    border: 2px solid rgba(65, 171, 226, 0.5);
+    border-radius: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 99998;
+    transition: transform 0.35s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+    transform: translate(-50%, -50%);
+  }
+
+  .cursor.hover {
+    transform: translate(-50%, -50%) scale(2);
+    background: var(--color-light-blue);
+  }
+
+  .cursor-ring.hover {
+    width: 56px;
+    height: 56px;
+    border-color: var(--color-accent);
+  }
+</style>

@@ -35,6 +35,39 @@ import SiteScripts from "../components/SiteScripts.astro";
     <FinalCta />
     <Footer />
   </main>
-  <a href="#inicio" id="back-top">↑</a>
+  <a href="#inicio" id="back-top">&#8593;</a>
   <SiteScripts />
+
+  <style>
+    #back-top {
+      position: fixed;
+      bottom: 36px;
+      right: 36px;
+      width: 48px;
+      height: 48px;
+      background: var(--color-accent);
+      color: var(--color-white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      text-decoration: none;
+      z-index: 990;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all var(--transition);
+      box-shadow: 0 6px 25px rgba(65, 171, 226, 0.4);
+    }
+
+    #back-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #back-top:hover {
+      background: var(--color-primary);
+      transform: translateY(-4px);
+    }
+  </style>
 </BaseLayout>

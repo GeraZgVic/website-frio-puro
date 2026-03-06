@@ -40,4 +40,82 @@
                 </div>
             </div>
         </div>
-    </section>
+</section>
+<style>
+  #nosotros {
+    background: var(--color-pale);
+  }
+
+  .clients-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 60px;
+  }
+
+  .client-card {
+    background: var(--color-white);
+    border-radius: 20px;
+    padding: 40px 32px;
+    text-align: center;
+    border: 1px solid rgba(65, 171, 226, 0.15);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .client-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+  }
+
+  .client-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .client-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 60px rgba(50, 59, 129, 0.15);
+  }
+
+  .client-card .card-icon {
+    font-size: 3.5rem;
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .client-card h3 {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--color-primary);
+  }
+
+  .client-card p {
+    font-size: 0.88rem;
+    color: #777;
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 1024px) {
+    .clients-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .clients-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

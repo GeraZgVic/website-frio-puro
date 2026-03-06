@@ -39,4 +39,179 @@
                 </a>
             </div>
         </div>
-    </section>
+</section>
+<style>
+  #como-pedir {
+    background: var(--color-primary);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #como-pedir::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(65, 171, 226, 0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  #como-pedir .section-title {
+    color: var(--color-white);
+  }
+
+  #como-pedir .section-label {
+    color: var(--color-light-blue);
+  }
+
+  #como-pedir .section-subtitle {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .steps-wrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    margin-top: 70px;
+    position: relative;
+  }
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    max-width: 280px;
+    padding: 0 20px;
+  }
+
+  .step-number {
+    width: 80px;
+    height: 80px;
+    background: var(--color-accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 800;
+    font-size: 2rem;
+    color: var(--color-white);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 8px 30px rgba(65, 171, 226, 0.5);
+    transition: transform 0.3s ease;
+  }
+
+  .step:hover .step-number {
+    transform: scale(1.1);
+  }
+
+  .step-icon {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+  }
+
+  .step h3 {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--color-white);
+    margin-bottom: 8px;
+  }
+
+  .step p {
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.6;
+  }
+
+  .step-connector {
+    flex: 0 0 100px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-accent), rgba(65, 171, 226, 0.3));
+    margin-top: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .step-connector::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--color-white);
+    animation: flow 2.5s linear infinite;
+  }
+
+  @keyframes flow {
+    0% {
+      left: -100%;
+    }
+
+    100% {
+      left: 100%;
+    }
+  }
+
+  .cta-center {
+    text-align: center;
+    margin-top: 70px;
+  }
+
+  .btn-pulse {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--color-accent);
+    color: var(--color-white);
+    padding: 18px 48px;
+    border-radius: 50px;
+    font-family: "Barlow", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+    position: relative;
+    animation: pulse-btn 2.5s ease infinite;
+  }
+
+  @keyframes pulse-btn {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(65, 171, 226, 0.6);
+    }
+
+    50% {
+      box-shadow: 0 0 0 20px rgba(65, 171, 226, 0);
+    }
+  }
+
+  .btn-pulse:hover {
+    transform: scale(1.05);
+    animation: none;
+    box-shadow: 0 10px 40px rgba(65, 171, 226, 0.6);
+  }
+
+  @media (max-width: 768px) {
+    .steps-wrapper {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .step-connector {
+      width: 2px;
+      height: 50px;
+      background: linear-gradient(180deg, var(--color-accent), rgba(65, 171, 226, 0.3));
+    }
+  }
+</style>

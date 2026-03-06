@@ -1,52 +1,59 @@
-<script>
+<script >
   document.addEventListener("DOMContentLoaded", () => {
-    const cursor = document.getElementById("cursor");
-    const cursorRing = document.getElementById("cursor-ring");
+    // ===== CUSTOM CURSOR =====
+    const cursor = document.getElementById("cursor") as HTMLDivElement | null;
+    const cursorRing = document.getElementById("cursor-ring") as HTMLDivElement | null;
 
     let mouseX = 0;
     let mouseY = 0;
     let ringX = 0;
     let ringY = 0;
 
-    const animateRing = () => {
-      if (!cursor || !cursorRing) {
-        requestAnimationFrame(animateRing);
-        return;
-      }
-      ringX += (mouseX - ringX) * 0.12;
-      ringY += (mouseY - ringY) * 0.12;
-      cursorRing.style.left = `${ringX}px`;
-      cursorRing.style.top = `${ringY}px`;
-      requestAnimationFrame(animateRing);
-    };
-
-    const moveCursor = (e) => {
+    const moveCursor = (e: MouseEvent): void => {
       mouseX = e.clientX;
       mouseY = e.clientY;
+
       if (cursor) {
         cursor.style.left = `${mouseX}px`;
         cursor.style.top = `${mouseY}px`;
       }
     };
 
+    const animateRing = (): void => {
+      if (!cursorRing) {
+        requestAnimationFrame(animateRing);
+        return;
+      }
+
+      ringX += (mouseX - ringX) * 0.12;
+      ringY += (mouseY - ringY) * 0.12;
+
+      cursorRing.style.left = `${ringX}px`;
+      cursorRing.style.top = `${ringY}px`;
+
+      requestAnimationFrame(animateRing);
+    };
+
     document.addEventListener("mousemove", moveCursor);
     animateRing();
 
-    document.querySelectorAll("a, button, .tab-btn, .dot").forEach((el) => {
-      el.addEventListener("mouseenter", () => {
+    document.querySelectorAll<HTMLElement>("a, button, .tab-btn, .dot").forEach((el) => {
+      el.addEventListener("mouseenter", (): void => {
         cursor?.classList.add("hover");
         cursorRing?.classList.add("hover");
       });
-      el.addEventListener("mouseleave", () => {
+
+      el.addEventListener("mouseleave", (): void => {
         cursor?.classList.remove("hover");
         cursorRing?.classList.remove("hover");
       });
     });
 
-    const navbar = document.getElementById("navbar");
-    const backTop = document.getElementById("back-top");
+    // ===== NAVBAR SCROLL + BACK TO TOP =====
+    const navbar = document.getElementById("navbar") as HTMLElement | null;
+    const backTop = document.getElementById("back-top") as HTMLElement | null;
 
-    const onScroll = () => {
+    const onScroll = (): void => {
       if (window.scrollY > 60) {
         navbar?.classList.add("scrolled");
       } else {
@@ -54,41 +61,47 @@
       }
 
       if (backTop) {
-        if (window.scrollY > 300) backTop.classList.add("visible");
-        else backTop.classList.remove("visible");
+        if (window.scrollY > 300) {
+          backTop.classList.add("visible");
+        } else {
+          backTop.classList.remove("visible");
+        }
       }
     };
 
     window.addEventListener("scroll", onScroll);
+    onScroll();
 
-    const hamburger = document.getElementById("hamburger");
-    const mobileMenu = document.getElementById("mobileMenu");
+    // ===== HAMBURGER MENU =====
+    const hamburger = document.getElementById("hamburger") as HTMLElement | null;
+    const mobileMenu = document.getElementById("mobileMenu") as HTMLElement | null;
 
-    hamburger?.addEventListener("click", () => {
+    hamburger?.addEventListener("click", (): void => {
       hamburger.classList.toggle("open");
       mobileMenu?.classList.toggle("open");
     });
 
-    document.querySelectorAll(".mobile-link").forEach((link) => {
-      link.addEventListener("click", () => {
+    document.querySelectorAll<HTMLElement>(".mobile-link").forEach((link) => {
+      link.addEventListener("click", (): void => {
         hamburger?.classList.remove("open");
         mobileMenu?.classList.remove("open");
       });
     });
 
-    const navLinks = document.querySelectorAll(".nav-link");
-    const sections = document.querySelectorAll("section[id]");
+    // ===== SCROLL SPY =====
+    const navLinks = document.querySelectorAll<HTMLAnchorElement>(".nav-link");
+    const sections = document.querySelectorAll<HTMLElement>("section[id], #hero");
 
     const spyObserver = new IntersectionObserver(
-      (entries) => {
+      (entries: IntersectionObserverEntry[]): void => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting) {
-            return;
-          }
+          if (!entry.isIntersecting) return;
 
-          const id = entry.target.id;
+          const id = (entry.target as HTMLElement).id;
+
           navLinks.forEach((link) => {
             link.classList.remove("active");
+
             if (link.getAttribute("href") === `#${id}`) {
               link.classList.add("active");
             }
@@ -102,12 +115,14 @@
 
     sections.forEach((section) => spyObserver.observe(section));
 
-    const fadeElements = document.querySelectorAll(".fade-in");
+    // ===== FADE IN ANIMATIONS =====
+    const fadeElements = document.querySelectorAll<HTMLElement>(".fade-in");
+
     const fadeObserver = new IntersectionObserver(
-      (entries) => {
+      (entries: IntersectionObserverEntry[]): void => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
+            (entry.target as HTMLElement).classList.add("visible");
           }
         });
       },
@@ -118,32 +133,37 @@
 
     fadeElements.forEach((el) => fadeObserver.observe(el));
 
-    document.querySelectorAll("#hero .fade-in").forEach((el, index) => {
-      setTimeout(() => {
+    document.querySelectorAll<HTMLElement>("#hero .fade-in").forEach((el, index) => {
+      window.setTimeout((): void => {
         el.classList.add("visible");
       }, 200 + index * 150);
     });
 
-    setTimeout(() => {
-      document.querySelectorAll(".hero-checks li").forEach((li, index) => {
-        setTimeout(() => {
+    window.setTimeout((): void => {
+      document.querySelectorAll<HTMLElement>(".hero-checks li").forEach((li, index) => {
+        window.setTimeout((): void => {
           li.classList.add("visible");
         }, index * 200);
       });
     }, 800);
 
-    const counterSection = document.getElementById("beneficios");
+    // ===== COUNTERS =====
+    const counterSection = document.getElementById("beneficios") as HTMLElement | null;
     let countersStarted = false;
 
-    const animateCounter = (el) => {
-      const target = Number.parseInt(el.getAttribute("data-target"), 10);
+    const animateCounter = (el: HTMLElement): void => {
+      const rawTarget = el.getAttribute("data-target");
+      const target = rawTarget ? Number.parseInt(rawTarget, 10) : NaN;
+      if (Number.isNaN(target)) return;
+
       const duration = 2000;
       const start = performance.now();
 
-      const update = (time) => {
+      const update = (time: number): void => {
         const elapsed = time - start;
         const progress = Math.min(elapsed / duration, 1);
         const eased = 1 - Math.pow(1 - progress, 3);
+
         el.textContent = Math.floor(eased * target).toString();
 
         if (progress < 1) {
@@ -157,11 +177,11 @@
     };
 
     const counterObserver = new IntersectionObserver(
-      (entries) => {
+      (entries: IntersectionObserverEntry[]): void => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && !countersStarted) {
             countersStarted = true;
-            document.querySelectorAll(".counter-num").forEach((el) => animateCounter(el));
+            document.querySelectorAll<HTMLElement>(".counter-num").forEach((el) => animateCounter(el));
           }
         });
       },
@@ -174,23 +194,27 @@
       counterObserver.observe(counterSection);
     }
 
-    const tabBtns = document.querySelectorAll(".tab-btn");
-    const productCards = document.querySelectorAll(".product-card");
+    // ===== PRODUCT TABS =====
+    const tabBtns = document.querySelectorAll<HTMLButtonElement>(".tab-btn");
+    const productCards = document.querySelectorAll<HTMLElement>(".product-card");
 
     tabBtns.forEach((btn) => {
-      btn.addEventListener("click", () => {
+      btn.addEventListener("click", (): void => {
         tabBtns.forEach((item) => item.classList.remove("active"));
         btn.classList.add("active");
 
         const filter = btn.getAttribute("data-filter");
+
         productCards.forEach((card) => {
           const type = card.getAttribute("data-type");
+
           if (filter === "all" || type === filter) {
             card.classList.remove("hidden");
             card.style.opacity = "0";
             card.style.transform = "scale(0.95)";
-            requestAnimationFrame(() => {
-              setTimeout(() => {
+
+            requestAnimationFrame((): void => {
+              window.setTimeout((): void => {
                 card.style.opacity = "";
                 card.style.transform = "";
               }, 30);
@@ -198,7 +222,8 @@
           } else {
             card.style.opacity = "0";
             card.style.transform = "scale(0.95)";
-            setTimeout(() => {
+
+            window.setTimeout((): void => {
               card.classList.add("hidden");
             }, 300);
           }
@@ -206,11 +231,12 @@
       });
     });
 
-    document.querySelectorAll(".product-card").forEach((card) => {
-      const inner = card.querySelector(".product-card-inner");
+    // ===== 3D HOVER ON PRODUCT CARDS =====
+    document.querySelectorAll<HTMLElement>(".product-card").forEach((card) => {
+      const inner = card.querySelector<HTMLElement>(".product-card-inner");
       if (!inner) return;
 
-      card.addEventListener("mousemove", (e) => {
+      card.addEventListener("mousemove", (e: MouseEvent): void => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
@@ -218,56 +244,56 @@
         const centerY = rect.height / 2;
         const rotateY = ((x - centerX) / centerX) * 8;
         const rotateX = ((centerY - y) / centerY) * 5;
+
         inner.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
       });
 
-      card.addEventListener("mouseleave", () => {
+      card.addEventListener("mouseleave", (): void => {
         inner.style.transform = "perspective(1000px) rotateX(0) rotateY(0)";
       });
     });
 
-    const track = document.getElementById("sliderTrack");
-    const dots = document.querySelectorAll(".dot");
-    const nextBtn = document.getElementById("nextBtn");
-    const prevBtn = document.getElementById("prevBtn");
+    // ===== SLIDER =====
+    const track = document.getElementById("sliderTrack") as HTMLElement | null;
+    const dots = document.querySelectorAll<HTMLElement>(".dot");
+    const nextBtn = document.getElementById("nextBtn") as HTMLButtonElement | null;
+    const prevBtn = document.getElementById("prevBtn") as HTMLButtonElement | null;
 
     if (track) {
       let currentSlide = 0;
-      const totalSlides = document.querySelectorAll(".testimonial-slide").length;
-      let autoSlide;
+      const totalSlides = document.querySelectorAll<HTMLElement>(".testimonial-slide").length;
+      let autoSlide: number | undefined;
 
-      const goToSlide = (index) => {
-        if (!track) {
-          return;
-        }
+      const goToSlide = (index: number): void => {
         currentSlide = (index + totalSlides) % totalSlides;
         track.style.transform = `translateX(-${currentSlide * 100}%)`;
+
         dots.forEach((dot, dotIndex) => {
           dot.classList.toggle("active", dotIndex === currentSlide);
         });
       };
 
-      const startAuto = () => {
-        autoSlide = setInterval(() => {
+      const startAuto = (): void => {
+        autoSlide = window.setInterval((): void => {
           goToSlide(currentSlide + 1);
         }, 4000);
       };
 
-      nextBtn?.addEventListener("click", () => {
-        clearInterval(autoSlide);
+      nextBtn?.addEventListener("click", (): void => {
+        if (autoSlide !== undefined) window.clearInterval(autoSlide);
         goToSlide(currentSlide + 1);
         startAuto();
       });
 
-      prevBtn?.addEventListener("click", () => {
-        clearInterval(autoSlide);
+      prevBtn?.addEventListener("click", (): void => {
+        if (autoSlide !== undefined) window.clearInterval(autoSlide);
         goToSlide(currentSlide - 1);
         startAuto();
       });
 
       dots.forEach((dot, index) => {
-        dot.addEventListener("click", () => {
-          clearInterval(autoSlide);
+        dot.addEventListener("click", (): void => {
+          if (autoSlide !== undefined) window.clearInterval(autoSlide);
           goToSlide(index);
           startAuto();
         });
@@ -276,47 +302,75 @@
       startAuto();
     }
 
+    // ===== PARTICLE SYSTEM =====
+    type ParticleShape = "crystal" | "dot";
+
+    interface Particle {
+      x: number;
+      y: number;
+      size: number;
+      speedX: number;
+      speedY: number;
+      opacity: number;
+      rotation: number;
+      rotSpeed: number;
+      shape: ParticleShape;
+    }
+
     const canvas = document.getElementById("particles-canvas");
-    if (canvas) {
+
+    if (canvas instanceof HTMLCanvasElement) {
       const ctx = canvas.getContext("2d");
 
       if (ctx) {
-        let particles = [];
+        let particles: Particle[] = [];
 
-        const resizeCanvas = () => {
+        const resizeCanvas = (): void => {
           canvas.width = canvas.offsetWidth;
           canvas.height = canvas.offsetHeight;
         };
 
-        const Particle = () => {
-          const p = {};
-          resetParticle(p);
-          return p;
+        const resetParticle = (particle: Particle): void => {
+          particle.x = Math.random() * canvas.width;
+          particle.y = Math.random() * canvas.height;
+          particle.size = Math.random() * 5 + 2;
+          particle.speedX = (Math.random() - 0.5) * 0.5;
+          particle.speedY = -Math.random() * 0.8 - 0.3;
+          particle.opacity = Math.random() * 0.5 + 0.2;
+          particle.rotation = Math.random() * Math.PI * 2;
+          particle.rotSpeed = (Math.random() - 0.5) * 0.02;
+          particle.shape = Math.random() > 0.5 ? "crystal" : "dot";
         };
 
-        const resetParticle = (p) => {
-          p.x = Math.random() * canvas.width;
-          p.y = Math.random() * canvas.height;
-          p.size = Math.random() * 5 + 2;
-          p.speedX = (Math.random() - 0.5) * 0.5;
-          p.speedY = -Math.random() * 0.8 - 0.3;
-          p.opacity = Math.random() * 0.5 + 0.2;
-          p.rotation = Math.random() * Math.PI * 2;
-          p.rotSpeed = (Math.random() - 0.5) * 0.02;
-          p.shape = Math.random() > 0.5 ? "crystal" : "dot";
+        const createParticle = (): Particle => {
+          const particle: Particle = {
+            x: 0,
+            y: 0,
+            size: 0,
+            speedX: 0,
+            speedY: 0,
+            opacity: 0,
+            rotation: 0,
+            rotSpeed: 0,
+            shape: "dot"
+          };
+
+          resetParticle(particle);
+          return particle;
         };
 
-        const updateParticle = (particle) => {
+        const updateParticle = (particle: Particle): void => {
           particle.x += particle.speedX;
           particle.y += particle.speedY;
           particle.rotation += particle.rotSpeed;
           particle.opacity -= 0.0015;
+
           if (particle.y < -20 || particle.opacity <= 0) {
             resetParticle(particle);
           }
         };
 
-        const drawParticle = (particle) => {
+        const drawParticle = (particle: Particle): void => {
           ctx.save();
           ctx.translate(particle.x, particle.y);
           ctx.rotate(particle.rotation);
@@ -326,11 +380,16 @@
             ctx.strokeStyle = "rgba(157, 212, 242, 0.8)";
             ctx.lineWidth = 1;
             ctx.beginPath();
+
             for (let i = 0; i < 6; i++) {
               const angle = (i / 6) * Math.PI * 2;
               ctx.moveTo(0, 0);
-              ctx.lineTo(Math.cos(angle) * particle.size, Math.sin(angle) * particle.size);
+              ctx.lineTo(
+                Math.cos(angle) * particle.size,
+                Math.sin(angle) * particle.size
+              );
             }
+
             ctx.stroke();
           } else {
             ctx.fillStyle = "rgba(65, 171, 226, 0.6)";
@@ -342,16 +401,18 @@
           ctx.restore();
         };
 
-        const animateParticles = () => {
+        const animateParticles = (): void => {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
+
           particles.forEach((particle) => {
             updateParticle(particle);
             drawParticle(particle);
           });
 
           if (particles.length < 80) {
-            particles.push(Particle());
+            particles.push(createParticle());
           }
+
           requestAnimationFrame(animateParticles);
         };
 
@@ -359,31 +420,26 @@
         window.addEventListener("resize", resizeCanvas);
 
         for (let i = 0; i < 80; i++) {
-          const p = Particle();
-          p.y = Math.random() * canvas.height;
-          particles.push(p);
+          const particle = createParticle();
+          particle.y = Math.random() * canvas.height;
+          particles.push(particle);
         }
 
         animateParticles();
       }
     }
 
-    let mouseParallaxX = 0;
-    let mouseParallaxY = 0;
+    // ===== PARALLAX HERO =====
+    const heroLeft = document.querySelector<HTMLElement>(".hero-left");
+    const heroVisual = document.querySelector<HTMLElement>(".hero-visual");
 
-    document.addEventListener("mousemove", (e) => {
-      mouseParallaxX = (e.clientX / window.innerWidth - 0.5) * 20;
-      mouseParallaxY = (e.clientY / window.innerHeight - 0.5) * 10;
-    });
-
-    const heroLeft = document.querySelector(".hero-left");
-    const heroVisual = document.querySelector(".hero-visual");
-
-    window.addEventListener("scroll", () => {
+    window.addEventListener("scroll", (): void => {
       const scrollY = window.scrollY;
+
       if (heroLeft) {
         heroLeft.style.transform = `translateY(${scrollY * 0.15}px)`;
       }
+
       if (heroVisual) {
         heroVisual.style.transform = `translateY(${scrollY * 0.08}px)`;
       }

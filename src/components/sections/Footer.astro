@@ -28,7 +28,7 @@
         <ul class="footer-contact footer-links" style="list-style:none;">
           <li><span class="ic">📞</span> 961 123 4567</li>
           <li><span class="ic">💬</span> WhatsApp 24/7</li>
-          <li><span class="ic">📍</span> Villahermosa Tabasco, Chiapas</li>
+          <li><span class="ic">📍</span> Villahermosa Tabasco.</li>
           <li><span class="ic">🕐</span> Lun–Dom 6am–11pm</li>
         </ul>
       </div>
@@ -44,7 +44,137 @@
     <div class="footer-divider"></div>
     <div class="footer-bottom">
       <span>© 2025 Frío Puro. Todos los derechos reservados.</span>
-      <span>Hecho con ❄️ en Villahermosa Tabasco, Chiapas</span>
+      <span>Hecho con ❄️ en Villahermosa Tabasco.</span>
     </div>
   </div>
 </footer>
+
+<style>
+  footer {
+    background: var(--color-footer);
+    padding: 80px 60px 40px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 50px;
+    margin-bottom: 60px;
+  }
+
+  .footer-brand .nav-logo {
+    margin-bottom: 16px;
+    display: inline-flex;
+  }
+
+  .footer-brand p {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.5);
+    max-width: 280px;
+    margin-top: 8px;
+  }
+
+  .footer-col h4 {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-white);
+    margin-bottom: 20px;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-links a {
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    font-size: 0.88rem;
+    transition: color var(--transition);
+  }
+
+  .footer-links a:hover {
+    color: var(--color-accent);
+  }
+
+  .footer-contact li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 10px;
+  }
+
+  .footer-contact li .ic {
+    color: var(--color-accent);
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 12px;
+  }
+
+  .social-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid rgba(65, 171, 226, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-accent);
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: all var(--transition);
+  }
+
+  .social-icon:hover {
+    background: var(--color-accent);
+    color: var(--color-white);
+    border-color: var(--color-accent);
+    transform: translateY(-3px);
+  }
+
+  .footer-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(65, 171, 226, 0.3), transparent);
+    margin-bottom: 28px;
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  @media (max-width: 1024px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+      gap: 8px;
+      text-align: center;
+    }
+  }
+</style>
