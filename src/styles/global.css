@@ -135,10 +135,6 @@ section {
 .fade-in-delay-6 { transition-delay: 0.6s; }
 
 
-.nav-logo-icon {
-
-}
-
 .nav-logo span {
   color: var(--color-accent);
 }
