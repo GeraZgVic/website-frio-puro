@@ -1,8 +1,10 @@
-<script >
+<script>
   document.addEventListener("DOMContentLoaded", () => {
     // ===== CUSTOM CURSOR =====
     const cursor = document.getElementById("cursor") as HTMLDivElement | null;
-    const cursorRing = document.getElementById("cursor-ring") as HTMLDivElement | null;
+    const cursorRing = document.getElementById(
+      "cursor-ring",
+    ) as HTMLDivElement | null;
 
     let mouseX = 0;
     let mouseY = 0;
@@ -37,17 +39,19 @@
     document.addEventListener("mousemove", moveCursor);
     animateRing();
 
-    document.querySelectorAll<HTMLElement>("a, button, .tab-btn, .dot").forEach((el) => {
-      el.addEventListener("mouseenter", (): void => {
-        cursor?.classList.add("hover");
-        cursorRing?.classList.add("hover");
-      });
+    document
+      .querySelectorAll<HTMLElement>("a, button, .tab-btn, .dot")
+      .forEach((el) => {
+        el.addEventListener("mouseenter", (): void => {
+          cursor?.classList.add("hover");
+          cursorRing?.classList.add("hover");
+        });
 
-      el.addEventListener("mouseleave", (): void => {
-        cursor?.classList.remove("hover");
-        cursorRing?.classList.remove("hover");
+        el.addEventListener("mouseleave", (): void => {
+          cursor?.classList.remove("hover");
+          cursorRing?.classList.remove("hover");
+        });
       });
-    });
 
     // ===== NAVBAR SCROLL + BACK TO TOP =====
     const navbar = document.getElementById("navbar") as HTMLElement | null;
@@ -69,12 +73,16 @@
       }
     };
 
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
 
     // ===== HAMBURGER MENU =====
-    const hamburger = document.getElementById("hamburger") as HTMLElement | null;
-    const mobileMenu = document.getElementById("mobileMenu") as HTMLElement | null;
+    const hamburger = document.getElementById(
+      "hamburger",
+    ) as HTMLElement | null;
+    const mobileMenu = document.getElementById(
+      "mobileMenu",
+    ) as HTMLElement | null;
     const body = document.body;
 
     const closeMobileMenu = (): void => {
@@ -90,7 +98,7 @@
     };
 
     hamburger?.addEventListener("click", (): void => {
-      const isOpen = hamburger?.classList.contains("open");
+      const isOpen = hamburger.classList.contains("open");
 
       if (isOpen) {
         closeMobileMenu();
@@ -113,7 +121,8 @@
 
     // ===== SCROLL SPY =====
     const navLinks = document.querySelectorAll<HTMLAnchorElement>(".nav-link");
-    const sections = document.querySelectorAll<HTMLElement>("section[id], #hero");
+    const sections =
+      document.querySelectorAll<HTMLElement>("section[id], #hero");
 
     const spyObserver = new IntersectionObserver(
       (entries: IntersectionObserverEntry[]): void => {
@@ -132,8 +141,8 @@
         });
       },
       {
-        threshold: 0.35
-      }
+        threshold: 0.35,
+      },
     );
 
     sections.forEach((section) => spyObserver.observe(section));
@@ -150,28 +159,37 @@
         });
       },
       {
-        threshold: 0.12
-      }
+        threshold: 0.12,
+      },
     );
 
     fadeElements.forEach((el) => fadeObserver.observe(el));
 
-    document.querySelectorAll<HTMLElement>("#hero .fade-in").forEach((el, index) => {
-      window.setTimeout((): void => {
-        el.classList.add("visible");
-      }, 200 + index * 150);
-    });
+    document
+      .querySelectorAll<HTMLElement>("#hero .fade-in")
+      .forEach((el, index) => {
+        window.setTimeout(
+          (): void => {
+            el.classList.add("visible");
+          },
+          200 + index * 150,
+        );
+      });
 
     window.setTimeout((): void => {
-      document.querySelectorAll<HTMLElement>(".hero-checks li").forEach((li, index) => {
-        window.setTimeout((): void => {
-          li.classList.add("visible");
-        }, index * 200);
-      });
+      document
+        .querySelectorAll<HTMLElement>(".hero-checks li")
+        .forEach((li, index) => {
+          window.setTimeout((): void => {
+            li.classList.add("visible");
+          }, index * 200);
+        });
     }, 800);
 
     // ===== COUNTERS =====
-    const counterSection = document.getElementById("beneficios") as HTMLElement | null;
+    const counterSection = document.getElementById(
+      "beneficios",
+    ) as HTMLElement | null;
     let countersStarted = false;
 
     const animateCounter = (el: HTMLElement): void => {
@@ -204,13 +222,15 @@
         entries.forEach((entry) => {
           if (entry.isIntersecting && !countersStarted) {
             countersStarted = true;
-            document.querySelectorAll<HTMLElement>(".counter-num").forEach((el) => animateCounter(el));
+            document
+              .querySelectorAll<HTMLElement>(".counter-num")
+              .forEach((el) => animateCounter(el));
           }
         });
       },
       {
-        threshold: 0.3
-      }
+        threshold: 0.3,
+      },
     );
 
     if (counterSection) {
@@ -219,7 +239,8 @@
 
     // ===== PRODUCT TABS =====
     const tabBtns = document.querySelectorAll<HTMLButtonElement>(".tab-btn");
-    const productCards = document.querySelectorAll<HTMLElement>(".product-card");
+    const productCards =
+      document.querySelectorAll<HTMLElement>(".product-card");
 
     tabBtns.forEach((btn) => {
       btn.addEventListener("click", (): void => {
@@ -279,12 +300,17 @@
     // ===== SLIDER =====
     const track = document.getElementById("sliderTrack") as HTMLElement | null;
     const dots = document.querySelectorAll<HTMLElement>(".dot");
-    const nextBtn = document.getElementById("nextBtn") as HTMLButtonElement | null;
-    const prevBtn = document.getElementById("prevBtn") as HTMLButtonElement | null;
+    const nextBtn = document.getElementById(
+      "nextBtn",
+    ) as HTMLButtonElement | null;
+    const prevBtn = document.getElementById(
+      "prevBtn",
+    ) as HTMLButtonElement | null;
 
     if (track) {
       let currentSlide = 0;
-      const totalSlides = document.querySelectorAll<HTMLElement>(".testimonial-slide").length;
+      const totalSlides =
+        document.querySelectorAll<HTMLElement>(".testimonial-slide").length;
       let autoSlide: number | undefined;
 
       const goToSlide = (index: number): void => {
@@ -335,6 +361,7 @@
       speedX: number;
       speedY: number;
       opacity: number;
+      fadeSpeed: number;
       rotation: number;
       rotSpeed: number;
       shape: ParticleShape;
@@ -347,25 +374,49 @@
 
       if (ctx) {
         let particles: Particle[] = [];
+        let resizeTimeout: number | undefined;
+
+        const getParticleTargetCount = (): number => {
+          if (window.innerWidth <= 480) return 40;
+          if (window.innerWidth <= 768) return 58;
+          if (window.innerWidth <= 1024) return 78;
+          return 110;
+        };
 
         const resizeCanvas = (): void => {
-          canvas.width = canvas.offsetWidth;
-          canvas.height = canvas.offsetHeight;
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          const width = canvas.offsetWidth;
+          const height = canvas.offsetHeight;
+
+          canvas.width = Math.floor(width * dpr);
+          canvas.height = Math.floor(height * dpr);
+
+          ctx.setTransform(1, 0, 0, 1, 0, 0);
+          ctx.scale(dpr, dpr);
         };
 
-        const resetParticle = (particle: Particle): void => {
-          particle.x = Math.random() * canvas.width;
-          particle.y = Math.random() * canvas.height;
+        const resetParticle = (
+          particle: Particle,
+          fromBottom = false,
+        ): void => {
+          const width = canvas.offsetWidth;
+          const height = canvas.offsetHeight;
+
+          particle.x = Math.random() * width;
+          particle.y = fromBottom
+            ? height + Math.random() * 40
+            : Math.random() * height;
           particle.size = Math.random() * 5 + 2;
-          particle.speedX = (Math.random() - 0.5) * 0.5;
-          particle.speedY = -Math.random() * 0.8 - 0.3;
-          particle.opacity = Math.random() * 0.5 + 0.2;
+          particle.speedX = (Math.random() - 0.5) * 0.45;
+          particle.speedY = Math.random() * 0.55 + 0.22;
+          particle.opacity = Math.random() * 0.45 + 0.2;
+          particle.fadeSpeed = Math.random() * 0.001 + 0.00045;
           particle.rotation = Math.random() * Math.PI * 2;
-          particle.rotSpeed = (Math.random() - 0.5) * 0.02;
-          particle.shape = Math.random() > 0.5 ? "crystal" : "dot";
+          particle.rotSpeed = (Math.random() - 0.5) * 0.012;
+          particle.shape = Math.random() > 0.55 ? "crystal" : "dot";
         };
 
-        const createParticle = (): Particle => {
+        const createParticle = (fromBottom = false): Particle => {
           const particle: Particle = {
             x: 0,
             y: 0,
@@ -373,23 +424,42 @@
             speedX: 0,
             speedY: 0,
             opacity: 0,
+            fadeSpeed: 0,
             rotation: 0,
             rotSpeed: 0,
-            shape: "dot"
+            shape: "dot",
           };
 
-          resetParticle(particle);
+          resetParticle(particle, fromBottom);
           return particle;
+        };
+
+        const syncParticleCount = (): void => {
+          const targetCount = getParticleTargetCount();
+
+          if (particles.length > targetCount) {
+            particles = particles.slice(0, targetCount);
+            return;
+          }
+
+          while (particles.length < targetCount) {
+            particles.push(createParticle());
+          }
         };
 
         const updateParticle = (particle: Particle): void => {
           particle.x += particle.speedX;
           particle.y += particle.speedY;
           particle.rotation += particle.rotSpeed;
-          particle.opacity -= 0.0015;
+          particle.opacity -= particle.fadeSpeed;
 
-          if (particle.y < -20 || particle.opacity <= 0) {
-            resetParticle(particle);
+          if (
+            particle.y > canvas.offsetHeight + 30 ||
+            particle.x < -30 ||
+            particle.x > canvas.offsetWidth + 30 ||
+            particle.opacity <= 0
+          ) {
+            resetParticle(particle, false);
           }
         };
 
@@ -398,10 +468,12 @@
           ctx.translate(particle.x, particle.y);
           ctx.rotate(particle.rotation);
           ctx.globalAlpha = particle.opacity;
+          ctx.shadowBlur = 12;
+          ctx.shadowColor = "rgba(157, 212, 242, 0.45)";
 
           if (particle.shape === "crystal") {
-            ctx.strokeStyle = "rgba(157, 212, 242, 0.8)";
-            ctx.lineWidth = 1;
+            ctx.strokeStyle = "rgba(210, 240, 255, 0.9)";
+            ctx.lineWidth = 1.1;
             ctx.beginPath();
 
             for (let i = 0; i < 6; i++) {
@@ -409,13 +481,13 @@
               ctx.moveTo(0, 0);
               ctx.lineTo(
                 Math.cos(angle) * particle.size,
-                Math.sin(angle) * particle.size
+                Math.sin(angle) * particle.size,
               );
             }
 
             ctx.stroke();
           } else {
-            ctx.fillStyle = "rgba(65, 171, 226, 0.6)";
+            ctx.fillStyle = "rgba(110, 210, 255, 0.75)";
             ctx.beginPath();
             ctx.arc(0, 0, particle.size / 2, 0, Math.PI * 2);
             ctx.fill();
@@ -425,47 +497,85 @@
         };
 
         const animateParticles = (): void => {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
 
-          particles.forEach((particle) => {
+          for (const particle of particles) {
             updateParticle(particle);
             drawParticle(particle);
-          });
-
-          if (particles.length < 80) {
-            particles.push(createParticle());
           }
 
-          requestAnimationFrame(animateParticles);
+          window.requestAnimationFrame(animateParticles);
         };
 
         resizeCanvas();
-        window.addEventListener("resize", resizeCanvas);
+        syncParticleCount();
 
-        for (let i = 0; i < 80; i++) {
-          const particle = createParticle();
-          particle.y = Math.random() * canvas.height;
-          particles.push(particle);
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].y = Math.random() * canvas.offsetHeight;
         }
 
         animateParticles();
+
+        window.addEventListener("resize", (): void => {
+          if (resizeTimeout) window.clearTimeout(resizeTimeout);
+
+          resizeTimeout = window.setTimeout((): void => {
+            resizeCanvas();
+            syncParticleCount();
+          }, 120);
+        });
       }
     }
 
     // ===== PARALLAX HERO =====
+    const hero = document.getElementById("hero") as HTMLElement | null;
     const heroLeft = document.querySelector<HTMLElement>(".hero-left");
     const heroVisual = document.querySelector<HTMLElement>(".hero-visual");
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const isDesktop = window.matchMedia("(min-width: 1025px)").matches;
 
-    window.addEventListener("scroll", (): void => {
-      const scrollY = window.scrollY;
+    if (hero && !reduceMotion && isDesktop) {
+      let ticking = false;
 
-      if (heroLeft) {
-        heroLeft.style.transform = `translateY(${scrollY * 0.15}px)`;
-      }
+      const updateHeroParallax = (): void => {
+        const rect = hero.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
 
-      if (heroVisual) {
-        heroVisual.style.transform = `translateY(${scrollY * 0.08}px)`;
-      }
-    });
+        if (rect.bottom <= 0 || rect.top >= viewportHeight) {
+          ticking = false;
+          return;
+        }
+
+        const progress = Math.max(-1, Math.min(1, rect.top / viewportHeight));
+        const leftOffset = progress * -18;
+        const visualOffset = progress * -10;
+
+        if (heroLeft) {
+          heroLeft.style.transform = `translate3d(0, ${leftOffset}px, 0)`;
+        }
+
+        if (heroVisual) {
+          heroVisual.style.transform = `translate3d(0, ${visualOffset}px, 0)`;
+        }
+
+        ticking = false;
+      };
+
+      const onHeroScroll = (): void => {
+        if (ticking) return;
+
+        ticking = true;
+        window.requestAnimationFrame(updateHeroParallax);
+      };
+
+      window.addEventListener("scroll", onHeroScroll, { passive: true });
+      window.addEventListener("resize", onHeroScroll);
+      onHeroScroll();
+    } else {
+      if (heroLeft) heroLeft.style.transform = "";
+      if (heroVisual) heroVisual.style.transform = "";
+    }
   });
 </script>
