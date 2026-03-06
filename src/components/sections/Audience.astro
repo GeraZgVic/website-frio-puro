@@ -1,54 +1,43 @@
-﻿---
-import Section from "../ui/Section.astro";
-import Container from "../ui/Container.astro";
-import Heading from "../ui/Heading.astro";
-import Card from "../ui/Card.astro";
----
-
-<Section className="bg-[var(--color-bg-soft)]">
-	<Container>
-		<div class="text-center">
-			<Heading as="h2" className="text-[var(--color-text)]">
-				Soluciones de hielo para cada tipo de negocio
-			</Heading>
-		</div>
-		<div class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-			<Card className="text-center transition hover:shadow-[var(--shadow-md)]">
-				<div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-primary)]">
-					<span class="text-xl">❄</span>
-				</div>
-				<h3 class="mt-4 text-lg font-semibold text-[var(--color-text)]">Restaurantes</h3>
-			</Card>
-			<Card className="text-center transition hover:shadow-[var(--shadow-md)]">
-				<div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-primary)]">
-					<span class="text-xl">❄</span>
-				</div>
-				<h3 class="mt-4 text-lg font-semibold text-[var(--color-text)]">Bares</h3>
-			</Card>
-			<Card className="text-center transition hover:shadow-[var(--shadow-md)]">
-				<div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-primary)]">
-					<span class="text-xl">❄</span>
-				</div>
-				<h3 class="mt-4 text-lg font-semibold text-[var(--color-text)]">Eventos</h3>
-			</Card>
-			<Card className="text-center transition hover:shadow-[var(--shadow-md)]">
-				<div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-primary)]">
-					<span class="text-xl">❄</span>
-				</div>
-				<h3 class="mt-4 text-lg font-semibold text-[var(--color-text)]">Tiendas</h3>
-			</Card>
-			<Card className="text-center transition hover:shadow-[var(--shadow-md)]">
-				<div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-primary)]">
-					<span class="text-xl">❄</span>
-				</div>
-				<h3 class="mt-4 text-lg font-semibold text-[var(--color-text)]">Hoteles</h3>
-			</Card>
-			<Card className="text-center transition hover:shadow-[var(--shadow-md)]">
-				<div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-primary)]">
-					<span class="text-xl">❄</span>
-				</div>
-				<h3 class="mt-4 text-lg font-semibold text-[var(--color-text)]">Pescaderías</h3>
-			</Card>
-		</div>
-	</Container>
-</Section>
+ <!-- NOSOTROS -->
+    <section id="nosotros">
+        <div class="container">
+            <div class="fade-in">
+                <p class="section-label">¿Para quién somos?</p>
+                <h2 class="section-title" style="color: var(--color-primary);">Servimos a Toda<br>la Industria</h2>
+                <p class="section-subtitle">Desde pequeños negocios hasta grandes cadenas, tenemos el volumen y la
+                    calidad que necesitas.</p>
+            </div>
+            <div class="clients-grid">
+                <div class="client-card fade-in fade-in-delay-1">
+                    <span class="card-icon">🍽️</span>
+                    <h3>Restaurantes</h3>
+                    <p>Hielo ideal para bebidas, conservación de alimentos y presentaciones gourmet.</p>
+                </div>
+                <div class="client-card fade-in fade-in-delay-2">
+                    <span class="card-icon">🍸</span>
+                    <h3>Bares & Cantinas</h3>
+                    <p>Cubos perfectos para cócteles y tragos. Entrega nocturna disponible.</p>
+                </div>
+                <div class="client-card fade-in fade-in-delay-3">
+                    <span class="card-icon">🎉</span>
+                    <h3>Eventos</h3>
+                    <p>Bodas, fiestas corporativas, graduaciones. Cotizamos por volumen.</p>
+                </div>
+                <div class="client-card fade-in fade-in-delay-4">
+                    <span class="card-icon">🏪</span>
+                    <h3>Tiendas & Minisupers</h3>
+                    <p>Abastecimiento regular y confiable para puntos de venta al detalle.</p>
+                </div>
+                <div class="client-card fade-in fade-in-delay-5">
+                    <span class="card-icon">🏨</span>
+                    <h3>Hoteles</h3>
+                    <p>Suministro continuo para room service, restaurantes y eventos en sus instalaciones.</p>
+                </div>
+                <div class="client-card fade-in fade-in-delay-6">
+                    <span class="card-icon">🐟</span>
+                    <h3>Pescaderías</h3>
+                    <p>Hielo en bloque y triturado en grandes volúmenes para conservación de mariscos.</p>
+                </div>
+            </div>
+        </div>
+    </section>

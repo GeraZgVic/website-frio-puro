@@ -1,48 +1,96 @@
-﻿---
-import Section from "../ui/Section.astro";
-import Container from "../ui/Container.astro";
-import Heading from "../ui/Heading.astro";
----
-
-<Section className="bg-[var(--color-bg-soft)]">
-	<Container>
-		<div class="grid items-center gap-10 lg:grid-cols-2">
-			<div>
-			<Heading as="h2" className="text-[var(--color-text)]">
-				Ventajas comerciales de Frío Puro
-			</Heading>
-				<ul class="mt-6 space-y-4 text-sm sm:text-base">
-					<li class="flex items-start gap-3">
-						<span class="mt-1 flex h-6 w-6 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-primary)]">✓</span>
-						<span>Agua filtrada y purificada en cada lote.</span>
-					</li>
-					<li class="flex items-start gap-3">
-						<span class="mt-1 flex h-6 w-6 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-primary)]">✓</span>
-					<span>Producción higiénica y procesos controlados.</span>
-				</li>
-					<li class="flex items-start gap-3">
-						<span class="mt-1 flex h-6 w-6 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-primary)]">✓</span>
-						<span>Entregas puntuales para operaciones exigentes.</span>
-					</li>
-					<li class="flex items-start gap-3">
-						<span class="mt-1 flex h-6 w-6 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-primary)]">✓</span>
-						<span>Presentaciones pensadas para negocios B2B.</span>
-					</li>
-					<li class="flex items-start gap-3">
-						<span class="mt-1 flex h-6 w-6 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-primary)]">✓</span>
-					<span>Distribución confiable y atención cercana.</span>
-				</li>
-				</ul>
-			</div>
-			<div class="relative">
-				<div class="aspect-[4/3] w-full overflow-hidden rounded-3xl border border-[var(--color-primary)]/10 bg-[var(--color-white)] shadow-[var(--shadow-sm)]">
-					<div class="flex h-full items-center justify-center">
-						<div class="rounded-2xl border border-[var(--color-primary)]/15 bg-[var(--color-bg-soft)] px-6 py-3 text-sm font-semibold tracking-wide text-[var(--color-text-strong)]/80">
-							Imagen placeholder de planta
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</Container>
-</Section>
+<!-- BENEFICIOS -->
+<section id="beneficios">
+  <div class="container">
+    <div class="fade-in">
+      <p class="section-label">¿Por qué elegirnos?</p>
+      <h2 class="section-title" style="color: var(--color-primary);">
+        Números que<br />Hablan por Sí Solos
+      </h2>
+    </div>
+    <div class="beneficios-grid">
+      <div>
+        <div class="counters-grid">
+          <div class="counter-card fade-in fade-in-delay-1">
+            <div class="counter-value">
+              <span class="counter-num" data-target="500" data-suffix="+"
+                >0</span
+              ><span class="suffix">+</span>
+            </div>
+            <div class="counter-label">Clientes Activos</div>
+          </div>
+          <div class="counter-card fade-in fade-in-delay-2">
+            <div class="counter-value">
+              <span class="counter-num" data-target="10" data-suffix="+">0</span
+              ><span class="suffix">+</span>
+            </div>
+            <div class="counter-label">Años de Experiencia</div>
+          </div>
+          <div class="counter-card fade-in fade-in-delay-3">
+            <div
+              class="counter-value"
+              style="font-size:2.5rem; letter-spacing:-2px;"
+            >
+              <span
+                style="font-family:'Barlow Condensed';font-weight:800;color:var(--color-primary);"
+                >24/7</span
+              >
+            </div>
+            <div class="counter-label">Atención Continua</div>
+          </div>
+          <div class="counter-card fade-in fade-in-delay-4">
+            <div class="counter-value">
+              <span class="counter-num" data-target="100" data-suffix="%"
+                >0</span
+              ><span class="suffix">%</span>
+            </div>
+            <div class="counter-label">Hielo Purificado</div>
+          </div>
+        </div>
+      </div>
+      <div class="fade-in fade-in-delay-2">
+        <ul class="benefits-list">
+          <li>
+            <span class="check">✓</span>
+            <span class="benefit-text"
+              ><strong>Agua 100% purificada</strong>Producción bajo estrictas
+              normas de higiene y calidad para garantizar la inocuidad
+              alimentaria.</span
+            >
+          </li>
+          <li>
+            <span class="check">✓</span>
+            <span class="benefit-text"
+              ><strong>Entrega exprés en 2 horas</strong>Red de distribución
+              optimizada para Villahermosa Tabasco y municipios aledaños.</span
+            >
+          </li>
+          <li>
+            <span class="check">✓</span>
+            <span class="benefit-text"
+              ><strong>Precios de mayoreo competitivos</strong>Tarifas
+              especiales para negocios con consumo regular. Sin contratos
+              forzosos.</span
+            >
+          </li>
+          <li>
+            <span class="check">✓</span>
+            <span class="benefit-text"
+              ><strong>Pedidos desde 20 kg</strong>Flexibilidad total para
+              adaptarnos a la necesidad de cada negocio, grande o pequeño.</span
+            >
+          </li>
+          <li>
+            <span class="check">✓</span>
+            <span class="benefit-text"
+              ><strong>Seguimiento en tiempo real</strong>Te notificamos cuando
+              tu pedido está en camino. Comunicación directa y transparente.</span
+            >
+          </li>
+        </ul>
+        <div class="production-photo fade-in fade-in-delay-3">
+          <span style="position:relative;z-index:1;font-size:5rem;">🏭</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

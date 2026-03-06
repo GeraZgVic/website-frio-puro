@@ -1,43 +1,50 @@
-﻿---
-import Container from "../ui/Container.astro";
----
-
-<footer class="bg-[var(--color-primary)] text-[var(--color-white)]">
-	<Container>
-		<div class="grid gap-8 py-12 lg:grid-cols-3">
-			<div class="space-y-4">
-				<img
-					src="/images/FrioPuroLogo.png"
-					alt="Frío Puro"
-					class="h-10 w-auto"
-					loading="lazy"
-				/>
-				<p class="text-sm text-white/80">
-					Suministro de hielo purificado para operaciones B2B que requieren puntualidad y confianza.
-				</p>
-			</div>
-			<div>
-				<p class="text-xs font-semibold uppercase tracking-[0.2em] text-white/70">Navegacion</p>
-				<ul class="mt-4 space-y-2 text-sm">
-					<li><a href="#inicio" class="transition hover:text-white/80">Inicio</a></li>
-					<li><a href="#nosotros" class="transition hover:text-white/80">Nosotros</a></li>
-					<li><a href="#productos" class="transition hover:text-white/80">Productos</a></li>
-					<li><a href="#puntos" class="transition hover:text-white/80">Puntos de venta</a></li>
-					<li><a href="#contacto" class="transition hover:text-white/80">Contacto</a></li>
-				</ul>
-			</div>
-			<div>
-				<p class="text-xs font-semibold uppercase tracking-[0.2em] text-white/70">Contacto</p>
-				<div class="mt-4 space-y-3 text-sm">
-					<p class="text-white/85">WhatsApp: +52 55 0000 0000</p>
-					<a href="#whatsapp" class="inline-flex items-center gap-2 rounded-full border border-white/30 px-4 py-2 text-sm font-semibold transition hover:bg-white/10">
-						Escribir por WhatsApp
-					</a>
-				</div>
-			</div>
-		</div>
-		<div class="border-t border-white/15 py-6 text-xs text-white/70">
-			© 2026 Frío Puro. Todos los derechos reservados.
-		</div>
-	</Container>
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#inicio" class="nav-logo"
+          >❄ <div class="nav-logo-wrap">
+            <span>FRÍO PURO</span><small>Hielo Premium</small>
+          </div></a
+        >
+        <p>
+          El distribuidor mayorista de hielo más confiable de Villahermosa
+          Tabasco. Calidad y puntualidad garantizadas para tu negocio.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Navegación</h4>
+        <ul class="footer-links">
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#productos">Productos</a></li>
+          <li><a href="#cobertura">Cobertura</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul class="footer-contact footer-links" style="list-style:none;">
+          <li><span class="ic">📞</span> 961 123 4567</li>
+          <li><span class="ic">💬</span> WhatsApp 24/7</li>
+          <li><span class="ic">📍</span> Villahermosa Tabasco, Chiapas</li>
+          <li><span class="ic">🕐</span> Lun–Dom 6am–11pm</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Síguenos</h4>
+        <div class="social-icons">
+          <a href="#" class="social-icon">f</a>
+          <a href="#" class="social-icon">📸</a>
+          <a href="#" class="social-icon">in</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <span>© 2025 Frío Puro. Todos los derechos reservados.</span>
+      <span>Hecho con ❄️ en Villahermosa Tabasco, Chiapas</span>
+    </div>
+  </div>
 </footer>

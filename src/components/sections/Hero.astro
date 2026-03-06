@@ -1,53 +1,38 @@
-﻿---
-import Section from "../ui/Section.astro";
-import Container from "../ui/Container.astro";
-import Heading from "../ui/Heading.astro";
-import Button from "../ui/Button.astro";
----
+<section id="inicio" style="padding:0;">
+  <div id="hero">
+    <canvas id="particles-canvas"></canvas>
+    <div class="hero-content">
+      <div class="hero-left">
+        <div class="hero-badge fade-in">⭐ #1 en Villahermosa Tabasco</div>
+        <h1 class="hero-title fade-in fade-in-delay-1">
+          HIELO<br /><span>PREMIUM</span><br />PARA TU<br />NEGOCIO
+        </h1>
+        <p class="hero-subtitle fade-in fade-in-delay-2">
+          Distribuimos hielo de máxima calidad con entrega rápida y puntual. Ideal para restaurantes,
+          bares, hoteles y eventos en todo Villahermosa, Tabasco.
+        </p>
+        <ul class="hero-checks">
+          <li><span class="check-icon">✓</span> Entrega en menos de 2 horas</li>
+          <li><span class="check-icon">✓</span> Hielo 100% purificado y certificado</li>
+          <li><span class="check-icon">✓</span> Servicio disponible 24/7 los 365 días</li>
+        </ul>
+        <div class="hero-buttons fade-in fade-in-delay-3">
+          <a href="https://wa.me/529611234567" class="btn-primary">Solicitar Cotización</a>
+          <a href="#productos" class="btn-outline">Ver Productos</a>
+        </div>
+      </div>
 
-<Section className="bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-text)] text-[var(--color-white)] py-24 lg:py-32">
-	<Container>
-		<div class="grid items-center gap-12 lg:grid-cols-2">
-			<div class="max-w-2xl">
-				<div class="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white/90">
-					Suministro B2B
-				</div>
-				<Heading as="h1" className="mt-6 text-[var(--color-white)] leading-[1.05]">
-					Hielo purificado para negocios exigentes
-				</Heading>
-				<p class="mt-5 text-lg text-white/85">
-					Suministro confiable de hielo para restaurantes, bares, eventos y hoteles.
-				</p>
-				<ul class="mt-6 space-y-3 text-sm sm:text-base">
-					<li class="flex items-center gap-3">
-						<span class="flex h-6 w-6 items-center justify-center rounded-full bg-white/15 text-[var(--color-accent)]">✓</span>
-						<span>Producción con agua filtrada</span>
-					</li>
-					<li class="flex items-center gap-3">
-						<span class="flex h-6 w-6 items-center justify-center rounded-full bg-white/15 text-[var(--color-accent)]">✓</span>
-						<span>Entrega puntual para tu negocio</span>
-					</li>
-					<li class="flex items-center gap-3">
-						<span class="flex h-6 w-6 items-center justify-center rounded-full bg-white/15 text-[var(--color-accent)]">✓</span>
-						<span>Presentaciones para cualquier volumen</span>
-					</li>
-				</ul>
-				<div class="mt-8 flex flex-wrap gap-4">
-					<Button variant="primary" href="#pedido">Pedir ahora</Button>
-					<Button variant="outline" href="#productos" className="border-white/70 text-white hover:bg-white/15">
-						Ver productos
-					</Button>
-				</div>
-			</div>
-			<div class="relative">
-				<div class="aspect-[4/3] w-full overflow-hidden rounded-3xl border border-white/20 bg-white/10 shadow-[var(--shadow-md)]">
-					<div class="flex h-full items-center justify-center">
-						<div class="rounded-2xl border border-white/30 bg-white/20 px-6 py-3 text-sm font-semibold tracking-wide text-white/90">
-							Imagen placeholder de hielo
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</Container>
-</Section>
+      <div class="hero-visual">
+        <div class="ice-cube-container">
+          <div class="ice-glow"></div>
+          <span class="ice-emoji">🧊</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <div class="mouse"></div>
+      <span>Scroll</span>
+    </div>
+  </div>
+</section>

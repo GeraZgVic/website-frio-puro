@@ -1,45 +1,77 @@
-﻿---
-import Section from "../ui/Section.astro";
-import Container from "../ui/Container.astro";
-import Heading from "../ui/Heading.astro";
-import Card from "../ui/Card.astro";
----
-
-<Section className="bg-[var(--color-white)]">
-	<Container>
-		<div class="text-center">
-			<Heading as="h2" className="text-[var(--color-text)]">
-				Lo que dicen nuestros clientes
-			</Heading>
-			<p class="mt-4 text-sm text-[var(--color-text)]/75">
-				Relaciones comerciales estables con resultados medibles.
-			</p>
-		</div>
-		<div class="mt-10 grid gap-6 lg:grid-cols-2">
-			<Card className="space-y-4">
-				<div class="flex items-center gap-1 text-[var(--color-accent)]">
-					<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-				</div>
-				<p class="text-sm text-[var(--color-text)]/85">
-					"Desde que trabajamos con Frío Puro, el hielo llega siempre puntual y en excelente estado. Nos permite operar sin interrupciones en cocina y barra."
-				</p>
-				<div>
-					<p class="text-sm font-semibold text-[var(--color-text-strong)]">Restaurante Alameda</p>
-					<p class="text-xs uppercase tracking-[0.2em] text-[var(--color-accent)]">Restaurante</p>
-				</div>
-			</Card>
-			<Card className="space-y-4">
-				<div class="flex items-center gap-1 text-[var(--color-accent)]">
-					<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-				</div>
-				<p class="text-sm text-[var(--color-text)]/85">
-					"La entrega es confiable y el servicio es claro. Para eventos corporativos necesitamos precisión y Frío Puro responde siempre."
-				</p>
-				<div>
-					<p class="text-sm font-semibold text-[var(--color-text-strong)]">Hotel Norte</p>
-				<p class="text-xs uppercase tracking-[0.2em] text-[var(--color-accent)]">Hotel y eventos</p>
-			</div>
-		</Card>
-	</div>
-	</Container>
-</Section>
+<!-- TESTIMONIOS -->
+<section id="testimonios">
+  <div class="container">
+    <div class="fade-in" style="text-align:center;">
+      <p class="section-label">Testimonios</p>
+      <h2
+        class="section-title"
+        style="color: var(--color-primary); display:block; text-align:center;"
+      >
+        Lo que Dicen<br />Nuestros Clientes
+      </h2>
+    </div>
+    <div class="slider-wrapper fade-in fade-in-delay-1">
+      <div class="slider-track" id="sliderTrack">
+        <div class="testimonial-slide">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">
+            Llevamos más de 4 años comprando con Frío Puro. La calidad del hielo
+            es excelente y siempre llegan a tiempo, incluso en temporada alta.
+            Nunca hemos tenido problemas con la calidad del agua.
+          </p>
+          <div class="testimonial-author">
+            <div class="author-avatar">👨‍🍳</div>
+            <div>
+              <div class="author-name">Carlos Méndez</div>
+              <div class="author-biz">
+                Restaurante La Hacienda — Villahermosa Tabasco
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-slide">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">
+            Para el bar necesitamos hielo de alta calidad y en grandes
+            cantidades. Frío Puro nos entrega puntual cada noche y los cubos son
+            perfectos para los cócteles. El servicio nocturno es un plus
+            increíble.
+          </p>
+          <div class="testimonial-author">
+            <div class="author-avatar">🍸</div>
+            <div>
+              <div class="author-name">Ana Ruiz</div>
+              <div class="author-biz">
+                Bar Nocturno Eclipse — Centro Histórico
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-slide">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">
+            Organizo eventos corporativos y siempre confío en Frío Puro para el
+            suministro de hielo. Me dieron una cotización muy competitiva para
+            mi boda con 300 personas y cumplieron a la perfección.
+          </p>
+          <div class="testimonial-author">
+            <div class="author-avatar">🎉</div>
+            <div>
+              <div class="author-name">Sofía Torres</div>
+              <div class="author-biz">Organizadora de Eventos — Chiapas</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slider-nav fade-in fade-in-delay-2">
+      <button class="slider-btn" id="prevBtn">&#8592;</button>
+      <div class="slider-dots" id="sliderDots">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <button class="slider-btn" id="nextBtn">&#8594;</button>
+    </div>
+  </div>
+</section>

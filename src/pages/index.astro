@@ -1,4 +1,4 @@
-﻿---
+---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/sections/Header.astro";
 import Hero from "../components/sections/Hero.astro";
@@ -10,28 +10,31 @@ import Testimonials from "../components/sections/Testimonials.astro";
 import Coverage from "../components/sections/Coverage.astro";
 import FinalCta from "../components/sections/FinalCta.astro";
 import Footer from "../components/sections/Footer.astro";
+import Cursor from "../components/Cursor.astro";
+import SiteScripts from "../components/SiteScripts.astro";
 ---
 
-<BaseLayout title="Frío Puro">
+<BaseLayout
+  title="Frío Puro — Hielo Premium para Negocios"
+  description="Frío Puro — Distribuidor mayorista de hielo en Villahermosa Tabasco. Hielo en cubos, triturado y en bloque para restaurantes, bares, hoteles y eventos. Entrega rápida 24/7."
+  keywords="hielo mayoreo Villahermosa Tabasco, hielo para restaurantes, hielo para bares, distribuidora de hielo Chiapas, hielo en bloque, hielo triturado"
+  author="Frío Puro"
+  ogTitle="Frío Puro — Hielo Premium para Negocios en Villahermosa Tabasco"
+  ogDescription="Distribuidor mayorista #1 de hielo en Villahermosa Tabasco. Servicio 24/7 para restaurantes, bares, hoteles y eventos."
+>
+  <Cursor />
+  <Header />
   <main>
-    <Header />
-
     <Hero />
-
     <Audience />
-
     <Products />
-
     <Steps />
-
     <Benefits />
-
     <Testimonials />
-
     <Coverage />
-
     <FinalCta />
-
     <Footer />
   </main>
+  <a href="#inicio" id="back-top">↑</a>
+  <SiteScripts />
 </BaseLayout>
