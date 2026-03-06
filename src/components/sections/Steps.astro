@@ -1,0 +1,47 @@
+﻿---
+import Section from "../ui/Section.astro";
+import Container from "../ui/Container.astro";
+import Heading from "../ui/Heading.astro";
+import Button from "../ui/Button.astro";
+---
+
+<Section className="bg-[var(--color-white)]">
+	<Container>
+		<div class="text-center">
+			<Heading as="h2" className="text-[var(--color-text)]">
+				Cómo pedir hielo con Frío Puro
+			</Heading>
+			<p class="mt-4 text-sm text-[var(--color-text)]/75">
+				Proceso simple para iniciar tu suministro en minutos.
+			</p>
+		</div>
+		<div class="mt-12 grid gap-8 lg:grid-cols-3">
+			<div class="rounded-2xl border border-[var(--color-primary)]/10 bg-[var(--color-surface)] p-6 text-center shadow-[var(--shadow-sm)]">
+				<div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-accent)] text-[var(--color-white)] text-sm font-semibold">1</div>
+				<h3 class="mt-4 text-lg font-semibold text-[var(--color-text-strong)]">Elegir producto</h3>
+				<p class="mt-2 text-sm text-[var(--color-text)]/80">
+					Selecciona la presentación ideal para tu operación.
+				</p>
+			</div>
+			<div class="rounded-2xl border border-[var(--color-primary)]/10 bg-[var(--color-surface)] p-6 text-center shadow-[var(--shadow-sm)]">
+				<div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-accent)] text-[var(--color-white)] text-sm font-semibold">2</div>
+				<h3 class="mt-4 text-lg font-semibold text-[var(--color-text-strong)]">Escribir por WhatsApp</h3>
+				<p class="mt-2 text-sm text-[var(--color-text)]/80">
+					Cuéntanos cantidades y horarios para coordinar.
+				</p>
+			</div>
+			<div class="rounded-2xl border border-[var(--color-primary)]/10 bg-[var(--color-surface)] p-6 text-center shadow-[var(--shadow-sm)]">
+				<div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-accent)] text-[var(--color-white)] text-sm font-semibold">3</div>
+				<h3 class="mt-4 text-lg font-semibold text-[var(--color-text-strong)]">Recibir en tu negocio</h3>
+				<p class="mt-2 text-sm text-[var(--color-text)]/80">
+					Entregas puntuales con calidad garantizada.
+				</p>
+			</div>
+		</div>
+		<div class="mt-10 flex justify-center">
+			<Button href="#whatsapp" className="bg-[var(--color-accent)] text-[var(--color-white)] hover:opacity-90">
+				Pedir por WhatsApp
+			</Button>
+		</div>
+	</Container>
+</Section>

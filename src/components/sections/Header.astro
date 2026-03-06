@@ -1,0 +1,56 @@
+﻿---
+import Container from "../ui/Container.astro";
+import Button from "../ui/Button.astro";
+---
+
+<header class="sticky top-0 z-50 bg-[var(--color-primary)] text-[var(--color-white)] shadow-[var(--shadow-sm)]">
+	<Container>
+		<div class="flex items-center justify-between py-3 lg:py-4">
+			<a href="#inicio" class="flex items-center gap-3">
+				<img
+					src="/images/FrioPuroLogo.png"
+					alt="Frío Puro"
+					class="h-9 w-auto sm:h-10"
+					loading="eager"
+				/>
+				<span class="sr-only">Frío Puro</span>
+			</a>
+			<nav class="hidden items-center gap-6 text-sm font-semibold lg:flex">
+				<a href="#inicio" class="transition hover:text-white/80">Inicio</a>
+				<a href="#nosotros" class="transition hover:text-white/80">Nosotros</a>
+				<a href="#productos" class="transition hover:text-white/80">Productos</a>
+				<a href="#puntos" class="transition hover:text-white/80">Puntos de venta</a>
+				<a href="#contacto" class="transition hover:text-white/80">Contacto</a>
+			</nav>
+			<div class="hidden lg:block">
+				<Button href="#whatsapp" className="bg-[var(--color-accent)] text-[var(--color-white)] hover:opacity-90">
+					Pedir por WhatsApp
+				</Button>
+			</div>
+			<details class="relative lg:hidden">
+				<summary class="flex h-10 w-10 list-none items-center justify-center rounded-full border border-white/25 bg-white/10 transition hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
+					<span class="sr-only">Abrir menú</span>
+					<span class="flex h-4 w-4 flex-col justify-between">
+						<span class="block h-0.5 w-full rounded-full bg-white"></span>
+						<span class="block h-0.5 w-full rounded-full bg-white"></span>
+						<span class="block h-0.5 w-full rounded-full bg-white"></span>
+					</span>
+				</summary>
+				<div class="absolute right-0 mt-3 w-72 rounded-2xl border border-white/15 bg-[var(--color-primary)]/95 p-4 shadow-[var(--shadow-md)] backdrop-blur">
+					<nav class="flex flex-col gap-3 text-sm font-semibold">
+						<a href="#inicio" class="transition hover:text-white/80">Inicio</a>
+						<a href="#nosotros" class="transition hover:text-white/80">Nosotros</a>
+						<a href="#productos" class="transition hover:text-white/80">Productos</a>
+						<a href="#puntos" class="transition hover:text-white/80">Puntos de venta</a>
+						<a href="#contacto" class="transition hover:text-white/80">Contacto</a>
+					</nav>
+					<div class="mt-4">
+						<Button href="#whatsapp" className="w-full justify-center bg-[var(--color-accent)] text-[var(--color-white)] hover:opacity-90">
+							Pedir por WhatsApp
+						</Button>
+					</div>
+				</div>
+			</details>
+		</div>
+	</Container>
+</header>

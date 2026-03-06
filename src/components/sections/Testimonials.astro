@@ -1,0 +1,45 @@
+﻿---
+import Section from "../ui/Section.astro";
+import Container from "../ui/Container.astro";
+import Heading from "../ui/Heading.astro";
+import Card from "../ui/Card.astro";
+---
+
+<Section className="bg-[var(--color-white)]">
+	<Container>
+		<div class="text-center">
+			<Heading as="h2" className="text-[var(--color-text)]">
+				Lo que dicen nuestros clientes
+			</Heading>
+			<p class="mt-4 text-sm text-[var(--color-text)]/75">
+				Relaciones comerciales estables con resultados medibles.
+			</p>
+		</div>
+		<div class="mt-10 grid gap-6 lg:grid-cols-2">
+			<Card className="space-y-4">
+				<div class="flex items-center gap-1 text-[var(--color-accent)]">
+					<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+				</div>
+				<p class="text-sm text-[var(--color-text)]/85">
+					"Desde que trabajamos con Frío Puro, el hielo llega siempre puntual y en excelente estado. Nos permite operar sin interrupciones en cocina y barra."
+				</p>
+				<div>
+					<p class="text-sm font-semibold text-[var(--color-text-strong)]">Restaurante Alameda</p>
+					<p class="text-xs uppercase tracking-[0.2em] text-[var(--color-accent)]">Restaurante</p>
+				</div>
+			</Card>
+			<Card className="space-y-4">
+				<div class="flex items-center gap-1 text-[var(--color-accent)]">
+					<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+				</div>
+				<p class="text-sm text-[var(--color-text)]/85">
+					"La entrega es confiable y el servicio es claro. Para eventos corporativos necesitamos precisión y Frío Puro responde siempre."
+				</p>
+				<div>
+					<p class="text-sm font-semibold text-[var(--color-text-strong)]">Hotel Norte</p>
+				<p class="text-xs uppercase tracking-[0.2em] text-[var(--color-accent)]">Hotel y eventos</p>
+			</div>
+		</Card>
+	</div>
+	</Container>
+</Section>

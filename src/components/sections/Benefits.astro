@@ -1,0 +1,48 @@
+﻿---
+import Section from "../ui/Section.astro";
+import Container from "../ui/Container.astro";
+import Heading from "../ui/Heading.astro";
+---
+
+<Section className="bg-[var(--color-bg-soft)]">
+	<Container>
+		<div class="grid items-center gap-10 lg:grid-cols-2">
+			<div>
+			<Heading as="h2" className="text-[var(--color-text)]">
+				Ventajas comerciales de Frío Puro
+			</Heading>
+				<ul class="mt-6 space-y-4 text-sm sm:text-base">
+					<li class="flex items-start gap-3">
+						<span class="mt-1 flex h-6 w-6 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-primary)]">✓</span>
+						<span>Agua filtrada y purificada en cada lote.</span>
+					</li>
+					<li class="flex items-start gap-3">
+						<span class="mt-1 flex h-6 w-6 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-primary)]">✓</span>
+					<span>Producción higiénica y procesos controlados.</span>
+				</li>
+					<li class="flex items-start gap-3">
+						<span class="mt-1 flex h-6 w-6 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-primary)]">✓</span>
+						<span>Entregas puntuales para operaciones exigentes.</span>
+					</li>
+					<li class="flex items-start gap-3">
+						<span class="mt-1 flex h-6 w-6 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-primary)]">✓</span>
+						<span>Presentaciones pensadas para negocios B2B.</span>
+					</li>
+					<li class="flex items-start gap-3">
+						<span class="mt-1 flex h-6 w-6 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-primary)]">✓</span>
+					<span>Distribución confiable y atención cercana.</span>
+				</li>
+				</ul>
+			</div>
+			<div class="relative">
+				<div class="aspect-[4/3] w-full overflow-hidden rounded-3xl border border-[var(--color-primary)]/10 bg-[var(--color-white)] shadow-[var(--shadow-sm)]">
+					<div class="flex h-full items-center justify-center">
+						<div class="rounded-2xl border border-[var(--color-primary)]/15 bg-[var(--color-bg-soft)] px-6 py-3 text-sm font-semibold tracking-wide text-[var(--color-text-strong)]/80">
+							Imagen placeholder de planta
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</Container>
+</Section>

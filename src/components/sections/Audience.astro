@@ -1,0 +1,54 @@
+﻿---
+import Section from "../ui/Section.astro";
+import Container from "../ui/Container.astro";
+import Heading from "../ui/Heading.astro";
+import Card from "../ui/Card.astro";
+---
+
+<Section className="bg-[var(--color-bg-soft)]">
+	<Container>
+		<div class="text-center">
+			<Heading as="h2" className="text-[var(--color-text)]">
+				Soluciones de hielo para cada tipo de negocio
+			</Heading>
+		</div>
+		<div class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+			<Card className="text-center transition hover:shadow-[var(--shadow-md)]">
+				<div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-primary)]">
+					<span class="text-xl">❄</span>
+				</div>
+				<h3 class="mt-4 text-lg font-semibold text-[var(--color-text)]">Restaurantes</h3>
+			</Card>
+			<Card className="text-center transition hover:shadow-[var(--shadow-md)]">
+				<div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-primary)]">
+					<span class="text-xl">❄</span>
+				</div>
+				<h3 class="mt-4 text-lg font-semibold text-[var(--color-text)]">Bares</h3>
+			</Card>
+			<Card className="text-center transition hover:shadow-[var(--shadow-md)]">
+				<div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-primary)]">
+					<span class="text-xl">❄</span>
+				</div>
+				<h3 class="mt-4 text-lg font-semibold text-[var(--color-text)]">Eventos</h3>
+			</Card>
+			<Card className="text-center transition hover:shadow-[var(--shadow-md)]">
+				<div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-primary)]">
+					<span class="text-xl">❄</span>
+				</div>
+				<h3 class="mt-4 text-lg font-semibold text-[var(--color-text)]">Tiendas</h3>
+			</Card>
+			<Card className="text-center transition hover:shadow-[var(--shadow-md)]">
+				<div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-primary)]">
+					<span class="text-xl">❄</span>
+				</div>
+				<h3 class="mt-4 text-lg font-semibold text-[var(--color-text)]">Hoteles</h3>
+			</Card>
+			<Card className="text-center transition hover:shadow-[var(--shadow-md)]">
+				<div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-primary)]">
+					<span class="text-xl">❄</span>
+				</div>
+				<h3 class="mt-4 text-lg font-semibold text-[var(--color-text)]">Pescaderías</h3>
+			</Card>
+		</div>
+	</Container>
+</Section>

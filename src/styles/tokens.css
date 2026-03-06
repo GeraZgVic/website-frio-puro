@@ -1,0 +1,20 @@
+﻿:root {
+	--color-primary: #323b81;
+	--color-accent: #41abe2;
+	--color-accent-soft: #9dd4f2;
+	--color-bg-soft: #e0eff8;
+	--color-bg: #ffffff;
+	--color-surface: #ffffff;
+	--color-white: #ffffff;
+	--color-text: #323b81;
+	--color-text-strong: #1a1f4e;
+
+	--radius-sm: 6px;
+	--radius-md: 12px;
+	--radius-lg: 20px;
+	--radius-pill: 999px;
+
+	--shadow-sm: 0 6px 18px rgba(50, 59, 129, 0.12);
+	--shadow-md: 0 16px 36px rgba(50, 59, 129, 0.16);
+	--shadow-lg: 0 24px 60px rgba(50, 59, 129, 0.18);
+}

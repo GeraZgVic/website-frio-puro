@@ -1,17 +1,37 @@
+﻿---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/sections/Header.astro";
+import Hero from "../components/sections/Hero.astro";
+import Audience from "../components/sections/Audience.astro";
+import Products from "../components/sections/Products.astro";
+import Steps from "../components/sections/Steps.astro";
+import Benefits from "../components/sections/Benefits.astro";
+import Testimonials from "../components/sections/Testimonials.astro";
+import Coverage from "../components/sections/Coverage.astro";
+import FinalCta from "../components/sections/FinalCta.astro";
+import Footer from "../components/sections/Footer.astro";
 ---
 
----
+<BaseLayout title="Frío Puro">
+  <main>
+    <Header />
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+    <Hero />
+
+    <Audience />
+
+    <Products />
+
+    <Steps />
+
+    <Benefits />
+
+    <Testimonials />
+
+    <Coverage />
+
+    <FinalCta />
+
+    <Footer />
+  </main>
+</BaseLayout>

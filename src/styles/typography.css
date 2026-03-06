@@ -1,0 +1,33 @@
+﻿@font-face {
+	font-family: "Fraunces";
+	font-style: normal;
+	font-weight: 400 900;
+	src: local("Fraunces"), local("Fraunces Variable");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Sora";
+	font-style: normal;
+	font-weight: 200 800;
+	src: local("Sora"), local("Sora Variable");
+	font-display: swap;
+}
+
+:root {
+	font-family: "Sora", system-ui, sans-serif;
+	color: var(--color-text);
+	background: var(--color-bg);
+	line-height: 1.5;
+	text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Fraunces", "Sora", system-ui, serif;
+	letter-spacing: -0.02em;
+	color: var(--color-text-strong);
+}
+
+p {
+	max-width: 72ch;
+}

@@ -1,0 +1,28 @@
+﻿---
+export interface Props {
+	variant?: "primary" | "outline";
+	href?: string;
+	type?: "button" | "submit" | "reset";
+	className?: string;
+}
+
+const { variant = "primary", href, type = "button", className = "" } = Astro.props;
+
+const base = "inline-flex items-center justify-center rounded-[var(--radius-pill)] px-6 py-3 text-sm font-semibold tracking-wide transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg)]";
+const variants = {
+	primary: "bg-[var(--color-primary)] text-[var(--color-white)] hover:opacity-90 focus-visible:ring-[var(--color-primary)]",
+	outline: "border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-white)] focus-visible:ring-[var(--color-primary)]"
+};
+
+const classes = `${base} ${variants[variant]} ${className}`;
+---
+
+{href ? (
+	<a href={href} class={classes}>
+		<slot />
+	</a>
+) : (
+	<button type={type} class={classes}>
+		<slot />
+	</button>
+)}
