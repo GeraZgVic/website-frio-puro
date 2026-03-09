@@ -7,13 +7,13 @@
         Hielo para<br />Cada Necesidad
       </h2>
     </div>
-    <div class="tabs fade-in fade-in-delay-1">
-      <button class="tab-btn active" data-filter="all">Todos</button>
-      <button class="tab-btn" data-filter="cubos">Cubos</button>
-      <button class="tab-btn" data-filter="triturado">Triturado</button>
-      <button class="tab-btn" data-filter="bloque">En Bloque</button>
+    <div class="tabs fade-in fade-in-delay-1" role="group" aria-label="Filtros de productos">
+      <button type="button" class="tab-btn active" data-filter="all">Todos</button>
+      <button type="button" class="tab-btn" data-filter="cubos">Cubos</button>
+      <button type="button" class="tab-btn" data-filter="triturado">Triturado</button>
+      <button type="button" class="tab-btn" data-filter="bloque">En Bloque</button>
     </div>
-    <div class="products-grid">
+    <div class="products-grid" aria-live="polite">
       <div class="product-card fade-in fade-in-delay-1" data-type="cubos">
         <div class="product-card-inner">
           <div class="product-img">
@@ -96,7 +96,6 @@
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    cursor: none;
     transition: all var(--transition);
   }
 

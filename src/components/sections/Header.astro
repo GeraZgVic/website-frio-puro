@@ -1,4 +1,4 @@
-<div class="mobile-menu" id="mobileMenu">
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
   <a href="#inicio" class="mobile-link">Inicio</a>
   <a href="#nosotros" class="mobile-link">Nosotros</a>
   <a href="#productos" class="mobile-link">Productos</a>
@@ -9,7 +9,7 @@
 <header id="navbar">
   <div class="max-w-xs">
     <a href="#inicio" class="header-logo-link">
-      <img class="w-auto h-16" src="/public/images/FrioPuroLogo.png" alt="" />
+      <img class="w-auto h-16" src="/images/FrioPuroLogo.png" alt="Frío Puro" />
     </a>
   </div>
 
@@ -37,9 +37,16 @@
     Pedir por WhatsApp
   </a>
 
-  <div class="hamburger" id="hamburger">
+  <button
+    class="hamburger"
+    id="hamburger"
+    type="button"
+    aria-controls="mobileMenu"
+    aria-expanded="false"
+    aria-label="Abrir menú"
+  >
     <span></span><span></span><span></span>
-  </div>
+  </button>
 </header>
 
 <style>
@@ -170,6 +177,8 @@
     gap: 5px;
     cursor: pointer;
     padding: 5px;
+    background: none;
+    border: none;
   }
 
   .hamburger span {
