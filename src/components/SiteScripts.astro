@@ -1,57 +1,88 @@
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", (): void => {
+    // ===== HELPERS =====
+    const canHover: boolean = window.matchMedia(
+      "(hover: hover) and (pointer: fine)",
+    ).matches;
+    const prefersReducedMotion: boolean = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
     // ===== CUSTOM CURSOR =====
     const cursor = document.getElementById("cursor") as HTMLDivElement | null;
     const cursorRing = document.getElementById(
       "cursor-ring",
     ) as HTMLDivElement | null;
 
-    let mouseX = 0;
-    let mouseY = 0;
-    let ringX = 0;
-    let ringY = 0;
+    let mouseX: number = window.innerWidth / 2;
+    let mouseY: number = window.innerHeight / 2;
+    let ringX: number = mouseX;
+    let ringY: number = mouseY;
 
-    const moveCursor = (e: MouseEvent): void => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
+    if (cursor && cursorRing && canHover) {
+      const showCursor = (): void => {
+        cursor.classList.add("is-visible");
+        cursorRing.classList.add("is-visible");
+      };
 
-      if (cursor) {
+      const moveCursor = (e: PointerEvent): void => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+
         cursor.style.left = `${mouseX}px`;
         cursor.style.top = `${mouseY}px`;
-      }
-    };
 
-    const animateRing = (): void => {
-      if (!cursorRing) {
-        requestAnimationFrame(animateRing);
-        return;
-      }
+        showCursor();
+      };
 
-      ringX += (mouseX - ringX) * 0.12;
-      ringY += (mouseY - ringY) * 0.12;
+      const animateRing = (): void => {
+        ringX += (mouseX - ringX) * 0.18;
+        ringY += (mouseY - ringY) * 0.18;
 
-      cursorRing.style.left = `${ringX}px`;
-      cursorRing.style.top = `${ringY}px`;
+        cursorRing.style.left = `${ringX}px`;
+        cursorRing.style.top = `${ringY}px`;
 
-      requestAnimationFrame(animateRing);
-    };
+        window.requestAnimationFrame(animateRing);
+      };
 
-    document.addEventListener("mousemove", moveCursor);
-    animateRing();
+      document.addEventListener("pointermove", moveCursor, { passive: true });
+      animateRing();
 
-    document
-      .querySelectorAll<HTMLElement>("a, button, .tab-btn, .dot")
-      .forEach((el) => {
-        el.addEventListener("mouseenter", (): void => {
-          cursor?.classList.add("hover");
-          cursorRing?.classList.add("hover");
-        });
+      const bindCursorHoverTargets = (): void => {
+        document
+          .querySelectorAll<HTMLElement>(
+            "a, button, .tab-btn, .dot, .client-card, .card, .interactive, input, textarea, select, label",
+          )
+          .forEach((el: HTMLElement) => {
+            el.addEventListener("pointerenter", (): void => {
+              cursor.classList.add("hover");
+              cursorRing.classList.add("hover");
+            });
 
-        el.addEventListener("mouseleave", (): void => {
-          cursor?.classList.remove("hover");
-          cursorRing?.classList.remove("hover");
-        });
+            el.addEventListener("pointerleave", (): void => {
+              cursor.classList.remove("hover");
+              cursorRing.classList.remove("hover");
+            });
+          });
+      };
+
+      bindCursorHoverTargets();
+
+      document.addEventListener("pointerdown", (): void => {
+        cursor.style.transform = "translate3d(-50%, -50%, 0) scale(0.88)";
+        cursorRing.style.transform = "translate3d(-50%, -50%, 0) scale(0.92)";
       });
+
+      document.addEventListener("pointerup", (): void => {
+        cursor.style.transform = "";
+        cursorRing.style.transform = "";
+      });
+
+      document.addEventListener("pointerleave", (): void => {
+        cursor.classList.remove("is-visible", "hover");
+        cursorRing.classList.remove("is-visible", "hover");
+      });
+    }
 
     // ===== NAVBAR SCROLL + BACK TO TOP =====
     const navbar = document.getElementById("navbar") as HTMLElement | null;
@@ -126,12 +157,12 @@
 
     const spyObserver = new IntersectionObserver(
       (entries: IntersectionObserverEntry[]): void => {
-        entries.forEach((entry) => {
+        entries.forEach((entry: IntersectionObserverEntry) => {
           if (!entry.isIntersecting) return;
 
           const id = (entry.target as HTMLElement).id;
 
-          navLinks.forEach((link) => {
+          navLinks.forEach((link: HTMLAnchorElement) => {
             link.classList.remove("active");
 
             if (link.getAttribute("href") === `#${id}`) {
@@ -145,16 +176,17 @@
       },
     );
 
-    sections.forEach((section) => spyObserver.observe(section));
+    sections.forEach((section: HTMLElement) => spyObserver.observe(section));
 
     // ===== FADE IN ANIMATIONS =====
     const fadeElements = document.querySelectorAll<HTMLElement>(".fade-in");
 
     const fadeObserver = new IntersectionObserver(
       (entries: IntersectionObserverEntry[]): void => {
-        entries.forEach((entry) => {
+        entries.forEach((entry: IntersectionObserverEntry) => {
           if (entry.isIntersecting) {
             (entry.target as HTMLElement).classList.add("visible");
+            fadeObserver.unobserve(entry.target);
           }
         });
       },
@@ -163,11 +195,11 @@
       },
     );
 
-    fadeElements.forEach((el) => fadeObserver.observe(el));
+    fadeElements.forEach((el: HTMLElement) => fadeObserver.observe(el));
 
     document
       .querySelectorAll<HTMLElement>("#hero .fade-in")
-      .forEach((el, index) => {
+      .forEach((el: HTMLElement, index: number) => {
         window.setTimeout(
           (): void => {
             el.classList.add("visible");
@@ -179,7 +211,7 @@
     window.setTimeout((): void => {
       document
         .querySelectorAll<HTMLElement>(".hero-checks li")
-        .forEach((li, index) => {
+        .forEach((li: HTMLElement, index: number) => {
           window.setTimeout((): void => {
             li.classList.add("visible");
           }, index * 200);
@@ -208,23 +240,23 @@
         el.textContent = Math.floor(eased * target).toString();
 
         if (progress < 1) {
-          requestAnimationFrame(update);
+          window.requestAnimationFrame(update);
         } else {
           el.textContent = `${target}`;
         }
       };
 
-      requestAnimationFrame(update);
+      window.requestAnimationFrame(update);
     };
 
     const counterObserver = new IntersectionObserver(
       (entries: IntersectionObserverEntry[]): void => {
-        entries.forEach((entry) => {
+        entries.forEach((entry: IntersectionObserverEntry) => {
           if (entry.isIntersecting && !countersStarted) {
             countersStarted = true;
             document
               .querySelectorAll<HTMLElement>(".counter-num")
-              .forEach((el) => animateCounter(el));
+              .forEach((el: HTMLElement) => animateCounter(el));
           }
         });
       },
@@ -242,14 +274,16 @@
     const productCards =
       document.querySelectorAll<HTMLElement>(".product-card");
 
-    tabBtns.forEach((btn) => {
+    tabBtns.forEach((btn: HTMLButtonElement) => {
       btn.addEventListener("click", (): void => {
-        tabBtns.forEach((item) => item.classList.remove("active"));
+        tabBtns.forEach((item: HTMLButtonElement) =>
+          item.classList.remove("active"),
+        );
         btn.classList.add("active");
 
         const filter = btn.getAttribute("data-filter");
 
-        productCards.forEach((card) => {
+        productCards.forEach((card: HTMLElement) => {
           const type = card.getAttribute("data-type");
 
           if (filter === "all" || type === filter) {
@@ -257,7 +291,7 @@
             card.style.opacity = "0";
             card.style.transform = "scale(0.95)";
 
-            requestAnimationFrame((): void => {
+            window.requestAnimationFrame((): void => {
               window.setTimeout((): void => {
                 card.style.opacity = "";
                 card.style.transform = "";
@@ -276,26 +310,30 @@
     });
 
     // ===== 3D HOVER ON PRODUCT CARDS =====
-    document.querySelectorAll<HTMLElement>(".product-card").forEach((card) => {
-      const inner = card.querySelector<HTMLElement>(".product-card-inner");
-      if (!inner) return;
+    if (canHover && !prefersReducedMotion) {
+      document
+        .querySelectorAll<HTMLElement>(".product-card")
+        .forEach((card: HTMLElement) => {
+          const inner = card.querySelector<HTMLElement>(".product-card-inner");
+          if (!inner) return;
 
-      card.addEventListener("mousemove", (e: MouseEvent): void => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotateY = ((x - centerX) / centerX) * 8;
-        const rotateX = ((centerY - y) / centerY) * 5;
+          card.addEventListener("pointermove", (e: PointerEvent): void => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateY = ((x - centerX) / centerX) * 8;
+            const rotateX = ((centerY - y) / centerY) * 5;
 
-        inner.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-      });
+            inner.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+          });
 
-      card.addEventListener("mouseleave", (): void => {
-        inner.style.transform = "perspective(1000px) rotateX(0) rotateY(0)";
-      });
-    });
+          card.addEventListener("pointerleave", (): void => {
+            inner.style.transform = "perspective(1000px) rotateX(0) rotateY(0)";
+          });
+        });
+    }
 
     // ===== SLIDER =====
     const track = document.getElementById("sliderTrack") as HTMLElement | null;
@@ -317,32 +355,39 @@
         currentSlide = (index + totalSlides) % totalSlides;
         track.style.transform = `translateX(-${currentSlide * 100}%)`;
 
-        dots.forEach((dot, dotIndex) => {
+        dots.forEach((dot: HTMLElement, dotIndex: number) => {
           dot.classList.toggle("active", dotIndex === currentSlide);
         });
       };
 
+      const stopAuto = (): void => {
+        if (autoSlide !== undefined) {
+          window.clearInterval(autoSlide);
+        }
+      };
+
       const startAuto = (): void => {
+        stopAuto();
         autoSlide = window.setInterval((): void => {
           goToSlide(currentSlide + 1);
         }, 4000);
       };
 
       nextBtn?.addEventListener("click", (): void => {
-        if (autoSlide !== undefined) window.clearInterval(autoSlide);
+        stopAuto();
         goToSlide(currentSlide + 1);
         startAuto();
       });
 
       prevBtn?.addEventListener("click", (): void => {
-        if (autoSlide !== undefined) window.clearInterval(autoSlide);
+        stopAuto();
         goToSlide(currentSlide - 1);
         startAuto();
       });
 
-      dots.forEach((dot, index) => {
+      dots.forEach((dot: HTMLElement, index: number) => {
         dot.addEventListener("click", (): void => {
-          if (autoSlide !== undefined) window.clearInterval(autoSlide);
+          stopAuto();
           goToSlide(index);
           startAuto();
         });
@@ -369,22 +414,29 @@
 
     const canvas = document.getElementById("particles-canvas");
 
-    if (canvas instanceof HTMLCanvasElement) {
+    if (
+      canvas instanceof HTMLCanvasElement &&
+      !prefersReducedMotion &&
+      document.getElementById("hero")
+    ) {
       const ctx = canvas.getContext("2d");
 
       if (ctx) {
         let particles: Particle[] = [];
         let resizeTimeout: number | undefined;
+        let animationFrameId: number | undefined;
+        let heroVisible = true;
+        let pageVisible = document.visibilityState === "visible";
 
         const getParticleTargetCount = (): number => {
-          if (window.innerWidth <= 480) return 40;
-          if (window.innerWidth <= 768) return 58;
-          if (window.innerWidth <= 1024) return 78;
-          return 110;
+          if (window.innerWidth <= 480) return 28;
+          if (window.innerWidth <= 768) return 42;
+          if (window.innerWidth <= 1024) return 60;
+          return 78;
         };
 
         const resizeCanvas = (): void => {
-          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
           const width = canvas.offsetWidth;
           const height = canvas.offsetHeight;
 
@@ -406,14 +458,14 @@
           particle.y = fromBottom
             ? height + Math.random() * 40
             : Math.random() * height;
-          particle.size = Math.random() * 5 + 2;
-          particle.speedX = (Math.random() - 0.5) * 0.45;
-          particle.speedY = Math.random() * 0.55 + 0.22;
-          particle.opacity = Math.random() * 0.45 + 0.2;
-          particle.fadeSpeed = Math.random() * 0.001 + 0.00045;
+          particle.size = Math.random() * 4 + 1.5;
+          particle.speedX = (Math.random() - 0.5) * 0.28;
+          particle.speedY = Math.random() * 0.38 + 0.16;
+          particle.opacity = Math.random() * 0.32 + 0.12;
+          particle.fadeSpeed = Math.random() * 0.0008 + 0.00035;
           particle.rotation = Math.random() * Math.PI * 2;
-          particle.rotSpeed = (Math.random() - 0.5) * 0.012;
-          particle.shape = Math.random() > 0.55 ? "crystal" : "dot";
+          particle.rotSpeed = (Math.random() - 0.5) * 0.008;
+          particle.shape = Math.random() > 0.62 ? "crystal" : "dot";
         };
 
         const createParticle = (fromBottom = false): Particle => {
@@ -468,12 +520,12 @@
           ctx.translate(particle.x, particle.y);
           ctx.rotate(particle.rotation);
           ctx.globalAlpha = particle.opacity;
-          ctx.shadowBlur = 12;
-          ctx.shadowColor = "rgba(157, 212, 242, 0.45)";
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = "rgba(157, 212, 242, 0.32)";
 
           if (particle.shape === "crystal") {
-            ctx.strokeStyle = "rgba(210, 240, 255, 0.9)";
-            ctx.lineWidth = 1.1;
+            ctx.strokeStyle = "rgba(210, 240, 255, 0.72)";
+            ctx.lineWidth = 1;
             ctx.beginPath();
 
             for (let i = 0; i < 6; i++) {
@@ -487,7 +539,7 @@
 
             ctx.stroke();
           } else {
-            ctx.fillStyle = "rgba(110, 210, 255, 0.75)";
+            ctx.fillStyle = "rgba(110, 210, 255, 0.6)";
             ctx.beginPath();
             ctx.arc(0, 0, particle.size / 2, 0, Math.PI * 2);
             ctx.fill();
@@ -497,6 +549,11 @@
         };
 
         const animateParticles = (): void => {
+          if (!pageVisible || !heroVisible) {
+            animationFrameId = window.requestAnimationFrame(animateParticles);
+            return;
+          }
+
           ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
 
           for (const particle of particles) {
@@ -504,7 +561,7 @@
             drawParticle(particle);
           }
 
-          window.requestAnimationFrame(animateParticles);
+          animationFrameId = window.requestAnimationFrame(animateParticles);
         };
 
         resizeCanvas();
@@ -513,6 +570,24 @@
         for (let i = 0; i < particles.length; i++) {
           particles[i].y = Math.random() * canvas.offsetHeight;
         }
+
+        const heroElement = document.getElementById(
+          "hero",
+        ) as HTMLElement | null;
+        if (heroElement) {
+          const heroObserver = new IntersectionObserver(
+            (entries: IntersectionObserverEntry[]): void => {
+              heroVisible = !!entries[0]?.isIntersecting;
+            },
+            { threshold: 0.05 },
+          );
+
+          heroObserver.observe(heroElement);
+        }
+
+        document.addEventListener("visibilitychange", (): void => {
+          pageVisible = document.visibilityState === "visible";
+        });
 
         animateParticles();
 
@@ -524,6 +599,12 @@
             syncParticleCount();
           }, 120);
         });
+
+        window.addEventListener("beforeunload", (): void => {
+          if (animationFrameId !== undefined) {
+            window.cancelAnimationFrame(animationFrameId);
+          }
+        });
       }
     }
 
@@ -531,12 +612,9 @@
     const hero = document.getElementById("hero") as HTMLElement | null;
     const heroLeft = document.querySelector<HTMLElement>(".hero-left");
     const heroVisual = document.querySelector<HTMLElement>(".hero-visual");
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
     const isDesktop = window.matchMedia("(min-width: 1025px)").matches;
 
-    if (hero && !reduceMotion && isDesktop) {
+    if (hero && !prefersReducedMotion && isDesktop) {
       let ticking = false;
 
       const updateHeroParallax = (): void => {
