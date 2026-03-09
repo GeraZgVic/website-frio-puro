@@ -2,28 +2,38 @@
 <section id="productos">
   <div class="container">
     <div class="fade-in">
-      <p class="section-label">Nuestros Productos</p>
+      <p class="section-label">Nuestro Producto</p>
       <h2 class="section-title" style="color: var(--color-primary);">
-        Hielo para<br />Cada Necesidad
+        Hielo en tubo<br />de calidad premium
       </h2>
     </div>
-    <div class="tabs fade-in fade-in-delay-1" role="group" aria-label="Filtros de productos">
-      <button type="button" class="tab-btn active" data-filter="all">Todos</button>
-      <button type="button" class="tab-btn" data-filter="cubos">Cubos</button>
-      <button type="button" class="tab-btn" data-filter="triturado">Triturado</button>
-      <button type="button" class="tab-btn" data-filter="bloque">En Bloque</button>
+    <div
+      class="tabs fade-in fade-in-delay-1"
+      role="group"
+      aria-label="Filtros de productos"
+    >
+      <button type="button" class="tab-btn active" data-filter="all"
+        >Todos</button
+      >
+      <button type="button" class="tab-btn" data-filter="Tubo">Tubo</button>
+      <button type="button" class="tab-btn" data-filter="triturado"
+        >Triturado</button
+      >
+      <button type="button" class="tab-btn" data-filter="bloque"
+        >En Bloque</button
+      >
     </div>
     <div class="products-grid" aria-live="polite">
-      <div class="product-card fade-in fade-in-delay-1" data-type="cubos">
+      <div class="product-card fade-in fade-in-delay-1" data-type="Tubo">
         <div class="product-card-inner">
           <div class="product-img">
             <span class="product-emoji">🧊</span>
             <span class="product-badge">Bolsas 5 y 10 kg</span>
           </div>
           <div class="product-info">
-            <h3>Hielo en Cubos</h3>
+            <h3>Hielo en Tubo</h3>
             <p>
-              Cubos perfectos y transparentes elaborados con agua purificada.
+              Tubo perfectos y transparentes elaborados con agua purificada.
               Ideales para bebidas, cócteles y presentaciones premium en bares y
               restaurantes.
             </p>
@@ -134,7 +144,12 @@
 
   .product-img {
     height: 220px;
-    background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-primary) 50%, var(--color-accent) 100%);
+    background: linear-gradient(
+      135deg,
+      var(--color-dark) 0%,
+      var(--color-primary) 50%,
+      var(--color-accent) 100%
+    );
     position: relative;
     display: flex;
     align-items: center;
@@ -146,7 +161,11 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 30% 30%, rgba(157, 212, 242, 0.3), transparent 60%);
+    background: radial-gradient(
+      circle at 30% 30%,
+      rgba(157, 212, 242, 0.3),
+      transparent 60%
+    );
   }
 
   .product-img .product-emoji {
