@@ -7,6 +7,11 @@
     const prefersReducedMotion: boolean = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+    let pageVisible: boolean = document.visibilityState === "visible";
+
+    document.addEventListener("visibilitychange", (): void => {
+      pageVisible = document.visibilityState === "visible";
+    });
 
     // ===== CUSTOM CURSOR =====
     const cursor = document.getElementById("cursor") as HTMLDivElement | null;
@@ -18,6 +23,7 @@
     let mouseY: number = window.innerHeight / 2;
     let ringX: number = mouseX;
     let ringY: number = mouseY;
+    let cursorRafId: number | undefined;
 
     if (cursor && cursorRing && canHover) {
       const showCursor = (): void => {
@@ -36,13 +42,18 @@
       };
 
       const animateRing = (): void => {
+        if (!pageVisible) {
+          cursorRafId = undefined;
+          return;
+        }
+
         ringX += (mouseX - ringX) * 0.18;
         ringY += (mouseY - ringY) * 0.18;
 
         cursorRing.style.left = `${ringX}px`;
         cursorRing.style.top = `${ringY}px`;
 
-        window.requestAnimationFrame(animateRing);
+        cursorRafId = window.requestAnimationFrame(animateRing);
       };
 
       document.addEventListener("pointermove", moveCursor, { passive: true });
@@ -81,6 +92,16 @@
       document.addEventListener("pointerleave", (): void => {
         cursor.classList.remove("is-visible", "hover");
         cursorRing.classList.remove("is-visible", "hover");
+      });
+
+      document.addEventListener("visibilitychange", (): void => {
+        if (!pageVisible && cursorRafId !== undefined) {
+          window.cancelAnimationFrame(cursorRafId);
+          cursorRafId = undefined;
+        }
+        if (pageVisible && cursorRafId === undefined) {
+          animateRing();
+        }
       });
     }
 
@@ -152,8 +173,9 @@
 
     // ===== SCROLL SPY =====
     const navLinks = document.querySelectorAll<HTMLAnchorElement>(".nav-link");
-    const sections =
-      document.querySelectorAll<HTMLElement>("section[id], #hero");
+    const sections = document.querySelectorAll<HTMLElement>(
+      "section[id], #hero",
+    );
 
     const spyObserver = new IntersectionObserver(
       (entries: IntersectionObserverEntry[]): void => {
@@ -176,7 +198,9 @@
       },
     );
 
-    sections.forEach((section: HTMLElement) => spyObserver.observe(section));
+    if (navLinks.length > 0 && sections.length > 0) {
+      sections.forEach((section: HTMLElement) => spyObserver.observe(section));
+    }
 
     // ===== FADE IN ANIMATIONS =====
     const fadeElements = document.querySelectorAll<HTMLElement>(".fade-in");
@@ -394,6 +418,14 @@
       });
 
       startAuto();
+
+      document.addEventListener("visibilitychange", (): void => {
+        if (document.visibilityState === "hidden") {
+          stopAuto();
+        } else {
+          startAuto();
+        }
+      });
     }
 
     // ===== PARTICLE SYSTEM =====
@@ -412,7 +444,9 @@
       shape: ParticleShape;
     }
 
-    const canvas = document.getElementById("particles-canvas");
+    const canvas = document.getElementById(
+      "hero-particles-canvas",
+    ) as HTMLCanvasElement | null;
 
     if (
       canvas instanceof HTMLCanvasElement &&
@@ -426,7 +460,6 @@
         let resizeTimeout: number | undefined;
         let animationFrameId: number | undefined;
         let heroVisible = true;
-        let pageVisible = document.visibilityState === "visible";
 
         const getParticleTargetCount = (): number => {
           if (window.innerWidth <= 480) return 28;
@@ -549,10 +582,7 @@
         };
 
         const animateParticles = (): void => {
-          if (!pageVisible || !heroVisible) {
-            animationFrameId = window.requestAnimationFrame(animateParticles);
-            return;
-          }
+          if (!pageVisible || !heroVisible) return;
 
           ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
 
@@ -562,6 +592,19 @@
           }
 
           animationFrameId = window.requestAnimationFrame(animateParticles);
+        };
+
+        const startParticles = (): void => {
+          if (animationFrameId === undefined) {
+            animationFrameId = window.requestAnimationFrame(animateParticles);
+          }
+        };
+
+        const stopParticles = (): void => {
+          if (animationFrameId !== undefined) {
+            window.cancelAnimationFrame(animationFrameId);
+            animationFrameId = undefined;
+          }
         };
 
         resizeCanvas();
@@ -578,6 +621,11 @@
           const heroObserver = new IntersectionObserver(
             (entries: IntersectionObserverEntry[]): void => {
               heroVisible = !!entries[0]?.isIntersecting;
+              if (pageVisible && heroVisible) {
+                startParticles();
+              } else {
+                stopParticles();
+              }
             },
             { threshold: 0.05 },
           );
@@ -586,10 +634,14 @@
         }
 
         document.addEventListener("visibilitychange", (): void => {
-          pageVisible = document.visibilityState === "visible";
+          if (pageVisible && heroVisible) {
+            startParticles();
+          } else {
+            stopParticles();
+          }
         });
 
-        animateParticles();
+        startParticles();
 
         window.addEventListener("resize", (): void => {
           if (resizeTimeout) window.clearTimeout(resizeTimeout);
@@ -601,9 +653,7 @@
         });
 
         window.addEventListener("beforeunload", (): void => {
-          if (animationFrameId !== undefined) {
-            window.cancelAnimationFrame(animationFrameId);
-          }
+          stopParticles();
         });
       }
     }

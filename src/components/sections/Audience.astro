@@ -4,7 +4,7 @@
 
 <!-- NOSOTROS -->
 <section id="nosotros" class="audience-section">
-  <canvas id="particles-canvas"></canvas>
+  <canvas id="audience-particles-canvas"></canvas>
 
   <div class="bg-orb bg-orb-1"></div>
   <div class="bg-orb bg-orb-2"></div>
@@ -331,17 +331,7 @@
     --mouse-y: 50%;
   }
 
-  /* quitar cursor nativo dentro de la sección */
-  @media (hover: hover) and (pointer: fine) {
-    .audience-section,
-    .audience-section *,
-    .client-card,
-    .client-card * {
-      cursor: none !important;
-    }
-  }
-
-  #particles-canvas {
+  #audience-particles-canvas {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -1855,7 +1845,7 @@
   (() => {
     const section = document.getElementById("nosotros") as HTMLElement | null;
     const canvas = document.getElementById(
-      "particles-canvas",
+      "audience-particles-canvas",
     ) as HTMLCanvasElement | null;
 
     if (!section || !canvas) return;
@@ -1865,7 +1855,7 @@
 
     let W = 0;
     let H = 0;
-    let animationId = 0;
+    let animationId: number | undefined;
     let particlesActive = true;
     let sectionVisible = true;
     let particles: Particle[] = [];
@@ -1967,15 +1957,35 @@
     }
 
     function tick(): void {
-      if (particlesActive && sectionVisible && PARTICLE_COUNT > 0) {
-        renderParticles();
+      if (!particlesActive || !sectionVisible || PARTICLE_COUNT === 0) {
+        animationId = undefined;
+        return;
       }
+      renderParticles();
       animationId = window.requestAnimationFrame(tick);
+    }
+
+    function startParticles(): void {
+      if (animationId === undefined) {
+        animationId = window.requestAnimationFrame(tick);
+      }
+    }
+
+    function stopParticles(): void {
+      if (animationId !== undefined) {
+        window.cancelAnimationFrame(animationId);
+        animationId = undefined;
+      }
     }
 
     const sectionObserver = new IntersectionObserver(
       (entries) => {
         sectionVisible = !!entries[0]?.isIntersecting;
+        if (particlesActive && sectionVisible && PARTICLE_COUNT > 0) {
+          startParticles();
+        } else {
+          stopParticles();
+        }
       },
       { threshold: 0.08 },
     );
@@ -1984,11 +1994,18 @@
 
     document.addEventListener("visibilitychange", () => {
       particlesActive = document.visibilityState === "visible";
+      if (particlesActive && sectionVisible && PARTICLE_COUNT > 0) {
+        startParticles();
+      } else {
+        stopParticles();
+      }
     });
 
     resize();
     initParticles();
-    tick();
+    if (particlesActive && sectionVisible && PARTICLE_COUNT > 0) {
+      startParticles();
+    }
 
     let resizeRaf = 0;
     window.addEventListener(
@@ -2135,7 +2152,7 @@
     }
 
     window.addEventListener("beforeunload", () => {
-      cancelAnimationFrame(animationId);
+      stopParticles();
       sectionObserver.disconnect();
       revealObserver.disconnect();
     });
