@@ -17,10 +17,9 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
         </div>
 
         <h1 class="hero-title fade-in fade-in-delay-1">
-          HIELO<br />
-          <span>PREMIUM</span><br />
-          PARA TU<br />
-          NEGOCIO
+          HIELO
+          <span>PREMIUM</span>
+          PARA TU NEGOCIO
         </h1>
 
         <p class="hero-subtitle fade-in fade-in-delay-2">
@@ -45,10 +44,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
         </ul>
 
         <div class="hero-buttons fade-in fade-in-delay-3">
-          <a
-            href={buildWhatsAppUrl()}
-            class="btn-primary hero-cta-primary"
-          >
+          <a href={buildWhatsAppUrl()} class="btn-primary hero-cta-primary">
             {commercialContent.ctas.heroPrimary}
           </a>
 
@@ -222,6 +218,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     color: var(--color-white);
     text-wrap: balance;
     text-shadow: 0 10px 40px rgba(10, 16, 48, 0.28);
+    width: 660px;
   }
 
   .hero-title span {
@@ -557,6 +554,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
     .hero-left {
       max-width: 100%;
+      text-align: center;
     }
 
     .hero-subtitle {
@@ -569,6 +567,23 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     }
 
     .hero-visual-shell {
+      display: none;
+    }
+    .hero-title {
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 14ch;
+      width: 100%;
+    }
+  }
+
+  @media (min-width: 1025px) {
+    .hero-title {
+      max-width: 16ch;
+    }
+
+    .hero-title br {
       display: none;
     }
   }
@@ -586,9 +601,13 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     }
 
     .hero-title {
-      font-size: clamp(3rem, 13vw, 4.6rem);
-      line-height: 0.9;
+      font-size: clamp(3.2rem, 14vw, 4.9rem);
+      line-height: 0.92;
       margin-bottom: 18px;
+      text-align: center;
+      letter-spacing: -1.4px;
+      max-width: 14ch;
+      width: 100%;
     }
 
     .hero-subtitle {
@@ -667,8 +686,9 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     }
 
     .hero-title {
-      font-size: clamp(2.7rem, 12vw, 3.6rem);
-      letter-spacing: -1px;
+      font-size: clamp(3rem, 12.8vw, 3.9rem);
+      letter-spacing: -1.2px;
+      max-width: 15ch;
     }
 
     .hero-checks li {

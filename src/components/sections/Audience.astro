@@ -29,12 +29,6 @@ import { commercialContent } from "../../config/commercial";
   <div class="container audience-container">
     <div class="audience-header fade-in">
       <div class="audience-header-main">
-        <div class="audience-kicker">
-          <span class="audience-kicker-dot"></span>
-          <span class="audience-kicker-ring"></span>
-          <p class="section-label">¿Para quién somos?</p>
-        </div>
-
         <h2
           class="section-title audience-title word-reveal"
           style="color: var(--color-primary);"
@@ -42,33 +36,13 @@ import { commercialContent } from "../../config/commercial";
           <span>Servimos&nbsp;a</span><br /><span>Toda&nbsp;la</span>&nbsp;<span
             >Industria</span
           >
+
           <span class="title-bar"></span>
         </h2>
-      </div>
-
-      <div class="audience-header-side">
         <p class="section-subtitle audience-subtitle">
           Desde pequeños negocios hasta grandes cadenas, entregamos hielo con la
           calidad, consistencia y capacidad operativa que cada cliente necesita.
         </p>
-
-        <div class="audience-metrics">
-          <div class="audience-metric">
-            <div class="metric-glow"></div>
-            <span class="audience-metric-value">{commercialContent.badges.operation247}</span>
-            <span class="audience-metric-label">Operación continua</span>
-          </div>
-          <div class="audience-metric">
-            <div class="metric-glow"></div>
-            <span class="audience-metric-value">B2B</span>
-            <span class="audience-metric-label">Enfoque empresarial</span>
-          </div>
-          <div class="audience-metric">
-            <div class="metric-glow"></div>
-            <span class="audience-metric-value">Fast</span>
-            <span class="audience-metric-label">Respuesta ágil</span>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -710,9 +684,11 @@ import { commercialContent } from "../../config/commercial";
 
   .audience-header {
     display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.78fr);
+    grid-template-columns: 1fr;
     gap: 56px;
     align-items: end;
+    justify-items: center;
+    text-align: center;
     margin-bottom: 56px;
     opacity: 0;
     animation: headerReveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards;
@@ -731,6 +707,7 @@ import { commercialContent } from "../../config/commercial";
 
   .audience-header-main {
     max-width: 780px;
+    text-align: center;
   }
 
   .audience-kicker {
@@ -819,7 +796,7 @@ import { commercialContent } from "../../config/commercial";
       var(--color-accent),
       #9dd4f2
     );
-    margin-top: 18px;
+    margin: 18px auto 0;
     animation: barGrow 1s cubic-bezier(0.22, 1, 0.36, 1) 0.75s forwards;
   }
 
@@ -860,7 +837,7 @@ import { commercialContent } from "../../config/commercial";
 
   .audience-subtitle {
     max-width: 520px;
-    margin-top: 0;
+    margin: 0 auto;
     font-size: 1.02rem;
     line-height: 1.9;
     color: rgba(50, 59, 129, 0.78);
@@ -1842,12 +1819,12 @@ import { commercialContent } from "../../config/commercial";
   }
 </style>
 
-<script>
+<script is:inline>
   (() => {
-    const section = document.getElementById("nosotros") as HTMLElement | null;
-    const canvas = document.getElementById(
-      "audience-particles-canvas",
-    ) as HTMLCanvasElement | null;
+    /** @type {HTMLElement | null} */
+    const section = document.getElementById("nosotros");
+    /** @type {HTMLCanvasElement | null} */
+    const canvas = document.getElementById("audience-particles-canvas");
 
     if (!section || !canvas) return;
 
@@ -1856,10 +1833,10 @@ import { commercialContent } from "../../config/commercial";
 
     let W = 0;
     let H = 0;
-    let animationId: number | undefined;
+    let animationId;
     let particlesActive = true;
     let sectionVisible = true;
-    let particles: Particle[] = [];
+    let particles = [];
 
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     const reducedMotion = window.matchMedia(
@@ -1870,7 +1847,7 @@ import { commercialContent } from "../../config/commercial";
     const PARTICLE_COUNT = reducedMotion ? 0 : isMobile ? 24 : 46;
     const COLORS = ["rgba(65,171,226,", "rgba(50,59,129,", "rgba(157,212,242,"];
 
-    function resize(): void {
+    function resize() {
       const rect = section.getBoundingClientRect();
       W = Math.max(1, Math.floor(rect.width));
       H = Math.max(1, Math.floor(rect.height));
@@ -1898,7 +1875,7 @@ import { commercialContent } from "../../config/commercial";
         this.reset(true);
       }
 
-      reset(initial = false): void {
+      reset(initial = false) {
         this.x = Math.random() * W;
         this.y = initial ? Math.random() * H : Math.random() * H;
         this.r = Math.random() * 1.25 + 0.45;
@@ -1910,7 +1887,7 @@ import { commercialContent } from "../../config/commercial";
         this.maxLife = Math.random() * 260 + 220;
       }
 
-      update(): void {
+      update() {
         this.x += this.vx;
         this.y += this.vy;
         this.life++;
@@ -1926,7 +1903,7 @@ import { commercialContent } from "../../config/commercial";
         }
       }
 
-      draw(): void {
+      draw() {
         const fade =
           this.life < 40
             ? this.life / 40
@@ -1941,14 +1918,14 @@ import { commercialContent } from "../../config/commercial";
       }
     }
 
-    function initParticles(): void {
+    function initParticles() {
       particles = [];
       for (let i = 0; i < PARTICLE_COUNT; i++) {
         particles.push(new Particle());
       }
     }
 
-    function renderParticles(): void {
+    function renderParticles() {
       ctx.clearRect(0, 0, W, H);
 
       for (let i = 0; i < particles.length; i++) {
@@ -1957,7 +1934,7 @@ import { commercialContent } from "../../config/commercial";
       }
     }
 
-    function tick(): void {
+    function tick() {
       if (!particlesActive || !sectionVisible || PARTICLE_COUNT === 0) {
         animationId = undefined;
         return;
@@ -1966,13 +1943,13 @@ import { commercialContent } from "../../config/commercial";
       animationId = window.requestAnimationFrame(tick);
     }
 
-    function startParticles(): void {
+    function startParticles() {
       if (animationId === undefined) {
         animationId = window.requestAnimationFrame(tick);
       }
     }
 
-    function stopParticles(): void {
+    function stopParticles() {
       if (animationId !== undefined) {
         window.cancelAnimationFrame(animationId);
         animationId = undefined;
@@ -2021,14 +1998,18 @@ import { commercialContent } from "../../config/commercial";
       { passive: true },
     );
 
-    const cards = document.querySelectorAll<HTMLElement>(".client-card");
+    /** @type {NodeListOf<HTMLElement>} */
+    const cards = document.querySelectorAll(".client-card");
 
     const revealObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            (entry.target as HTMLElement).classList.add("is-visible");
-            revealObserver.unobserve(entry.target);
+            const target = entry.target;
+            if (target instanceof HTMLElement) {
+              target.classList.add("is-visible");
+              revealObserver.unobserve(target);
+            }
           }
         });
       },
@@ -2050,7 +2031,7 @@ import { commercialContent } from "../../config/commercial";
         let targetX = 0;
         let targetY = 0;
 
-        const updateCard = (): void => {
+        const updateCard = () => {
           raf = 0;
           if (!hovered) return;
 
@@ -2077,7 +2058,8 @@ import { commercialContent } from "../../config/commercial";
           card.style.setProperty("--depth-y2", `${100 - pctY * 0.28}%`);
         };
 
-        const onMove = (event: PointerEvent): void => {
+        /** @param {PointerEvent} event */
+        const onMove = (event) => {
           targetX = event.clientX;
           targetY = event.clientY;
 
@@ -2086,12 +2068,12 @@ import { commercialContent } from "../../config/commercial";
           }
         };
 
-        const onEnter = (): void => {
+        const onEnter = () => {
           hovered = true;
           card.style.willChange = "transform";
         };
 
-        const onLeave = (): void => {
+        const onLeave = () => {
           hovered = false;
           if (raf) {
             cancelAnimationFrame(raf);
@@ -2119,20 +2101,21 @@ import { commercialContent } from "../../config/commercial";
         card.addEventListener("pointerleave", onLeave);
       });
 
-      const metrics =
-        document.querySelectorAll<HTMLElement>(".audience-metric");
+      /** @type {NodeListOf<HTMLElement>} */
+      const metrics = document.querySelectorAll(".audience-metric");
 
       metrics.forEach((metric) => {
         let raf = 0;
         let dx = 0;
         let dy = 0;
 
-        const apply = (): void => {
+        const apply = () => {
           raf = 0;
           metric.style.transform = `translate3d(${dx * 0.05}px, ${dy * 0.05}px, 0) translateY(-3px)`;
         };
 
-        metric.addEventListener("pointermove", (e: PointerEvent) => {
+        /** @param {PointerEvent} e */
+        metric.addEventListener("pointermove", (e) => {
           const rect = metric.getBoundingClientRect();
           dx = e.clientX - rect.left - rect.width / 2;
           dy = e.clientY - rect.top - rect.height / 2;

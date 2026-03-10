@@ -4,19 +4,32 @@ import { commercialContent } from "../../config/commercial";
 
 <!-- FOOTER -->
 <footer>
+  <div class="footer-bg"></div>
+  <div class="footer-ice-glow footer-ice-glow-1"></div>
+  <div class="footer-ice-glow footer-ice-glow-2"></div>
+  <div class="footer-light-bloom"></div>
+  <div class="footer-top-line"></div>
+  <div class="footer-frost"></div>
+
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="#inicio" class="nav-logo"
-          >❄ <div class="nav-logo-wrap">
-            <span>FRÍO PURO</span><small>Hielo Premium</small>
-          </div></a
-        >
-        <p>
-          El distribuidor mayorista de hielo más confiable de Villahermosa
-          Tabasco. Calidad y puntualidad garantizadas para tu negocio.
+        <a href="#inicio" class="footer-logo-link" aria-label="Frío Puro">
+          <img
+            class="footer-logo-image"
+            src="/images/FrioPuroLogo.png"
+            alt="Frío Puro"
+            loading="lazy"
+          />
+        </a>
+
+        <p class="footer-description">
+          El distribuidor mayorista de hielo más confiable de Villahermosa,
+          Tabasco. Calidad, puntualidad y presencia premium para negocios que
+          exigen consistencia.
         </p>
       </div>
+
       <div class="footer-col">
         <h4>Navegación</h4>
         <ul class="footer-links">
@@ -27,158 +40,525 @@ import { commercialContent } from "../../config/commercial";
           <li><a href="#contacto">Contacto</a></li>
         </ul>
       </div>
+
       <div class="footer-col">
         <h4>Contacto</h4>
-        <ul class="footer-contact footer-links" style="list-style:none;">
-          <li><span class="ic">📞</span> {commercialContent.whatsappNumberRaw}</li>
-          <li><span class="ic">💬</span> {commercialContent.badges.whatsapp247}</li>
-          <li><span class="ic">📍</span> Villahermosa Tabasco.</li>
-          <li><span class="ic">🕐</span> {commercialContent.hours.short}</li>
+        <ul class="footer-contact footer-links">
+          <li>
+            <span class="ic">01</span>
+            <span>{commercialContent.whatsappNumberRaw}</span>
+          </li>
+          <li>
+            <span class="ic">02</span>
+            <span>{commercialContent.badges.whatsapp247}</span>
+          </li>
+          <li>
+            <span class="ic">03</span>
+            <span>Villahermosa, Tabasco</span>
+          </li>
+          <li>
+            <span class="ic">04</span>
+            <span>{commercialContent.hours.short}</span>
+          </li>
         </ul>
       </div>
-      <div class="footer-col">
+
+      <div class="footer-col footer-social-col">
         <h4>Síguenos</h4>
         <div class="social-icons">
-          <a href="#" class="social-icon">f</a>
-          <a href="#" class="social-icon">📸</a>
-          <a href="#" class="social-icon">in</a>
+          <a href="#" class="social-icon" aria-label="Facebook">f</a>
+          <a href="#" class="social-icon" aria-label="Instagram">⌾</a>
+          <a href="#" class="social-icon" aria-label="LinkedIn">in</a>
         </div>
       </div>
     </div>
+
     <div class="footer-divider"></div>
+
     <div class="footer-bottom">
       <span>© 2025 Frío Puro. Todos los derechos reservados.</span>
-      <span>Hecho con ❄️ en Villahermosa Tabasco.</span>
+      <span>Villahermosa, Tabasco</span>
     </div>
   </div>
 </footer>
 
 <style>
   footer {
-    background: var(--color-footer);
-    padding: 80px 60px 40px;
-    color: rgba(255, 255, 255, 0.6);
+    position: relative;
+    overflow: hidden;
+    padding: 100px 60px 28px;
+    color: rgba(255, 255, 255, 0.72);
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-footer) 58%, #182d61 42%) 0%,
+      color-mix(in srgb, var(--color-footer) 78%, #08142d 22%) 18%,
+      color-mix(in srgb, var(--color-footer) 91%, #040b17 9%) 58%,
+      #020712 100%
+    );
+    border-top: 1px solid rgba(255, 255, 255, 0.065);
+    isolation: isolate;
+  }
+
+  .footer-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        circle at 14% 12%,
+        rgba(121, 209, 255, 0.085),
+        transparent 24%
+      ),
+      radial-gradient(
+        circle at 82% 16%,
+        rgba(191, 230, 255, 0.06),
+        transparent 18%
+      ),
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(255, 255, 255, 0.025),
+        transparent 30%
+      );
+    z-index: 0;
+  }
+
+  .footer-ice-glow {
+    position: absolute;
+    border-radius: 999px;
+    pointer-events: none;
+    filter: blur(58px);
+    z-index: 0;
+  }
+
+  .footer-ice-glow-1 {
+    width: 320px;
+    height: 320px;
+    top: -150px;
+    left: -120px;
+    background: radial-gradient(
+      circle,
+      rgba(110, 205, 255, 0.12),
+      transparent 72%
+    );
+    opacity: 0.72;
+  }
+
+  .footer-ice-glow-2 {
+    width: 280px;
+    height: 280px;
+    right: -80px;
+    bottom: -150px;
+    background: radial-gradient(
+      circle,
+      rgba(184, 233, 255, 0.1),
+      transparent 72%
+    );
+    opacity: 0.48;
+  }
+
+  .footer-light-bloom {
+    position: absolute;
+    top: 8px;
+    left: 8%;
+    width: 280px;
+    height: 160px;
+    background: radial-gradient(
+      circle,
+      rgba(168, 226, 255, 0.07),
+      transparent 68%
+    );
+    filter: blur(24px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .footer-top-line {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: min(1080px, 94vw);
+    height: 1px;
+    transform: translateX(-50%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(162, 224, 255, 0.12),
+      rgba(255, 255, 255, 0.26),
+      rgba(162, 224, 255, 0.12),
+      transparent
+    );
+    box-shadow:
+      0 0 16px rgba(161, 223, 255, 0.1),
+      0 0 34px rgba(161, 223, 255, 0.05);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .footer-frost {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.07;
+    background:
+      radial-gradient(
+        circle at 18% 24%,
+        rgba(255, 255, 255, 0.05) 0 1px,
+        transparent 1.5px
+      ),
+      radial-gradient(
+        circle at 78% 32%,
+        rgba(255, 255, 255, 0.04) 0 1px,
+        transparent 1.6px
+      ),
+      radial-gradient(
+        circle at 62% 68%,
+        rgba(170, 225, 255, 0.04) 0 1px,
+        transparent 1.8px
+      );
+    background-size:
+      260px 220px,
+      320px 260px,
+      280px 240px;
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.45),
+      transparent 88%
+    );
   }
 
   .footer-grid {
+    position: relative;
+    z-index: 2;
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 50px;
-    margin-bottom: 60px;
+    grid-template-columns: minmax(330px, 1.6fr) 0.78fr 0.92fr 0.7fr;
+    gap: 36px;
+    margin-bottom: 42px;
+    align-items: start;
   }
 
-  .footer-brand .nav-logo {
-    margin-bottom: 16px;
+  .footer-brand {
+    position: relative;
+    padding-top: 4px;
+    max-width: 420px;
+  }
+
+  .footer-logo-link {
+    position: relative;
     display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    margin-bottom: 20px;
   }
 
-  .footer-brand p {
-    font-size: 0.88rem;
-    line-height: 1.7;
-    color: rgba(255, 255, 255, 0.5);
-    max-width: 280px;
-    margin-top: 8px;
+  .footer-logo-link::before {
+    content: "";
+    position: absolute;
+    inset: -12px -18px -14px -12px;
+    background: radial-gradient(
+      circle,
+      rgba(191, 233, 255, 0.08),
+      transparent 72%
+    );
+    filter: blur(12px);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .footer-logo-link::after {
+    content: "";
+    position: absolute;
+    left: 2px;
+    bottom: -10px;
+    width: 156px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.34),
+      rgba(144, 218, 255, 0.16),
+      transparent
+    );
+    box-shadow: 0 0 12px rgba(174, 228, 255, 0.04);
+  }
+
+  .footer-logo-image {
+    width: auto;
+    height: 68px;
+    display: block;
+    object-fit: contain;
+    opacity: 0.995;
+    filter: brightness(1.06) contrast(1.04) saturate(1.02)
+      drop-shadow(0 12px 24px rgba(0, 0, 0, 0.24))
+      drop-shadow(0 0 18px rgba(208, 239, 255, 0.06));
+    transition:
+      transform var(--transition),
+      filter var(--transition),
+      opacity var(--transition);
+  }
+
+  .footer-logo-link:hover .footer-logo-image {
+    transform: translateY(-2px);
+    filter: brightness(1.08) contrast(1.05) saturate(1.03)
+      drop-shadow(0 16px 30px rgba(0, 0, 0, 0.3))
+      drop-shadow(0 0 24px rgba(214, 241, 255, 0.09));
+  }
+
+  .footer-description {
+    max-width: 372px;
+    margin: 0;
+    font-size: 0.93rem;
+    line-height: 1.82;
+    color: rgba(236, 243, 255, 0.56);
+    text-wrap: balance;
   }
 
   .footer-col h4 {
+    margin: 0 0 16px;
     font-family: "Barlow Condensed", sans-serif;
     font-weight: 700;
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--color-white);
-    margin-bottom: 20px;
+    letter-spacing: 2.8px;
+    color: rgba(255, 255, 255, 0.94);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.02);
   }
 
   .footer-links {
     list-style: none;
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
     gap: 10px;
   }
 
   .footer-links a {
-    color: rgba(255, 255, 255, 0.5);
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    color: rgba(232, 240, 255, 0.56);
     text-decoration: none;
-    font-size: 0.88rem;
-    transition: color var(--transition);
+    font-size: 0.91rem;
+    transition:
+      color var(--transition),
+      transform var(--transition),
+      text-shadow var(--transition);
+  }
+
+  .footer-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.72),
+      rgba(150, 220, 255, 0.38),
+      transparent
+    );
+    transition: width var(--transition);
   }
 
   .footer-links a:hover {
-    color: var(--color-accent);
+    color: rgba(255, 255, 255, 0.9);
+    transform: translateX(3px);
+  }
+
+  .footer-links a:hover::after {
+    width: 100%;
   }
 
   .footer-contact li {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
-    font-size: 0.88rem;
-    color: rgba(255, 255, 255, 0.5);
-    margin-bottom: 10px;
+    gap: 12px;
+    font-size: 0.91rem;
+    line-height: 1.6;
+    color: rgba(233, 241, 255, 0.58);
   }
 
-  .footer-contact li .ic {
-    color: var(--color-accent);
-    font-size: 1rem;
-    flex-shrink: 0;
+  .footer-contact .ic {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    padding-top: 1px;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: rgba(122, 212, 255, 0.88);
+    text-shadow: 0 0 12px rgba(122, 212, 255, 0.1);
+  }
+
+  .footer-social-col {
+    min-width: 0;
   }
 
   .social-icons {
     display: flex;
-    gap: 12px;
+    gap: 10px;
+    flex-wrap: wrap;
   }
 
   .social-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    border: 1px solid rgba(65, 171, 226, 0.25);
+    position: relative;
+    width: 42px;
+    height: 42px;
+    border-radius: 999px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-accent);
-    font-size: 1.1rem;
     text-decoration: none;
-    transition: all var(--transition);
+    color: rgba(246, 249, 255, 0.88);
+    font-size: 0.92rem;
+    border: 1px solid rgba(201, 227, 255, 0.14);
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.05),
+      rgba(255, 255, 255, 0.02)
+    );
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 8px 18px rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition:
+      transform var(--transition),
+      border-color var(--transition),
+      box-shadow var(--transition),
+      background var(--transition),
+      color var(--transition);
+  }
+
+  .social-icon::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.1),
+      transparent 72%
+    );
+    opacity: 0.85;
+    pointer-events: none;
   }
 
   .social-icon:hover {
-    background: var(--color-accent);
-    color: var(--color-white);
-    border-color: var(--color-accent);
     transform: translateY(-3px);
+    color: var(--color-white);
+    border-color: rgba(220, 237, 255, 0.24);
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.08),
+      rgba(121, 210, 255, 0.04)
+    );
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      0 10px 24px rgba(0, 0, 0, 0.16);
   }
 
   .footer-divider {
+    position: relative;
+    z-index: 2;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(65, 171, 226, 0.3), transparent);
-    margin-bottom: 28px;
+    margin-bottom: 16px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(145, 219, 255, 0.1),
+      rgba(255, 255, 255, 0.12),
+      rgba(145, 219, 255, 0.1),
+      transparent
+    );
+    box-shadow: 0 0 12px rgba(165, 226, 255, 0.02);
   }
 
   .footer-bottom {
+    position: relative;
+    z-index: 2;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.3);
+    gap: 16px;
+    font-size: 0.76rem;
+    letter-spacing: 0.02em;
+    color: rgba(235, 241, 255, 0.28);
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1100px) {
+    footer {
+      padding: 84px 32px 28px;
+    }
+
     .footer-grid {
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
+      grid-template-columns: 1.3fr 1fr 1fr;
+      gap: 28px;
+    }
+
+    .footer-brand {
+      grid-column: 1 / -1;
+      max-width: 620px;
+    }
+
+    .footer-description {
+      max-width: 560px;
     }
   }
 
   @media (max-width: 768px) {
+    footer {
+      padding: 60px 20px 24px;
+    }
+
     .footer-grid {
       grid-template-columns: 1fr;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    .footer-logo-image {
+      height: 60px;
+    }
+
+    .footer-logo-link::after {
+      width: 144px;
+      bottom: -10px;
+    }
+
+    .footer-description {
+      max-width: 100%;
+      font-size: 0.9rem;
+      line-height: 1.74;
+    }
+
+    .footer-col h4 {
+      margin-bottom: 14px;
+    }
+
+    .social-icon {
+      width: 40px;
+      height: 40px;
     }
 
     .footer-bottom {
       flex-direction: column;
-      gap: 8px;
       text-align: center;
+      gap: 8px;
+    }
+
+    .footer-light-bloom {
+      width: 200px;
+      height: 140px;
+      left: -20px;
+      top: 8px;
+    }
+
+    .footer-frost {
+      opacity: 0.05;
     }
   }
 </style>

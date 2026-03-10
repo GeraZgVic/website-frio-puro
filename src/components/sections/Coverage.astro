@@ -1,217 +1,943 @@
 <!-- COBERTURA -->
 <section id="cobertura">
+  <div class="cobertura-ambient cobertura-ambient-1"></div>
+  <div class="cobertura-ambient cobertura-ambient-2"></div>
+  <div class="cobertura-noise"></div>
+
   <div class="container">
-    <div class="fade-in">
-      <p class="section-label">Zonas de Entrega</p>
-      <h2 class="section-title" style="color: var(--color-white);">
-        Cobertura en<br />Todo Tuxtla
+    <div class="cobertura-header fade-in">
+      <h2 class="section-title cobertura-title">
+        Cobertura en<br />
+        Todo Villahermosa
       </h2>
-      <p class="section-subtitle">
-        Llegamos a toda la ciudad y municipios cercanos. Consulta si tenemos
-        cobertura en tu zona.
-      </p>
     </div>
+
     <div class="cobertura-grid">
+      <!-- MAPA -->
       <div class="fade-in fade-in-delay-1">
-        <div class="map-placeholder">
-          <div class="map-dot"></div>
-          <div class="map-dot"></div>
-          <div class="map-dot"></div>
-          <div class="map-dot"></div>
-          <div class="map-dot"></div>
-          <div class="map-inner">
-            <span style="font-size:3rem;">🗺️</span>
-            <p>Villahermosa Tabasco, Chiapas</p>
+        <article class="coverage-map-card">
+          <div class="coverage-card-top">
+            <span class="coverage-badge">
+              <span class="coverage-badge-dot"></span>
+              Tabasco, México
+            </span>
+
+            <span class="coverage-badge coverage-badge-soft">
+              Cobertura activa
+            </span>
           </div>
-        </div>
+
+          <div class="coverage-map-stage">
+            <div class="coverage-map-glow"></div>
+            <div class="coverage-map-grid"></div>
+
+            <div
+              id="villahermosa-map"
+              aria-label="Mapa de cobertura en Villahermosa"
+            >
+            </div>
+
+            <div class="coverage-radar"></div>
+            <div class="coverage-radar coverage-radar-2"></div>
+
+            <div class="coverage-map-footer">
+              <div class="coverage-stat">
+                <span class="coverage-stat-label">Punto principal</span>
+                <strong>Villahermosa, Tabasco</strong>
+              </div>
+
+              <div class="coverage-stat">
+                <span class="coverage-stat-label">Atención</span>
+                <strong>Zona urbana y comercial</strong>
+              </div>
+            </div>
+          </div>
+        </article>
       </div>
+
+      <!-- ZONAS -->
       <div class="fade-in fade-in-delay-2">
-        <ul class="zones-list">
-          <li>
-            <span class="zone-icon">📍</span> Centro Histórico y Zona Centro
-          </li>
-          <li>
-            <span class="zone-icon">📍</span> Norte — Fraccionamientos y Colonias
-          </li>
-          <li><span class="zone-icon">📍</span> Terán, Copoya y alrededores</li>
-          <li><span class="zone-icon">📍</span> Calzada y Boulevard 2000</li>
-          <li><span class="zone-icon">📍</span> Ocozocoautla y Berriozábal</li>
-          <li><span class="zone-icon">📍</span> Zona Industrial y Bodegas</li>
-          <li>
-            <span class="zone-icon">📍</span> Suroeste — San Roque, Patria Nueva
-          </li>
-          <li>
-            <span class="zone-icon">📍</span> Aeropuerto y zonas hoteleras
-          </li>
-        </ul>
+        <article class="coverage-zones-card">
+          <div class="coverage-zones-head">
+            <h3 class="coverage-zones-title">
+              Entregamos donde tu operación lo necesita
+            </h3>
+            <p class="section-subtitle cobertura-subtitle">
+              Llegamos a toda la ciudad y municipios cercanos con rutas de
+              entrega diseñadas para negocios, hoteles, restaurantes, bares y
+              operación comercial continua.
+            </p>
+          </div>
+
+          <ul class="zones-list">
+            <li>
+              <span class="zone-icon">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11Z"
+                    stroke="currentColor"
+                    stroke-width="1.8"></path>
+                  <circle cx="12" cy="10" r="2.2" fill="currentColor"></circle>
+                </svg>
+              </span>
+              <div class="zone-copy">
+                <strong>Centro Histórico y Zona Centro</strong>
+                <span
+                  >Ideal para negocios de alta rotación y operación diaria.</span
+                >
+              </div>
+            </li>
+
+            <li>
+              <span class="zone-icon">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11Z"
+                    stroke="currentColor"
+                    stroke-width="1.8"></path>
+                  <circle cx="12" cy="10" r="2.2" fill="currentColor"></circle>
+                </svg>
+              </span>
+              <div class="zone-copy">
+                <strong>Fraccionamientos y Colonias</strong>
+                <span
+                  >Cobertura para tiendas, restaurantes y consumo recurrente.</span
+                >
+              </div>
+            </li>
+
+            <li>
+              <span class="zone-icon">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11Z"
+                    stroke="currentColor"
+                    stroke-width="1.8"></path>
+                  <circle cx="12" cy="10" r="2.2" fill="currentColor"></circle>
+                </svg>
+              </span>
+              <div class="zone-copy">
+                <strong>Calzada y Tabasco 2000</strong>
+                <span
+                  >Zona clave para oficinas, restaurantes y clientes premium.</span
+                >
+              </div>
+            </li>
+
+            <li>
+              <span class="zone-icon">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11Z"
+                    stroke="currentColor"
+                    stroke-width="1.8"></path>
+                  <circle cx="12" cy="10" r="2.2" fill="currentColor"></circle>
+                </svg>
+              </span>
+              <div class="zone-copy">
+                <strong>Zona Industrial y Bodegas</strong>
+                <span
+                  >Servicio pensado para continuidad, volumen y logística
+                  comercial.</span
+                >
+              </div>
+            </li>
+
+            <li>
+              <span class="zone-icon">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11Z"
+                    stroke="currentColor"
+                    stroke-width="1.8"></path>
+                  <circle cx="12" cy="10" r="2.2" fill="currentColor"></circle>
+                </svg>
+              </span>
+              <div class="zone-copy">
+                <strong>Aeropuerto y zonas hoteleras</strong>
+                <span
+                  >Atención para hospitalidad, eventos y operación de alto
+                  estándar.</span
+                >
+              </div>
+            </li>
+          </ul>
+        </article>
       </div>
     </div>
   </div>
 </section>
+
 <style>
   #cobertura {
-    background: var(--color-dark);
     position: relative;
     overflow: hidden;
+    background:
+      radial-gradient(
+        circle at 16% 18%,
+        rgba(65, 171, 226, 0.08),
+        transparent 24%
+      ),
+      radial-gradient(
+        circle at 84% 82%,
+        rgba(65, 171, 226, 0.07),
+        transparent 22%
+      ),
+      linear-gradient(180deg, #0a1438 0%, #0c1844 35%, #0a1438 100%);
+    isolation: isolate;
   }
 
-  #cobertura::before {
-    content: "";
+  .cobertura-ambient,
+  .cobertura-noise {
     position: absolute;
-    bottom: -100px;
-    left: -100px;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(65, 171, 226, 0.08) 0%, transparent 70%);
-    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .cobertura-ambient {
+    border-radius: 999px;
+    filter: blur(90px);
+    opacity: 0.8;
+  }
+
+  .cobertura-ambient-1 {
+    top: -80px;
+    left: -120px;
+    width: 340px;
+    height: 340px;
+    background: rgba(65, 171, 226, 0.14);
+  }
+
+  .cobertura-ambient-2 {
+    right: -100px;
+    bottom: -110px;
+    width: 320px;
+    height: 320px;
+    background: rgba(109, 183, 255, 0.1);
+  }
+
+  .cobertura-noise {
+    inset: 0;
+    opacity: 0.03;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    background-size: 120px 120px;
+    mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+  }
+
+  #cobertura .container {
+    position: relative;
+    z-index: 1;
+  }
+  .cobertura-header {
+    max-width: 760px;
+    margin: 0 0 52px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cobertura-kicker-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .cobertura-kicker-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--color-accent);
+    box-shadow: 0 0 14px rgba(65, 171, 226, 0.72);
+    flex: 0 0 auto;
   }
 
   #cobertura .section-title {
+    display: block;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    text-align: left;
+  }
+
+  .cobertura-title {
     color: var(--color-white);
+    margin: 0 0 16px;
+    text-align: left;
+    text-wrap: initial;
+    max-width: 700px;
+    width: 100%;
   }
 
-  #cobertura .section-label {
-    color: var(--color-light-blue);
+  .cobertura-kicker-wrap,
+  .cobertura-subtitle {
+    width: 100%;
   }
 
-  #cobertura .section-subtitle {
-    color: rgba(255, 255, 255, 0.5);
+  .cobertura-subtitle {
+    max-width: 640px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.62);
+    line-height: 1.72;
+    text-align: left;
   }
 
   .cobertura-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: center;
-    margin-top: 60px;
+    grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+    gap: 24px;
+    align-items: stretch;
   }
 
-  .map-placeholder {
-    height: 420px;
-    background: linear-gradient(180deg, #0a0f2a 0%, #0d1540 100%);
-    border-radius: 20px;
-    border: 1px solid rgba(65, 171, 226, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 4rem;
+  .coverage-map-card,
+  .coverage-zones-card {
     position: relative;
+    height: 100%;
+    border-radius: 26px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.09),
+        rgba(255, 255, 255, 0.03)
+      ),
+      rgba(9, 17, 54, 0.52);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 22px 60px rgba(0, 0, 0, 0.24);
     overflow: hidden;
   }
 
-  .map-placeholder::before {
+  .coverage-map-card::before,
+  .coverage-zones-card::before {
     content: "";
     position: absolute;
-    inset: 0;
-    background-image:
-      radial-gradient(circle at 30% 40%, rgba(65, 171, 226, 0.2) 0%, transparent 40%),
-      radial-gradient(circle at 70% 60%, rgba(50, 59, 129, 0.3) 0%, transparent 40%);
+    inset: 1px;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.02) 18%,
+      transparent 40%
+    );
   }
 
-  .map-inner {
+  .coverage-card-top {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 18px 18px 0;
+  }
+
+  .coverage-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 34px;
+    padding: 0 12px;
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.045);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  .coverage-badge-soft {
+    color: rgba(163, 225, 255, 0.94);
+    border-color: rgba(65, 171, 226, 0.2);
+    background: rgba(65, 171, 226, 0.08);
+  }
+
+  .coverage-badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--color-accent);
+    box-shadow: 0 0 12px rgba(65, 171, 226, 0.75);
+    flex: 0 0 auto;
+  }
+
+  .coverage-map-stage {
+    position: relative;
+    min-height: 460px;
+    padding: 10px 18px 18px;
+  }
+
+  .coverage-map-glow {
+    position: absolute;
+    inset: 62px 26px auto 26px;
+    height: 220px;
+    border-radius: 999px;
+    background: radial-gradient(
+      circle,
+      rgba(65, 171, 226, 0.18) 0%,
+      rgba(65, 171, 226, 0) 72%
+    );
+    filter: blur(18px);
+    opacity: 0.9;
+    z-index: 0;
+  }
+
+  .coverage-map-grid {
+    position: absolute;
+    inset: 74px 20px 84px;
+    border-radius: 22px;
+    opacity: 0.16;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+    mask-image: radial-gradient(circle at center, black 46%, transparent 100%);
+    z-index: 0;
+  }
+
+  #villahermosa-map {
     position: relative;
     z-index: 1;
-    text-align: center;
+    width: 100%;
+    height: 360px;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 24px 80px rgba(0, 0, 0, 0.38);
   }
 
-  .map-inner p {
-    color: rgba(255, 255, 255, 0.4);
-    font-size: 0.8rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-top: 8px;
+  .leaflet-container {
+    background: #0a1438;
+    filter: saturate(1.05) contrast(1.03);
+    font-family: inherit;
   }
 
-  .map-dot {
+  .leaflet-control-attribution {
+    font-size: 10px;
+    opacity: 0.72;
+    background: rgba(9, 17, 54, 0.58) !important;
+    color: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(10px);
+  }
+
+  .leaflet-control-attribution a {
+    color: rgba(163, 225, 255, 0.96) !important;
+  }
+
+  .leaflet-control-zoom {
+    display: none;
+  }
+
+  .map-marker-wrap {
+    position: relative;
+    width: 20px;
+    height: 20px;
+  }
+
+  .map-marker-core {
     position: absolute;
-    width: 12px;
-    height: 12px;
-    background: var(--color-accent);
-    border-radius: 50%;
-    box-shadow: 0 0 0 4px rgba(65, 171, 226, 0.3);
-    animation: ping 2s ease-in-out infinite;
+    inset: 0;
+    width: 16px;
+    height: 16px;
+    margin: auto;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #7ee0ff 0%, #41abe2 100%);
+    box-shadow:
+      0 0 0 5px rgba(65, 171, 226, 0.16),
+      0 0 24px rgba(65, 171, 226, 0.8);
   }
 
-  @keyframes ping {
+  .map-marker-core::before {
+    content: "";
+    position: absolute;
+    inset: -10px;
+    border-radius: 999px;
+    border: 1px solid rgba(126, 224, 255, 0.35);
+    animation: markerPulse 2.4s ease-in-out infinite;
+  }
+
+  .map-marker-core::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border-radius: 999px;
+    background: #ffffff;
+    opacity: 0.95;
+  }
+
+  @keyframes markerPulse {
     0%,
     100% {
-      box-shadow: 0 0 0 4px rgba(65, 171, 226, 0.3);
+      transform: scale(0.9);
+      opacity: 0.7;
     }
-
     50% {
-      box-shadow: 0 0 0 12px rgba(65, 171, 226, 0.1);
+      transform: scale(1.35);
+      opacity: 0.12;
     }
   }
 
-  .map-dot:nth-child(1) {
-    top: 40%;
-    left: 45%;
-    animation-delay: 0s;
+  .coverage-radar {
+    position: absolute;
+    top: 188px;
+    left: 50%;
+    width: 180px;
+    height: 180px;
+    transform: translate(-50%, -50%);
+    border-radius: 999px;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.42;
+    background: conic-gradient(
+      from 0deg,
+      rgba(65, 171, 226, 0) 0deg,
+      rgba(65, 171, 226, 0.22) 65deg,
+      rgba(65, 171, 226, 0.02) 120deg,
+      rgba(65, 171, 226, 0) 360deg
+    );
+    mask-image: radial-gradient(
+      circle,
+      transparent 0 32%,
+      black 56%,
+      transparent 78%
+    );
+    animation: radarSpin 9s linear infinite;
   }
 
-  .map-dot:nth-child(2) {
-    top: 55%;
-    left: 35%;
-    animation-delay: 0.5s;
+  .coverage-radar-2 {
+    width: 250px;
+    height: 250px;
+    top: 188px;
+    opacity: 0.22;
+    animation-duration: 14s;
+    animation-direction: reverse;
   }
 
-  .map-dot:nth-child(3) {
-    top: 30%;
-    left: 60%;
-    animation-delay: 1s;
+  @keyframes radarSpin {
+    from {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
   }
 
-  .map-dot:nth-child(4) {
-    top: 65%;
-    left: 55%;
-    animation-delay: 1.5s;
+  .coverage-map-footer {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 12px;
   }
 
-  .map-dot:nth-child(5) {
-    top: 45%;
-    left: 25%;
-    animation-delay: 0.8s;
+  .coverage-stat {
+    padding: 14px 15px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .coverage-stat-label {
+    display: block;
+    margin-bottom: 5px;
+    color: rgba(255, 255, 255, 0.46);
+    font-size: 0.68rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .coverage-stat strong {
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 0.92rem;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+
+  .coverage-zones-card {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .coverage-zones-head {
+    margin-bottom: 18px;
+  }
+
+  .coverage-zones-label {
+    margin: 0 0 8px;
+    color: var(--color-light-blue);
+    font-size: 0.74rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .coverage-zones-title {
+    margin: 0 0 10px;
+    color: var(--color-white);
+    font-size: clamp(1.32rem, 1.8vw, 1.72rem);
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+    max-width: 460px;
+  }
+
+  .coverage-zones-copy {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.56);
+    line-height: 1.66;
+    font-size: 0.94rem;
+    max-width: 460px;
   }
 
   .zones-list {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
   }
 
   .zones-list li {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 20px;
-    border-radius: 12px;
-    border: 1px solid rgba(65, 171, 226, 0.1);
-    color: rgba(255, 255, 255, 0.8);
-    font-weight: 500;
-    transition: all var(--transition);
+    display: grid;
+    grid-template-columns: 42px 1fr;
+    gap: 12px;
+    align-items: start;
+    padding: 13px 14px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.042),
+        rgba(255, 255, 255, 0.02)
+      ),
+      rgba(255, 255, 255, 0.018);
+    transition:
+      transform 0.28s ease,
+      border-color 0.28s ease,
+      background 0.28s ease,
+      box-shadow 0.28s ease;
   }
 
   .zones-list li:hover {
-    background: rgba(65, 171, 226, 0.08);
-    border-color: rgba(65, 171, 226, 0.3);
-    color: var(--color-white);
-    transform: translateX(8px);
+    transform: translateY(-2px);
+    border-color: rgba(65, 171, 226, 0.24);
+    background:
+      linear-gradient(
+        180deg,
+        rgba(65, 171, 226, 0.085),
+        rgba(255, 255, 255, 0.025)
+      ),
+      rgba(255, 255, 255, 0.03);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.05),
+      0 12px 30px rgba(0, 0, 0, 0.14);
   }
 
-  .zones-list li .zone-icon {
-    font-size: 1.2rem;
+  .zone-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    color: rgba(163, 225, 255, 0.94);
+    background: linear-gradient(
+      180deg,
+      rgba(65, 171, 226, 0.14),
+      rgba(65, 171, 226, 0.06)
+    );
+    border: 1px solid rgba(65, 171, 226, 0.18);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 6px 18px rgba(65, 171, 226, 0.08);
   }
 
-  @media (max-width: 1024px) {
+  .zone-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .zone-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .zone-copy strong {
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 0.92rem;
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .zone-copy span {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.84rem;
+    line-height: 1.46;
+  }
+
+  @media (max-width: 1140px) {
     .cobertura-grid {
       grid-template-columns: 1fr;
+      gap: 22px;
+    }
+
+    .coverage-zones-title,
+    .coverage-zones-copy {
+      max-width: none;
+    }
+
+    .coverage-map-stage {
+      min-height: 440px;
     }
   }
 
   @media (max-width: 768px) {
-    .cobertura-grid {
+    .cobertura-header {
+      margin-bottom: 38px;
+      text-align: left;
+    }
+
+    .coverage-map-card,
+    .coverage-zones-card {
+      border-radius: 22px;
+    }
+
+    .coverage-card-top {
+      padding: 16px 16px 0;
+    }
+
+    .coverage-map-stage {
+      min-height: auto;
+      padding: 8px 16px 16px;
+    }
+
+    .coverage-map-grid {
+      inset: 68px 16px 78px;
+    }
+
+    #villahermosa-map {
+      height: 320px;
+    }
+
+    .coverage-radar,
+    .coverage-radar-2 {
+      top: 168px;
+    }
+
+    .coverage-map-footer {
       grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .coverage-zones-card {
+      padding: 18px 16px 16px;
+    }
+
+    .zones-list li {
+      grid-template-columns: 40px 1fr;
+      padding: 12px 12px;
+      border-radius: 16px;
+    }
+
+    .zone-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 13px;
+    }
+
+    .zone-copy strong {
+      font-size: 0.9rem;
+    }
+
+    .zone-copy span {
+      font-size: 0.82rem;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .coverage-badge {
+      font-size: 0.64rem;
+      min-height: 32px;
+      padding: 0 10px;
+    }
+
+    .coverage-zones-title {
+      font-size: 1.22rem;
+    }
+
+    .coverage-zones-copy {
+      font-size: 0.9rem;
+    }
+
+    .coverage-radar {
+      width: 150px;
+      height: 150px;
+    }
+
+    .coverage-radar-2 {
+      width: 210px;
+      height: 210px;
     }
   }
 </style>
+
+<script is:inline>
+  const LEAFLET_CSS_ID = "leaflet-css-cdn";
+  const LEAFLET_SCRIPT_ID = "leaflet-script-cdn";
+
+  const ensureLeafletCss = () => {
+    if (document.getElementById(LEAFLET_CSS_ID)) return;
+
+    const link = document.createElement("link");
+    link.id = LEAFLET_CSS_ID;
+    link.rel = "stylesheet";
+    link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+    document.head.appendChild(link);
+  };
+
+  const ensureLeafletScript = () => {
+    if (window.L) return Promise.resolve(window.L);
+    if (window.__leafletLoadingPromise) return window.__leafletLoadingPromise;
+
+    window.__leafletLoadingPromise = new Promise((resolve, reject) => {
+      const existing = document.getElementById(LEAFLET_SCRIPT_ID);
+
+      if (existing) {
+        existing.addEventListener("load", () => resolve(window.L));
+        existing.addEventListener("error", () =>
+          reject(new Error("No se pudo cargar Leaflet")),
+        );
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.id = LEAFLET_SCRIPT_ID;
+      script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+      script.async = true;
+
+      script.onload = () => resolve(window.L);
+      script.onerror = () => reject(new Error("No se pudo cargar Leaflet"));
+
+      document.head.appendChild(script);
+    });
+
+    return window.__leafletLoadingPromise;
+  };
+
+  const initCoverageMap = async () => {
+    const mapElement = document.getElementById("villahermosa-map");
+    if (!mapElement) return;
+    if (mapElement.dataset.initialized === "true") return;
+
+    ensureLeafletCss();
+    const L = await ensureLeafletScript();
+    if (!L) return;
+
+    mapElement.dataset.initialized = "true";
+
+    const center = [17.9895, -92.9475];
+
+    const map = L.map(mapElement, {
+      zoomControl: false,
+      scrollWheelZoom: false,
+      dragging: false,
+      doubleClickZoom: false,
+      boxZoom: false,
+      keyboard: false,
+      attributionControl: true,
+    }).setView(center, 12);
+
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(map);
+
+    const markerIcon = L.divIcon({
+      className: "map-marker-wrap",
+      html: '<span class="map-marker-core"></span>',
+      iconSize: [20, 20],
+      iconAnchor: [10, 10],
+    });
+
+    L.marker(center, { icon: markerIcon }).addTo(map);
+
+    const coverageZones = [
+      { coords: [17.995, -92.96], radius: 1600 },
+      { coords: [18.001, -92.925], radius: 1450 },
+      { coords: [17.973, -92.952], radius: 1550 },
+      { coords: [17.982, -92.987], radius: 1350 },
+      { coords: [17.9895, -92.9475], radius: 1900 },
+    ];
+
+    coverageZones.forEach((zone, index) => {
+      L.circle(zone.coords, {
+        radius: zone.radius,
+        color: "rgba(120,224,255,0.58)",
+        weight: 1.2,
+        fillColor:
+          index === 4 ? "rgba(65,171,226,0.20)" : "rgba(65,171,226,0.12)",
+        fillOpacity: 1,
+      }).addTo(map);
+    });
+
+    const routePrimary = [
+      [17.995, -92.96],
+      [17.9895, -92.9475],
+      [17.982, -92.937],
+      [17.973, -92.952],
+    ];
+
+    const routeSecondary = [
+      [18.001, -92.925],
+      [17.9895, -92.9475],
+      [17.982, -92.987],
+    ];
+
+    L.polyline(routePrimary, {
+      color: "rgba(126,224,255,0.86)",
+      weight: 2,
+      opacity: 0.88,
+      dashArray: "7 10",
+      lineCap: "round",
+      lineJoin: "round",
+    }).addTo(map);
+
+    L.polyline(routeSecondary, {
+      color: "rgba(126,224,255,0.48)",
+      weight: 1.6,
+      opacity: 0.7,
+      dashArray: "5 10",
+      lineCap: "round",
+      lineJoin: "round",
+    }).addTo(map);
+  };
+
+  document.addEventListener("astro:page-load", () => {
+    void initCoverageMap();
+  });
+
+  document.addEventListener("DOMContentLoaded", () => {
+    void initCoverageMap();
+  });
+</script>
