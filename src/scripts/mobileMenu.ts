@@ -8,7 +8,7 @@ export const initMobileMenu = (): void => {
       hamburger.setAttribute("aria-expanded", isOpen ? "true" : "false");
       hamburger.setAttribute(
         "aria-label",
-        isOpen ? "Cerrar menú" : "Abrir menú",
+        isOpen ? "Cerrar menÃº" : "Abrir menÃº",
       );
     }
     if (mobileMenu) {

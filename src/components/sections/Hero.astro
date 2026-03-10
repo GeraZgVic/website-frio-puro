@@ -1,3 +1,7 @@
+---
+import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
+---
+
 <section id="inicio" class="hero-section">
   <div id="hero">
     <canvas id="hero-particles-canvas"></canvas>
@@ -36,16 +40,16 @@
           </li>
           <li>
             <span class="check-icon">✓</span>
-            <span>Servicio disponible 24/7 los 365 días</span>
+            <span>{commercialContent.badges.service247}</span>
           </li>
         </ul>
 
         <div class="hero-buttons fade-in fade-in-delay-3">
           <a
-            href="https://wa.me/529611234567"
+            href={buildWhatsAppUrl()}
             class="btn-primary hero-cta-primary"
           >
-            Solicitar cotización
+            {commercialContent.ctas.heroPrimary}
           </a>
 
           <a href="#productos" class="btn-outline hero-cta-secondary">
