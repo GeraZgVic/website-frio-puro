@@ -17,9 +17,11 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
         </div>
 
         <h1 class="hero-title fade-in fade-in-delay-1">
-          HIELO
-          <span>PREMIUM</span>
-          PARA TU NEGOCIO
+          <span class="hero-title-top">
+            <span class="hero-title-ice">HIELO</span>
+            <span class="hero-title-ice">PREMIUM</span>
+          </span>
+          <span class="hero-title-bottom">PARA TU NEGOCIO</span>
         </h1>
 
         <p class="hero-subtitle fade-in fade-in-delay-2">
@@ -31,7 +33,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
         <ul class="hero-checks" aria-label="Beneficios principales">
           <li>
             <span class="check-icon">✓</span>
-            <span>Entrega en menos de 2 horas</span>
+            <span>Coordinamos el tiempo de entrega</span>
           </li>
           <li>
             <span class="check-icon">✓</span>
@@ -49,7 +51,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
           </a>
 
           <a href="#productos" class="btn-outline hero-cta-secondary">
-            Ver productos
+            Ver producto
           </a>
         </div>
       </div>
@@ -210,23 +212,72 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   .hero-title {
     margin-bottom: 24px;
     font-family: "Barlow Condensed", sans-serif;
-    font-size: clamp(3.8rem, 7vw, 6.7rem);
-    font-weight: 800;
-    line-height: 0.88;
-    letter-spacing: -1.8px;
     text-transform: uppercase;
-    color: var(--color-white);
-    text-wrap: balance;
-    text-shadow: 0 10px 40px rgba(10, 16, 48, 0.28);
-    width: 660px;
+    width: 100%;
+    max-width: 760px;
+    line-height: 0.9;
   }
 
-  .hero-title span {
+  .hero-title-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 18px;
+    margin-bottom: 10px;
+  }
+
+  .hero-title-bottom {
+    display: block;
+    font-size: clamp(3.2rem, 6.2vw, 5.6rem);
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -1.6px;
+    color: var(--color-white);
+    text-shadow: 0 10px 40px rgba(10, 16, 48, 0.28);
+  }
+
+  .hero-title-ice {
     display: inline-block;
-    color: #8fd8ff;
-    text-shadow:
-      0 0 20px rgba(65, 171, 226, 0.22),
-      0 0 44px rgba(65, 171, 226, 0.18);
+    position: relative;
+    width: fit-content;
+    font-size: clamp(4.3rem, 8vw, 7.2rem);
+    font-weight: 800;
+    line-height: 0.88;
+    letter-spacing: -1.9px;
+    color: transparent;
+    -webkit-text-stroke: 1.4px rgba(255, 255, 255, 0.3);
+    background-image:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.96) 0%,
+        rgba(228, 245, 255, 0.78) 16%,
+        rgba(151, 220, 255, 0.28) 36%,
+        rgba(255, 255, 255, 0.92) 52%,
+        rgba(177, 230, 255, 0.34) 68%,
+        rgba(255, 255, 255, 0.18) 100%
+      ),
+      linear-gradient(
+        115deg,
+        rgba(255, 255, 255, 0) 18%,
+        rgba(255, 255, 255, 0.06) 28%,
+        rgba(255, 255, 255, 0.95) 46%,
+        rgba(255, 255, 255, 0.18) 58%,
+        rgba(255, 255, 255, 0) 72%
+      );
+    background-size:
+      100% 100%,
+      260% 100%;
+    background-position:
+      0 0,
+      -180% 50%;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: none;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.08))
+      drop-shadow(0 0 22px rgba(65, 171, 226, 0.14));
+    will-change: background-position, filter;
+    animation: heroIceSweep 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
 
   .hero-subtitle {
@@ -468,6 +519,32 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     animation: heroFloatTag 4.8s ease-in-out infinite 0.4s;
   }
 
+  @keyframes heroIceSweep {
+    0% {
+      background-position:
+        0 0,
+        -180% 50%;
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.06))
+        drop-shadow(0 0 18px rgba(65, 171, 226, 0.12));
+    }
+
+    45% {
+      background-position:
+        0 0,
+        140% 50%;
+      filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.14))
+        drop-shadow(0 0 34px rgba(65, 171, 226, 0.22));
+    }
+
+    100% {
+      background-position:
+        0 0,
+        140% 50%;
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.06))
+        drop-shadow(0 0 18px rgba(65, 171, 226, 0.12));
+    }
+  }
+
   @keyframes heroFloatCard {
     0%,
     100% {
@@ -528,8 +605,12 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       gap: 48px;
     }
 
-    .hero-title {
-      font-size: clamp(3.4rem, 6vw, 5.6rem);
+    .hero-title-bottom {
+      font-size: clamp(2.9rem, 5.6vw, 4.9rem);
+    }
+
+    .hero-title-ice {
+      font-size: clamp(3.9rem, 7.2vw, 6.3rem);
     }
 
     .hero-visual {
@@ -569,20 +650,31 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     .hero-visual-shell {
       display: none;
     }
+
     .hero-title {
       text-align: center;
       margin-left: auto;
       margin-right: auto;
-      max-width: 14ch;
-      width: 100%;
+      max-width: 100%;
+    }
+
+    .hero-title-top {
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+
+    .hero-title-bottom {
+      font-size: clamp(2.8rem, 6.4vw, 4.6rem);
+    }
+
+    .hero-title-ice {
+      font-size: clamp(3.9rem, 8.5vw, 6rem);
+      -webkit-text-stroke: 1.2px rgba(255, 255, 255, 0.3);
     }
   }
 
   @media (min-width: 1025px) {
-    .hero-title {
-      max-width: 16ch;
-    }
-
     .hero-title br {
       display: none;
     }
@@ -600,14 +692,23 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       margin-bottom: 22px;
     }
 
-    .hero-title {
-      font-size: clamp(3.2rem, 14vw, 4.9rem);
-      line-height: 0.92;
-      margin-bottom: 18px;
-      text-align: center;
-      letter-spacing: -1.4px;
-      max-width: 14ch;
-      width: 100%;
+    .hero-title-top {
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .hero-title-bottom {
+      font-size: clamp(2.5rem, 8vw, 3.8rem);
+      letter-spacing: -1.2px;
+    }
+
+    .hero-title-ice {
+      font-size: clamp(3.4rem, 11vw, 5rem);
+      -webkit-text-stroke: 1px rgba(255, 255, 255, 0.28);
+      background-size:
+        100% 100%,
+        300% 100%;
+      animation-duration: 3s;
     }
 
     .hero-subtitle {
@@ -685,10 +786,18 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       justify-content: center;
     }
 
-    .hero-title {
-      font-size: clamp(3rem, 12.8vw, 3.9rem);
-      letter-spacing: -1.2px;
-      max-width: 15ch;
+    .hero-title-top {
+      gap: 8px;
+    }
+
+    .hero-title-bottom {
+      font-size: clamp(2.15rem, 8.8vw, 3rem);
+      letter-spacing: -1px;
+    }
+
+    .hero-title-ice {
+      font-size: clamp(2.9rem, 11.8vw, 4rem);
+      -webkit-text-stroke: 0.9px rgba(255, 255, 255, 0.28);
     }
 
     .hero-checks li {
@@ -721,6 +830,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .hero-title-ice,
     .hero-visual-aura,
     .hero-visual-ring-1,
     .hero-visual-ring-2,
