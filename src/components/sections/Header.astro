@@ -60,17 +60,20 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   }
 
   #navbar {
-    position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
+    position: fixed;
+    isolation: isolate;
     padding: clamp(12px, 2vw, 18px) clamp(16px, 5vw, 60px);
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
     min-height: 84px;
+    background: transparent;
+    box-shadow: none;
     transition:
       background 0.4s ease,
       backdrop-filter 0.4s ease,
@@ -78,12 +81,69 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       box-shadow 0.4s ease;
   }
 
+  #navbar::before {
+    content: "";
+    position: absolute;
+    inset: clamp(8px, 1.2vw, 12px) clamp(18px, 2.6vw, 36px);
+    border-radius: 999px;
+    background: rgba(18, 22, 58, 0.06);
+    border: 1px solid rgba(157, 212, 242, 0.06);
+    box-shadow: none;
+    backdrop-filter: blur(4px) saturate(1.01);
+    -webkit-backdrop-filter: blur(4px) saturate(1.01);
+    opacity: 0;
+    transition:
+      background 0.4s ease,
+      box-shadow 0.4s ease,
+      border-color 0.4s ease,
+      backdrop-filter 0.4s ease,
+      inset 0.4s ease,
+      opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  #navbar::after {
+    content: "";
+    position: absolute;
+    inset: clamp(9px, 1.4vw, 14px) clamp(22px, 3vw, 40px);
+    border-radius: 999px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0) 55%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease, inset 0.4s ease;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  #navbar > * {
+    position: relative;
+    z-index: 1;
+  }
+
   #navbar.scrolled {
-    background: rgba(50, 59, 129, 0.97);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     padding: clamp(10px, 1.8vw, 14px) clamp(16px, 5vw, 60px);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  #navbar.scrolled::before {
+    inset: clamp(5px, 0.9vw, 9px) clamp(12px, 1.8vw, 26px);
+    background: rgba(18, 22, 58, 0.52);
+    border-color: rgba(157, 212, 242, 0.24);
+    box-shadow:
+      0 12px 28px rgba(13, 18, 64, 0.26),
+      0 1px 0 rgba(255, 255, 255, 0.09) inset,
+      0 0 12px rgba(65, 171, 226, 0.05);
+    backdrop-filter: blur(12px) saturate(1.07);
+    -webkit-backdrop-filter: blur(12px) saturate(1.07);
+    opacity: 1;
+  }
+
+  #navbar.scrolled::after {
+    inset: clamp(6px, 1.1vw, 11px) clamp(16px, 2.2vw, 30px);
+    opacity: 0.5;
   }
 
   .header-logo-link {
@@ -137,6 +197,10 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     width: 100%;
   }
 
+  #navbar.scrolled nav ul li a {
+    color: rgba(255, 255, 255, 0.92);
+  }
+
   nav ul li a.active {
     color: var(--color-accent);
   }
@@ -145,11 +209,16 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     width: 100%;
   }
 
+  #navbar.scrolled nav ul li a.active {
+    text-shadow: 0 0 10px rgba(65, 171, 226, 0.28);
+  }
+
   .btn-whatsapp {
     background: var(--color-accent);
     color: var(--color-white);
-    padding: 10px 22px;
+    padding: 9px 20px;
     border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     font-family: "Barlow", sans-serif;
     font-weight: 600;
     font-size: 0.82rem;
@@ -160,7 +229,12 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     align-items: center;
     gap: 8px;
     transition: all var(--transition);
-    box-shadow: 0 4px 15px rgba(65, 171, 226, 0.4);
+    box-shadow: 0 2px 10px rgba(65, 171, 226, 0.26);
+  }
+
+  #navbar.scrolled .btn-whatsapp {
+    border-color: rgba(255, 255, 255, 0.16);
+    box-shadow: 0 6px 14px rgba(65, 171, 226, 0.32);
   }
 
   .btn-whatsapp:hover {
@@ -256,13 +330,47 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     #navbar {
       padding-left: clamp(12px, 3vw, 24px);
       padding-right: clamp(12px, 3vw, 24px);
-      min-height: 74px;
+      min-height: 70px;
       gap: 10px;
     }
 
     #navbar.scrolled {
       padding-left: clamp(12px, 3vw, 24px);
       padding-right: clamp(12px, 3vw, 24px);
+    }
+
+    #navbar::before {
+      inset: 7px 14px;
+      background: rgba(18, 22, 58, 0.18);
+      border-color: rgba(157, 212, 242, 0.12);
+      backdrop-filter: blur(5px) saturate(1.02);
+      -webkit-backdrop-filter: blur(5px) saturate(1.02);
+      box-shadow:
+        0 6px 14px rgba(13, 18, 64, 0.14),
+        0 1px 0 rgba(255, 255, 255, 0.04) inset;
+      opacity: 0;
+    }
+
+    #navbar.scrolled::before {
+      inset: 6px 13px;
+      background: rgba(18, 22, 58, 0.4);
+      border-color: rgba(157, 212, 242, 0.2);
+      backdrop-filter: blur(7px) saturate(1.04);
+      -webkit-backdrop-filter: blur(7px) saturate(1.04);
+      box-shadow:
+        0 8px 18px rgba(13, 18, 64, 0.2),
+        0 1px 0 rgba(255, 255, 255, 0.06) inset;
+      opacity: 1;
+    }
+
+    #navbar::after {
+      inset: 9px 18px;
+      opacity: 0;
+    }
+
+    #navbar.scrolled::after {
+      inset: 7px 16px;
+      opacity: 0.35;
     }
 
     nav ul,
