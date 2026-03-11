@@ -46,7 +46,12 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
         </ul>
 
         <div class="hero-buttons fade-in fade-in-delay-3">
-          <a href={buildWhatsAppUrl()} class="btn-primary hero-cta-primary">
+          <a
+            href={buildWhatsAppUrl()}
+            class="btn-primary hero-cta-primary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {commercialContent.ctas.heroPrimary}
           </a>
 

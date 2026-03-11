@@ -1,10 +1,8 @@
 const whatsappNumberRaw = "+52 921 362 9468" as const;
-const whatsappNumberDigits = "529213629468" as const;
-const whatsappUrlBase = `https://wa.me/${whatsappNumberDigits}` as const;
+const whatsappUrlBase = "https://wa.link/zbvkgs" as const;
 
 type CommercialContent = {
   whatsappNumberRaw: string;
-  whatsappNumberDigits: string;
   whatsappUrlBase: string;
   whatsappMessages: {
     generalInquiry: string;
@@ -39,7 +37,6 @@ type CommercialContent = {
 
 export const commercialContent = {
   whatsappNumberRaw,
-  whatsappNumberDigits,
   whatsappUrlBase,
   whatsappMessages: {
     generalInquiry: "Hola, quiero información sobre hielo para mi negocio.",
@@ -69,15 +66,13 @@ export const commercialContent = {
     quoteIceTube: "Cotizar hielo en tubo por WhatsApp",
   },
   hours: {
-    long: "Lunes a Domingo · 6:00 AM – 11:00 PM",
-    short: "Lun–Dom 6am–11pm",
+    long: "Lunes a Domingo · 24/7",
+    short: "Lun–Dom 24/7",
   },
 } as const satisfies CommercialContent;
 
-export const buildWhatsAppUrl = (message?: string): string => {
-  if (!message) return commercialContent.whatsappUrlBase;
-  return `${commercialContent.whatsappUrlBase}?text=${encodeURIComponent(message)}`;
-};
+export const buildWhatsAppUrl = (_message?: string): string =>
+  commercialContent.whatsappUrlBase;
 
 export type CommercialContentData = typeof commercialContent;
 export type CommercialCtaKey = keyof CommercialContentData["ctas"];

@@ -1,5 +1,5 @@
 ﻿---
-import { commercialContent } from "../../config/commercial";
+import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 ---
 
 <!-- FOOTER -->
@@ -104,7 +104,7 @@ import { commercialContent } from "../../config/commercial";
 
           <!-- WhatsApp -->
           <a
-            href={`https://wa.me/${commercialContent.whatsappNumberRaw.replace(/\D/g, "")}`}
+            href={buildWhatsAppUrl()}
             target="_blank"
             rel="noopener noreferrer"
             class="social-icon whatsapp"
