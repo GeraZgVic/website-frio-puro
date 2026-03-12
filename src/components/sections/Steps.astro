@@ -1158,12 +1158,10 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
     if (reduceMotion || isTouch) return;
 
-    const cards = document.querySelectorAll<HTMLElement>(
-      "#como-pedir .step-shell",
-    );
+    const cards = document.querySelectorAll("#como-pedir .step-shell");
 
     cards.forEach((card) => {
-      card.addEventListener("mousemove", (event: MouseEvent) => {
+      card.addEventListener("mousemove", (event) => {
         const rect = card.getBoundingClientRect();
         const px = (event.clientX - rect.left) / rect.width;
         const py = (event.clientY - rect.top) / rect.height;
@@ -1188,7 +1186,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
     if (!(button instanceof HTMLAnchorElement) || reduceMotion) return;
 
-    button.addEventListener("click", (event: MouseEvent) => {
+    button.addEventListener("click", (event) => {
       const rect = button.getBoundingClientRect();
       const ripple = document.createElement("span");
       const size = Math.max(rect.width, rect.height) * 1.35;
@@ -1229,9 +1227,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   })();
 
   (() => {
-    const animatedItems = document.querySelectorAll<HTMLElement>(
-      "#como-pedir .fade-in",
-    );
+    const animatedItems = document.querySelectorAll("#como-pedir .fade-in");
 
     if (!animatedItems.length) return;
 
@@ -1255,4 +1251,4 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       animatedItems.forEach((item) => item.classList.add("is-visible"));
     }, 1400);
   })();
-</scrip>
+</script>

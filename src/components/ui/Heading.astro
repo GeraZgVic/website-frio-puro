@@ -4,7 +4,7 @@ export interface Props {
 	className?: string;
 }
 
-const { as = "h2", className = "" } = Astro.props;
+const { as: rawAs = "h2", className = "" } = Astro.props;
 
 const sizes = {
 	h1: "text-4xl sm:text-5xl lg:text-6xl",
@@ -12,6 +12,7 @@ const sizes = {
 	h3: "text-2xl sm:text-3xl lg:text-4xl"
 };
 
+const as = (rawAs in sizes ? rawAs : "h2") as keyof typeof sizes;
 const Tag = as;
 const classes = `${sizes[as]} text-[var(--color-text-strong)] ${className}`;
 ---
