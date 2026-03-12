@@ -2,7 +2,13 @@
 import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 ---
 
-<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+<div
+  class="mobile-menu"
+  id="mobileMenu"
+  aria-hidden="true"
+  role="navigation"
+  aria-label="Navegación móvil"
+>
   <a href="#inicio" class="mobile-link">Inicio</a>
   <a href="#nosotros" class="mobile-link">Nosotros</a>
   <a href="#productos" class="mobile-link">Productos</a>
@@ -17,7 +23,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     </a>
   </div>
 
-  <nav>
+  <nav aria-label="Navegación principal">
     <ul>
       <li><a href="#inicio" class="nav-link">Inicio</a></li>
       <li><a href="#nosotros" class="nav-link">Nosotros</a></li>

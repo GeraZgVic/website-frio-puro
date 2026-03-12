@@ -5,12 +5,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  // TODO: Set the production domain when it's confirmed (e.g. "https://frio-puro.com")
-  // site: "https://example.com",
+  site: "https://friopuro.com.mx",
   vite: {
-    plugins: [tailwindcss()],
-    optimizeDeps: {
-      include: ["axobject-query"]
-    }
-  }
+    plugins: [tailwindcss()]
+  },
 });

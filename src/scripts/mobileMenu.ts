@@ -46,6 +46,12 @@ export const initMobileMenu = (): void => {
     });
   });
 
+  mobileMenu?.addEventListener("click", (event: MouseEvent): void => {
+    if (event.target === mobileMenu) {
+      closeMobileMenu();
+    }
+  });
+
   document.addEventListener("keydown", (event: KeyboardEvent): void => {
     if (event.key !== "Escape") return;
     if (hamburger?.classList.contains("open")) {
