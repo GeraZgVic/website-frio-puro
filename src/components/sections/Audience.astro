@@ -971,9 +971,8 @@ import { commercialContent } from "../../config/commercial";
       box-shadow 0.26s ease-out,
       border-color 0.24s ease-out;
 
-    transform: perspective(1400px) rotateX(var(--card-tilt-x))
-      rotateY(var(--card-tilt-y)) translate3d(0, var(--card-shift-y), 0)
-      scale(var(--card-scale));
+    perspective: 1400px;
+    transform: translate3d(0, var(--card-shift-y), 0) scale(var(--card-scale));
 
     background: linear-gradient(
       160deg,
@@ -1249,13 +1248,11 @@ import { commercialContent } from "../../config/commercial";
   @keyframes cardIn {
     from {
       opacity: 0;
-      transform: perspective(1400px) rotateX(0deg) rotateY(0deg)
-        translate3d(0, 40px, 0) scale(0.975);
+      transform: translate3d(0, 40px, 0) scale(0.975);
     }
     to {
       opacity: 1;
-      transform: perspective(1400px) rotateX(var(--card-tilt-x))
-        rotateY(var(--card-tilt-y)) translate3d(0, var(--card-shift-y), 0)
+      transform: translate3d(0, var(--card-shift-y), 0)
         scale(var(--card-scale));
     }
   }
@@ -1330,8 +1327,8 @@ import { commercialContent } from "../../config/commercial";
   }
 
   .client-card:hover {
-    --card-shift-y: -8px;
-    --card-scale: 1.012;
+    --card-shift-y: 0px;
+    --card-scale: 1;
     border-color: rgba(255, 255, 255, 0.9);
     box-shadow:
       0 28px 52px rgba(50, 59, 129, 0.12),
@@ -1409,6 +1406,8 @@ import { commercialContent } from "../../config/commercial";
     flex-direction: column;
     height: 100%;
     padding: 34px 28px 28px;
+    transform-style: preserve-3d;
+    transform: rotateX(var(--card-tilt-x)) rotateY(var(--card-tilt-y));
   }
 
   .client-card-top {
@@ -1826,16 +1825,16 @@ import { commercialContent } from "../../config/commercial";
     /** @type {HTMLCanvasElement | null} */
     const canvas = document.getElementById("audience-particles-canvas");
 
-    if (!section || !canvas) return;
+    if (!section) return;
 
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    const ctx = canvas?.getContext("2d") ?? null;
+    const particlesEnabled = !!canvas && !!ctx;
 
     let W = 0;
     let H = 0;
     let animationId;
     let particlesActive = true;
-    let sectionVisible = true;
+    let sectionVisible = false;
     let particles = [];
 
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -1844,10 +1843,12 @@ import { commercialContent } from "../../config/commercial";
     ).matches;
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-    const PARTICLE_COUNT = reducedMotion ? 0 : isMobile ? 24 : 46;
+    const PARTICLE_COUNT =
+      particlesEnabled && !reducedMotion ? (isMobile ? 24 : 46) : 0;
     const COLORS = ["rgba(65,171,226,", "rgba(50,59,129,", "rgba(157,212,242,"];
 
     function resize() {
+      if (!particlesEnabled) return;
       const rect = section.getBoundingClientRect();
       W = Math.max(1, Math.floor(rect.width));
       H = Math.max(1, Math.floor(rect.height));
@@ -1919,6 +1920,7 @@ import { commercialContent } from "../../config/commercial";
     }
 
     function initParticles() {
+      if (!particlesEnabled) return;
       particles = [];
       for (let i = 0; i < PARTICLE_COUNT; i++) {
         particles.push(new Particle());
@@ -1926,6 +1928,7 @@ import { commercialContent } from "../../config/commercial";
     }
 
     function renderParticles() {
+      if (!particlesEnabled) return;
       ctx.clearRect(0, 0, W, H);
 
       for (let i = 0; i < particles.length; i++) {
@@ -1935,7 +1938,12 @@ import { commercialContent } from "../../config/commercial";
     }
 
     function tick() {
-      if (!particlesActive || !sectionVisible || PARTICLE_COUNT === 0) {
+      if (
+        !particlesEnabled ||
+        !particlesActive ||
+        !sectionVisible ||
+        PARTICLE_COUNT === 0
+      ) {
         animationId = undefined;
         return;
       }
@@ -1944,6 +1952,12 @@ import { commercialContent } from "../../config/commercial";
     }
 
     function startParticles() {
+      if (!particlesEnabled || animationId !== undefined) {
+        return;
+      }
+      if (PARTICLE_COUNT === 0 || !particlesActive || !sectionVisible) {
+        return;
+      }
       if (animationId === undefined) {
         animationId = window.requestAnimationFrame(tick);
       }
@@ -1956,19 +1970,27 @@ import { commercialContent } from "../../config/commercial";
       }
     }
 
-    const sectionObserver = new IntersectionObserver(
-      (entries) => {
-        sectionVisible = !!entries[0]?.isIntersecting;
-        if (particlesActive && sectionVisible && PARTICLE_COUNT > 0) {
-          startParticles();
-        } else {
+    let sectionObserver;
+    if ("IntersectionObserver" in window) {
+      sectionObserver = new IntersectionObserver(
+        (entries) => {
+          sectionVisible = !!entries[0]?.isIntersecting;
+          if (particlesActive && sectionVisible && PARTICLE_COUNT > 0) {
+            startParticles();
+            return;
+          }
           stopParticles();
-        }
-      },
-      { threshold: 0.08 },
-    );
+        },
+        { threshold: 0.08 },
+      );
 
-    sectionObserver.observe(section);
+      sectionObserver.observe(section);
+    } else {
+      sectionVisible = true;
+      if (particlesActive && PARTICLE_COUNT > 0) {
+        startParticles();
+      }
+    }
 
     document.addEventListener("visibilitychange", () => {
       particlesActive = document.visibilityState === "visible";
@@ -1981,9 +2003,6 @@ import { commercialContent } from "../../config/commercial";
 
     resize();
     initParticles();
-    if (particlesActive && sectionVisible && PARTICLE_COUNT > 0) {
-      startParticles();
-    }
 
     let resizeRaf = 0;
     window.addEventListener(
@@ -2001,22 +2020,27 @@ import { commercialContent } from "../../config/commercial";
     /** @type {NodeListOf<HTMLElement>} */
     const cards = document.querySelectorAll(".client-card");
 
-    const revealObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const target = entry.target;
-            if (target instanceof HTMLElement) {
-              target.classList.add("is-visible");
-              revealObserver.unobserve(target);
+    let revealObserver;
+    if ("IntersectionObserver" in window) {
+      revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const target = entry.target;
+              if (target instanceof HTMLElement) {
+                target.classList.add("is-visible");
+                revealObserver?.unobserve(target);
+              }
             }
-          }
-        });
-      },
-      { threshold: 0.12 },
-    );
+          });
+        },
+        { threshold: 0.12 },
+      );
 
-    cards.forEach((card) => revealObserver.observe(card));
+      cards.forEach((card) => revealObserver.observe(card));
+    } else {
+      cards.forEach((card) => card.classList.add("is-visible"));
+    }
 
     const canHover =
       window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
@@ -2030,6 +2054,7 @@ import { commercialContent } from "../../config/commercial";
         let hovered = false;
         let targetX = 0;
         let targetY = 0;
+        const inner = card.querySelector(".client-card-inner");
 
         const updateCard = () => {
           raf = 0;
@@ -2070,7 +2095,9 @@ import { commercialContent } from "../../config/commercial";
 
         const onEnter = () => {
           hovered = true;
-          card.style.willChange = "transform";
+          if (inner instanceof HTMLElement) {
+            inner.style.willChange = "transform";
+          }
         };
 
         const onLeave = () => {
@@ -2091,7 +2118,9 @@ import { commercialContent } from "../../config/commercial";
 
           window.setTimeout(() => {
             if (!hovered) {
-              card.style.willChange = "auto";
+              if (inner instanceof HTMLElement) {
+                inner.style.willChange = "auto";
+              }
             }
           }, 180);
         };
@@ -2100,45 +2129,12 @@ import { commercialContent } from "../../config/commercial";
         card.addEventListener("pointermove", onMove);
         card.addEventListener("pointerleave", onLeave);
       });
-
-      /** @type {NodeListOf<HTMLElement>} */
-      const metrics = document.querySelectorAll(".audience-metric");
-
-      metrics.forEach((metric) => {
-        let raf = 0;
-        let dx = 0;
-        let dy = 0;
-
-        const apply = () => {
-          raf = 0;
-          metric.style.transform = `translate3d(${dx * 0.05}px, ${dy * 0.05}px, 0) translateY(-3px)`;
-        };
-
-        /** @param {PointerEvent} e */
-        metric.addEventListener("pointermove", (e) => {
-          const rect = metric.getBoundingClientRect();
-          dx = e.clientX - rect.left - rect.width / 2;
-          dy = e.clientY - rect.top - rect.height / 2;
-
-          if (!raf) {
-            raf = window.requestAnimationFrame(apply);
-          }
-        });
-
-        metric.addEventListener("pointerleave", () => {
-          if (raf) {
-            cancelAnimationFrame(raf);
-            raf = 0;
-          }
-          metric.style.transform = "";
-        });
-      });
     }
 
     window.addEventListener("beforeunload", () => {
       stopParticles();
-      sectionObserver.disconnect();
-      revealObserver.disconnect();
+      sectionObserver?.disconnect();
+      revealObserver?.disconnect();
     });
   })();
 </script>
