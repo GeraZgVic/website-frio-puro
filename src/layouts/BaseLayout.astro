@@ -23,6 +23,15 @@ const canonicalUrl = Astro.site
   ? new URL(Astro.url.pathname, Astro.site)
   : Astro.url;
 const ogImageUrl = new URL("/images/Hero.png", Astro.site ?? Astro.url);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "Frío Puro",
+  url: "https://friopuro.com.mx",
+  description,
+  areaServed: "Villahermosa, Tabasco, MX",
+};
 ---
 
 <!doctype html>
@@ -39,6 +48,7 @@ const ogImageUrl = new URL("/images/Hero.png", Astro.site ?? Astro.url);
     <meta property="og:description" content={ogDescription} />
     <meta property="og:type" content="website" />
     <meta property="og:image" content={ogImageUrl.toString()} />
+    <link rel="preload" as="image" href="/images/Hero.png" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -46,6 +56,11 @@ const ogImageUrl = new URL("/images/Hero.png", Astro.site ?? Astro.url);
     <link
       href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@400;600&display=swap"
       rel="stylesheet"
+    />
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(jsonLd)}
     />
   </head>
   <body>
