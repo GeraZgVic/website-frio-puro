@@ -14,6 +14,7 @@ export const initTestimonialsSlider = (): void => {
   let currentSlide = 0;
   const totalSlides =
     document.querySelectorAll<HTMLElement>(".testimonial-slide").length;
+  if (totalSlides === 0) return;
   let autoSlide: number | undefined;
 
   const goToSlide = (index: number): void => {
@@ -62,8 +63,34 @@ export const initTestimonialsSlider = (): void => {
       goToSlide(index);
       startAuto();
     });
+
+    dot.addEventListener("keydown", (event: KeyboardEvent): void => {
+      const key = event.key;
+      if (
+        key !== "ArrowLeft" &&
+        key !== "ArrowRight" &&
+        key !== "Home" &&
+        key !== "End"
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+
+      let nextIndex = index;
+      if (key === "ArrowLeft") nextIndex = index - 1;
+      if (key === "ArrowRight") nextIndex = index + 1;
+      if (key === "Home") nextIndex = 0;
+      if (key === "End") nextIndex = totalSlides - 1;
+
+      stopAuto();
+      goToSlide(nextIndex);
+      dots[currentSlide]?.focus();
+      startAuto();
+    });
   });
 
+  goToSlide(0);
   startAuto();
 
   document.addEventListener("visibilitychange", (): void => {

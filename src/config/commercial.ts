@@ -71,8 +71,20 @@ export const commercialContent = {
   },
 } as const satisfies CommercialContent;
 
-export const buildWhatsAppUrl = (_message?: string): string =>
-  commercialContent.whatsappUrlBase;
+export const buildWhatsAppUrl = (message?: string): string => {
+  const normalizedMessage = message?.trim();
+  if (!normalizedMessage) {
+    return commercialContent.whatsappUrlBase;
+  }
+
+  const digits = commercialContent.whatsappNumberRaw.replace(/\D/g, "");
+  if (!digits) {
+    return commercialContent.whatsappUrlBase;
+  }
+
+  const encodedMessage = encodeURIComponent(normalizedMessage);
+  return `https://wa.me/${digits}?text=${encodedMessage}`;
+};
 
 export type CommercialContentData = typeof commercialContent;
 export type CommercialCtaKey = keyof CommercialContentData["ctas"];

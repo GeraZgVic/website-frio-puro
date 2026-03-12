@@ -18,20 +18,27 @@ const {
   ogTitle = title,
   ogDescription = description
 } = Astro.props;
+
+const canonicalUrl = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site)
+  : Astro.url;
+const ogImageUrl = new URL("/images/Hero.png", Astro.site ?? Astro.url);
 ---
 
 <!doctype html>
 <html lang="es">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="keywords" content={keywords} />
     <meta name="author" content={author} />
+    <link rel="canonical" href={canonicalUrl.toString()} />
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={ogDescription} />
     <meta property="og:type" content="website" />
+    <meta property="og:image" content={ogImageUrl.toString()} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />

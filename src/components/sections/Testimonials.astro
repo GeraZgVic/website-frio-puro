@@ -65,13 +65,22 @@
       </div>
     </div>
     <div class="slider-nav fade-in fade-in-delay-2">
-      <button class="slider-btn" id="prevBtn">&#8592;</button>
+      <button class="slider-btn" id="prevBtn" type="button" aria-label="Testimonio anterior">
+        &#8592;
+      </button>
       <div class="slider-dots" id="sliderDots">
-        <div class="dot active"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
+        <button
+          class="dot active"
+          type="button"
+          aria-label="Ir al testimonio 1"
+          aria-current="true"
+        ></button>
+        <button class="dot" type="button" aria-label="Ir al testimonio 2"></button>
+        <button class="dot" type="button" aria-label="Ir al testimonio 3"></button>
       </div>
-      <button class="slider-btn" id="nextBtn">&#8594;</button>
+      <button class="slider-btn" id="nextBtn" type="button" aria-label="Testimonio siguiente">
+        &#8594;
+      </button>
     </div>
   </div>
 </section>
@@ -205,6 +214,9 @@
     height: 8px;
     border-radius: 50%;
     background: rgba(50, 59, 129, 0.2);
+    border: none;
+    padding: 0;
+    appearance: none;
     cursor: none;
     transition: all var(--transition);
   }
@@ -213,5 +225,10 @@
     background: var(--color-accent);
     width: 24px;
     border-radius: 4px;
+  }
+
+  .dot:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(65, 171, 226, 0.35);
   }
 </style>
