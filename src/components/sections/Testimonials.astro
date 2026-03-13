@@ -65,7 +65,12 @@
       </div>
     </div>
     <div class="slider-nav fade-in fade-in-delay-2">
-      <button class="slider-btn" id="prevBtn" type="button" aria-label="Testimonio anterior">
+      <button
+        class="slider-btn"
+        id="prevBtn"
+        type="button"
+        aria-label="Testimonio anterior"
+      >
         &#8592;
       </button>
       <div class="slider-dots" id="sliderDots">
@@ -73,12 +78,18 @@
           class="dot active"
           type="button"
           aria-label="Ir al testimonio 1"
-          aria-current="true"
+          aria-current="true"></button>
+        <button class="dot" type="button" aria-label="Ir al testimonio 2"
         ></button>
-        <button class="dot" type="button" aria-label="Ir al testimonio 2"></button>
-        <button class="dot" type="button" aria-label="Ir al testimonio 3"></button>
+        <button class="dot" type="button" aria-label="Ir al testimonio 3"
+        ></button>
       </div>
-      <button class="slider-btn" id="nextBtn" type="button" aria-label="Testimonio siguiente">
+      <button
+        class="slider-btn"
+        id="nextBtn"
+        type="button"
+        aria-label="Testimonio siguiente"
+      >
         &#8594;
       </button>
     </div>
@@ -185,12 +196,12 @@
   }
 
   .slider-btn {
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     border: 2px solid rgba(50, 59, 129, 0.2);
     background: var(--color-white);
-    cursor: none;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -210,14 +221,14 @@
   }
 
   .dot {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: rgba(50, 59, 129, 0.2);
     border: none;
     padding: 0;
     appearance: none;
-    cursor: none;
+    cursor: pointer;
     transition: all var(--transition);
   }
 
@@ -230,5 +241,75 @@
   .dot:focus-visible {
     outline: none;
     box-shadow: 0 0 0 3px rgba(65, 171, 226, 0.35);
+  }
+
+  @media (max-width: 900px) {
+    .slider-wrapper {
+      margin-top: 44px;
+      border-radius: 20px;
+    }
+
+    .testimonial-slide {
+      padding: 44px 36px;
+    }
+
+    .testimonial-text {
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .slider-wrapper {
+      margin-top: 36px;
+    }
+
+    .testimonial-slide {
+      padding: 28px 20px;
+    }
+
+    .stars {
+      font-size: 1.25rem;
+      margin-bottom: 20px;
+      letter-spacing: 3px;
+    }
+
+    .testimonial-text {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .testimonial-text::before {
+      font-size: 5rem;
+      top: -24px;
+      left: -6px;
+    }
+
+    .author-avatar {
+      width: 48px;
+      height: 48px;
+      font-size: 1.3rem;
+    }
+
+    .author-name {
+      font-size: 1rem;
+    }
+
+    .author-biz {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .slider-nav {
+      gap: 12px;
+      margin-top: 24px;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .testimonial-slide {
+      padding: 24px 16px;
+    }
   }
 </style>

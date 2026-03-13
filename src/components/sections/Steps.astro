@@ -23,7 +23,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       </h2>
 
       <p class="section-subtitle">
-       En 3 pasos podras acceder al Hielo de mayor calidad en el mercado.
+        En 3 pasos podras acceder al Hielo de mayor calidad en el mercado.
       </p>
     </div>
 
@@ -81,9 +81,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
             </div>
 
             <h3>Haz tu Pedido</h3>
-            <p>
-              Indica el tipo de hielo, cantidad y lugar de estrega.
-            </p>
+            <p>Indica el tipo de hielo, cantidad y lugar de estrega.</p>
           </div>
         </div>
       </article>
@@ -113,7 +111,9 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
             </div>
 
             <h3>Recibe tu Hielo</h3>
-            <p>Dependiendo de la cantidad se entrega en fabricas o en domicilio.</p>
+            <p>
+              Dependiendo de la cantidad se entrega en fabricas o en domicilio.
+            </p>
           </div>
         </div>
       </article>
@@ -885,11 +885,12 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
   @media (max-width: 640px) {
     #como-pedir {
-      padding: 92px 0;
+      /* Mobile rhythm: standard section padding */
+      padding: 64px 20px;
     }
 
     .steps-header {
-      margin-bottom: 52px;
+      margin-bottom: 40px;
     }
 
     .section-title {
@@ -897,7 +898,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     }
 
     .section-subtitle {
-      font-size: 0.95rem;
+      font-size: 1rem;
       line-height: 1.6;
     }
 
@@ -932,23 +933,40 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     }
 
     .step-body h3 {
-      font-size: 1.06rem;
+      font-size: 1.05rem;
     }
 
     .step-body p {
-      font-size: 0.85rem;
-      line-height: 1.54;
+      font-size: 1rem;
+      line-height: 1.6;
     }
 
     .btn-content {
-      padding: 16px 28px;
-      font-size: 0.84rem;
-      letter-spacing: 0.12em;
+      width: 100%;
+      min-height: 48px;
+      padding: 14px 18px;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      justify-content: center;
     }
 
     .steps-grid {
       background-size: 54px 54px;
       opacity: 0.1;
+    }
+
+    .btn-liquid {
+      width: 100%;
+    }
+
+    /* Mobile performance: soften ambient layers */
+    .steps-ambient {
+      filter: blur(90px);
+      opacity: 0.7;
+    }
+
+    #ice-particles {
+      opacity: 0.2;
     }
   }
 
@@ -967,6 +985,12 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     .step-icon,
     .btn-liquid {
       transition: none !important;
+    }
+  }
+
+  @media (max-width: 360px) {
+    #como-pedir {
+      padding: 64px 16px;
     }
   }
 </style>
@@ -991,7 +1015,8 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     let sectionVisible = false;
     let pageVisible = document.visibilityState === "visible";
     const isSmall = window.matchMedia("(max-width: 640px)").matches;
-    const particleCount = isSmall ? 14 : 22;
+    const isTiny = window.matchMedia("(max-width: 360px)").matches;
+    const particleCount = isTiny ? 8 : isSmall ? 12 : 22;
 
     class Particle {
       x = 0;
@@ -1256,5 +1281,4 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       document.head.appendChild(style);
     }
   })();
-
 </script>
