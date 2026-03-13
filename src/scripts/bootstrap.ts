@@ -5,6 +5,9 @@ export const initSiteScripts = (): void => {
   void import("./navbarScroll").then(({ initNavbarScroll }) => {
     initNavbarScroll();
   });
+  void import("./themeColorSections").then(({ initThemeColorSections }) => {
+    initThemeColorSections();
+  });
   void import("./mobileMenu").then(({ initMobileMenu }) => {
     initMobileMenu();
   });
