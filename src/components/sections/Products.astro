@@ -37,13 +37,22 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
               <div class="featured-product-spotlight"></div>
               <div class="featured-product-vignette"></div>
 
-              <img
-                src="/gallery/HieloenTubo01.png"
-                alt="Hielo en tubo premium"
-                class="featured-product-image"
-                loading="lazy"
-                decoding="async"
-              />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="/gallery/HieloenTubo01-640.webp 640w, /gallery/HieloenTubo01-960.webp 960w, /gallery/HieloenTubo01-1280.webp 1280w"
+                  sizes="(min-width: 980px) 60vw, 90vw"
+                />
+                <img
+                  src="/gallery/HieloenTubo01.png"
+                  alt="Hielo en tubo premium"
+                  class="featured-product-image"
+                  width="1920"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
 
               <div class="featured-product-overlay"></div>
               <div class="featured-product-glow"></div>

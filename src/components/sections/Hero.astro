@@ -4,7 +4,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
 <section id="inicio" class="hero-section">
   <div id="hero">
-    <canvas id="hero-particles-canvas"></canvas>
+    <canvas id="hero-particles-canvas" aria-hidden="true"></canvas>
 
     <div class="hero-bg-glow hero-bg-glow-1"></div>
     <div class="hero-bg-glow hero-bg-glow-2"></div>
@@ -72,14 +72,23 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
             <div class="hero-media-noise"></div>
 
             <div class="hero-media-frame">
-              <img
-                src="/images/Hero.png"
-                alt="Hielo premium para negocio"
-                class="hero-image"
-                loading="eager"
-                decoding="async"
-                fetchpriority="high"
-              />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="/images/Hero-512.webp 512w, /images/Hero-768.webp 768w, /images/Hero-1024.webp 1024w"
+                  sizes="(min-width: 1025px) 520px, 1px"
+                />
+                <img
+                  src="/images/Hero.png"
+                  alt="Hielo premium para negocio"
+                  class="hero-image"
+                  width="1024"
+                  height="1080"
+                  loading="eager"
+                  decoding="async"
+                  fetchpriority="high"
+                />
+              </picture>
             </div>
 
             <div class="hero-floating-card hero-floating-card-top">

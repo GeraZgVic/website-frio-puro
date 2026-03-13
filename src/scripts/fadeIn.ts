@@ -3,12 +3,22 @@ export const initFadeIn = (): void => {
   const heroFadeElements =
     document.querySelectorAll<HTMLElement>("#hero .fade-in");
   const heroChecks = document.querySelectorAll<HTMLElement>(".hero-checks li");
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
 
   const hasFadeElements = fadeElements.length > 0;
   const hasHeroFadeElements = heroFadeElements.length > 0;
   const hasHeroChecks = heroChecks.length > 0;
 
   if (!hasFadeElements && !hasHeroFadeElements && !hasHeroChecks) {
+    return;
+  }
+
+  if (prefersReducedMotion) {
+    fadeElements.forEach((el: HTMLElement) => el.classList.add("visible"));
+    heroFadeElements.forEach((el: HTMLElement) => el.classList.add("visible"));
+    heroChecks.forEach((li: HTMLElement) => li.classList.add("visible"));
     return;
   }
 

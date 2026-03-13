@@ -50,7 +50,14 @@ const jsonLd = {
     <meta property="og:description" content={ogDescription} />
     <meta property="og:type" content="website" />
     <meta property="og:image" content={ogImageUrl.toString()} />
-    <link rel="preload" as="image" href="/images/Hero.png" />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/Hero-1024.webp"
+      type="image/webp"
+      imagesrcset="/images/Hero-512.webp 512w, /images/Hero-768.webp 768w, /images/Hero-1024.webp 1024w"
+      imagesizes="(min-width: 1025px) 520px, 1px"
+    />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />

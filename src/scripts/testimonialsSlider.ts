@@ -8,6 +8,9 @@ export const initTestimonialsSlider = (): void => {
   const prevBtn = document.getElementById(
     "prevBtn",
   ) as HTMLButtonElement | null;
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
 
   if (!track) return;
 
@@ -39,6 +42,10 @@ export const initTestimonialsSlider = (): void => {
   };
 
   const startAuto = (): void => {
+    if (prefersReducedMotion) {
+      stopAuto();
+      return;
+    }
     stopAuto();
     autoSlide = window.setInterval((): void => {
       goToSlide(currentSlide + 1);
@@ -94,7 +101,7 @@ export const initTestimonialsSlider = (): void => {
   startAuto();
 
   document.addEventListener("visibilitychange", (): void => {
-    if (document.visibilityState === "hidden") {
+    if (prefersReducedMotion || document.visibilityState === "hidden") {
       stopAuto();
     } else {
       startAuto();
