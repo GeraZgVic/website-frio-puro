@@ -1,1156 +1,342 @@
 ﻿---
-const iconWaterTank = `
-<svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <path d="M28 24h40l10 12v36a8 8 0 0 1-8 8H26a8 8 0 0 1-8-8V36l10-12z" />
-  <path d="M34 24v-6h28v6" />
-  <path d="M31 40h34" />
-  <path d="M31 48h34" />
-  <path d="M31 56h34" />
-  <path d="M31 64h34" />
-</svg>
-`;
+import "swiper/css";
+import "swiper/css/navigation";
 
-const iconFilterSystem = `
-<svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <rect x="34" y="16" width="28" height="10" rx="3" />
-  <path d="M30 26h36" />
-  <path d="M28 32h40" />
-  <path d="M31 32h34v12l-5 24a8 8 0 0 1-8 6H44a8 8 0 0 1-8-6l-5-24V32z" />
-  <path d="M38 46c3 3 6 3 9 0s6-3 9 0" opacity=".48" />
-  <path d="M38 56c3 3 6 3 9 0s6-3 9 0" opacity=".48" />
-</svg>
-`;
-
-const iconOsmosisRack = `
-<svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <rect x="18" y="26" width="60" height="34" rx="5" />
-  <path d="M28 34h36" />
-  <path d="M28 43h36" />
-  <path d="M28 52h36" />
-  <circle cx="68" cy="34" r="3" />
-  <circle cx="68" cy="43" r="3" />
-  <circle cx="68" cy="52" r="3" />
-  <path d="M18 32h-8" />
-  <path d="M18 54h-8" />
-  <path d="M86 32h-8" />
-  <path d="M86 54h-8" />
-</svg>
-`;
-
-const iconWaterCheck = `
-<svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <path d="M48 18c-12 15-22 24-22 36a22 22 0 0 0 44 0c0-12-10-21-22-36z" />
-  <path d="m40 54 6 6 12-12" />
-</svg>
-`;
-
-const iconIceMachine = `
-<svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <rect x="26" y="18" width="44" height="54" rx="5" />
-  <path d="M34 28h28" />
-  <path d="M34 38h28" />
-  <path d="M34 48h14" />
-  <path d="M34 72v6" />
-  <path d="M62 72v6" />
-  <path d="M56 50l-4 3 1.5 4.5-5.5-3-5.5 3L44 53l-4-3h5l3-4 3 4z" />
-</svg>
-`;
-
-const iconDispenser = `
-<svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <path d="M32 18h32" />
-  <rect x="28" y="24" width="40" height="46" rx="5" />
-  <path d="M38 36h20" />
-  <path d="M40 46h16" />
-  <path d="M48 56v10" />
-  <path d="M48 66c0 4-3 7-7 7" />
-</svg>
-`;
-
-const iconIceBag = `
-<svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <path d="M34 18h28" />
-  <path d="M30 24h36l7 44a6 6 0 0 1-6 7H29a6 6 0 0 1-6-7l7-44z" />
-  <path d="M38 40l6 6" />
-  <path d="M56 38l6 6" />
-  <path d="M46 50l6 6" />
-  <path d="M36 58l5 5" />
-  <path d="M56 58l5 5" />
-</svg>
-`;
-
-const iconColdRoom = `
-<svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <rect x="20" y="24" width="56" height="44" rx="4" />
-  <path d="M32 24v44" opacity=".42" />
-  <path d="M38 46h18" />
-  <circle cx="60" cy="48" r="2.2" />
-  <path d="M66 34l-3 3" />
-  <path d="M66 62l-3-3" />
-  <path d="M58 28v4" />
-  <path d="M58 64v4" />
-</svg>
-`;
-
-const iconLogistics = `
-<svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <path d="M18 34h42v24H18z" />
-  <path d="M60 40h12l12 12v6H60z" />
-  <circle cx="36" cy="62" r="4.5" />
-  <circle cx="70" cy="62" r="4.5" />
-  <path d="M24 40h16" />
-  <path d="M66 46h8" />
-</svg>
-`;
-
-const topFlow = [
+const processFlow = [
   {
     step: "01",
     group: "Tratamiento",
     title: "Agua cruda",
-    text: "Recepción y análisis inicial del agua para asegurar el arranque correcto del proceso.",
-    icon: iconWaterTank,
+    text: "Recepción y análisis inicial.",
+    image: "/images/process/agua-cruda.png",
+    alt: "Tanque de agua cruda para recepción y análisis inicial",
   },
   {
     step: "02",
     group: "Filtración",
     title: "Filtros",
-    text: "Remoción de partículas y sedimentos para estabilizar la calidad del flujo de trabajo.",
-    icon: iconFilterSystem,
+    text: "Remoción de partículas.",
+    image: "/images/process/filtros.png",
+    alt: "Sistema de filtros para remoción de partículas",
   },
   {
     step: "03",
     group: "Purificación",
     title: "Ósmosis inversa",
-    text: "Tratamiento avanzado por membranas para elevar pureza, control y consistencia.",
-    icon: iconOsmosisRack,
+    text: "Alta pureza.",
+    image: "/images/process/osmosis-inversa.png",
+    alt: "Sistema de ósmosis inversa para purificación",
   },
   {
     step: "04",
     group: "Resultado",
     title: "Agua tratada",
-    text: "Agua lista para ingresar a la etapa de congelación en condiciones óptimas.",
-    icon: iconWaterCheck,
+    text: "Lista para producción.",
+    image: "/images/process/agua-tratada.png",
+    alt: "Agua tratada lista para producción",
   },
-];
-
-const bottomFlow = [
   {
     step: "05",
     group: "Producción",
     title: "Máquina de hielo",
-    text: "Formación precisa del hielo en equipos industriales de operación continua.",
-    icon: iconIceMachine,
+    text: "Producción continua.",
+    image: "/images/process/maquina-hielo.png",
+    alt: "Máquina de hielo en operación",
   },
   {
     step: "06",
     group: "Transferencia",
     title: "Dispensador",
-    text: "Salida controlada del producto para conectar con la etapa de empaque.",
-    icon: iconDispenser,
+    text: "Salida controlada.",
+    image: "/images/process/dispensador-hielo.png",
+    alt: "Dispensador de hielo para salida controlada",
   },
   {
     step: "07",
     group: "Empaque",
     title: "Hielo en bolsa",
-    text: "Presentación comercial sellada para manejo seguro y distribución.",
-    icon: iconIceBag,
+    text: "Sellado seguro.",
+    image: "/images/process/hielo-bolsa.png",
+    alt: "Hielo en bolsa con sellado seguro",
   },
   {
     step: "08",
     group: "Conservación",
-    title: "Cámara de conservación",
-    text: "Resguardo térmico que ayuda a mantener disponibilidad y calidad del producto.",
-    icon: iconColdRoom,
+    title: "Cámara fría",
+    text: "Control térmico.",
+    image: "/images/process/camara-fria.png",
+    alt: "Cámara fría para control térmico",
   },
   {
     step: "09",
     group: "Distribución",
     title: "Logística",
-    text: "Entrega programada para asegurar suministro constante a clientes y rutas.",
-    icon: iconLogistics,
+    text: "Entrega continua.",
+    image: "/images/process/logistica.png",
+    alt: "Logística de distribución y entrega continua",
   },
 ];
-
-const processFlow = [...topFlow, ...bottomFlow];
 ---
 
-<section id="proceso-produccion" class="process-section">
-  <div class="process-ambient process-ambient-1" aria-hidden="true"></div>
-  <div class="process-ambient process-ambient-2" aria-hidden="true"></div>
-  <div class="process-noise" aria-hidden="true"></div>
-  <div class="process-grid-overlay" aria-hidden="true"></div>
+<section class="process-section">
+  <div class="container">
+    <h2 class="process-title">Proceso de producción</h2>
 
-  <div class="container process-container">
-    <div class="process-header fade-in">
-      <div class="process-header-main">
-        <h2
-          class="section-title process-title"
-          style="color: var(--color-primary);"
-        >
-          Conoce nuestro<br />
-          proceso de producción
-        </h2>
-
-        <p class="section-subtitle process-subtitle">
-          Del tratamiento del agua a la entrega final, cada etapa está diseñada
-          para mantener pureza, control y continuidad operativa.
-        </p>
-      </div>
-    </div>
-
-    <div class="process-desktop-diagram">
-      <div class="process-legend process-legend-top fade-in fade-in-delay-1">
-        <span>Tratamiento del agua</span>
-      </div>
-
-      <div
-        class="process-flow-line process-flow-line-top fade-in fade-in-delay-1"
-        aria-hidden="true"
-      >
-        <span class="flow-line"></span>
-        <span class="flow-glow flow-glow-right"></span>
-        <span class="flow-arrow flow-arrow-right"></span>
-      </div>
-
-      <div class="process-grid-desktop">
+    <div class="swiper process-swiper" data-process-swiper>
+      <div class="swiper-wrapper">
         {
-          topFlow.map((item, index) => (
-            <article
-              class={`process-card fade-in fade-in-delay-${(index % 6) + 1}`}
-            >
-              <div class="process-card-inner">
-                <div class="process-card-top">
-                  <div class="process-step-badge">{item.step}</div>
-
-                  <div class="process-icon-wrap" aria-hidden="true">
-                    <span class="process-card-icon" set:html={item.icon} />
-                  </div>
+          processFlow.map((item) => (
+            <div class="swiper-slide process-slide">
+              <div class="card">
+                <div class="badge">{item.step}</div>
+                <div class="group">{item.group}</div>
+                <div class="media">
+                  <img src={item.image} alt={item.alt} loading="lazy" />
                 </div>
-
-                <div class="process-card-meta">{item.group}</div>
-
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
               </div>
-            </article>
+            </div>
           ))
         }
       </div>
 
-      <div
-        class="process-drop-connector fade-in fade-in-delay-2"
-        aria-hidden="true"
-      >
-        <span class="drop-line"></span>
-        <span class="drop-glow"></span>
-        <span class="drop-dot"></span>
-        <span class="drop-arrow"></span>
-      </div>
-
-      <div class="process-legend process-legend-bottom fade-in fade-in-delay-3">
-        <span>Producción, conservación y entrega</span>
-      </div>
-
-      <div
-        class="process-flow-line process-flow-line-bottom fade-in fade-in-delay-3"
-        aria-hidden="true"
-      >
-        <span class="flow-line"></span>
-        <span class="flow-glow flow-glow-left"></span>
-        <span class="flow-arrow flow-arrow-left"></span>
-      </div>
-
-      <div class="process-grid-desktop process-grid-desktop-bottom">
-        {
-          bottomFlow.map((item, index) => (
-            <article
-              class={`process-card fade-in fade-in-delay-${((index + 2) % 6) + 1}`}
-            >
-              <div class="process-card-inner">
-                <div class="process-card-top">
-                  <div class="process-step-badge">{item.step}</div>
-
-                  <div class="process-icon-wrap" aria-hidden="true">
-                    <span class="process-card-icon" set:html={item.icon} />
-                  </div>
-                </div>
-
-                <div class="process-card-meta">{item.group}</div>
-
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </div>
-            </article>
-          ))
-        }
-      </div>
-    </div>
-
-    <div class="process-mobile-timeline">
-      {
-        processFlow.map((item, index) => (
-          <article
-            class={`process-timeline-card fade-in fade-in-delay-${(index % 6) + 1}`}
-          >
-            <div class="process-timeline-rail" aria-hidden="true">
-              <span class="process-timeline-dot" />
-            </div>
-
-            <div class="process-timeline-content">
-              <div class="process-card-top process-card-top-mobile">
-                <div class="process-step-badge">{item.step}</div>
-
-                <div class="process-icon-wrap" aria-hidden="true">
-                  <span class="process-card-icon" set:html={item.icon} />
-                </div>
-              </div>
-
-              <div class="process-card-meta">{item.group}</div>
-
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-            </div>
-          </article>
-        ))
-      }
+      <button class="process-nav process-nav--prev" type="button" aria-label="Anterior">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button class="process-nav process-nav--next" type="button" aria-label="Siguiente">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
     </div>
   </div>
 </section>
 
 <style>
   .process-section {
-    position: relative;
-    overflow: hidden;
-    isolation: isolate;
-    padding: clamp(84px, 9vw, 124px) 0;
-    background:
-      radial-gradient(
-        circle at 10% 18%,
-        rgba(65, 171, 226, 0.1) 0%,
-        transparent 28%
-      ),
-      radial-gradient(
-        circle at 88% 84%,
-        rgba(50, 59, 129, 0.06) 0%,
-        transparent 24%
-      ),
-      linear-gradient(180deg, #eef6fb 0%, #f7fbfe 40%, #ffffff 100%);
-  }
-
-  .process-ambient,
-  .process-noise,
-  .process-grid-overlay {
-    pointer-events: none;
-    position: absolute;
-  }
-
-  .process-ambient {
-    border-radius: 999px;
-    filter: blur(88px);
-    z-index: 0;
-  }
-
-  .process-ambient-1 {
-    top: -120px;
-    left: -140px;
-    width: 340px;
-    height: 340px;
-    background: rgba(65, 171, 226, 0.08);
-  }
-
-  .process-ambient-2 {
-    right: -140px;
-    bottom: -140px;
-    width: 360px;
-    height: 360px;
-    background: rgba(50, 59, 129, 0.05);
-  }
-
-  .process-noise {
-    inset: 0;
-    z-index: 0;
-    opacity: 0.02;
-    background-image:
-      radial-gradient(circle at 20% 20%, #ffffff 0.6px, transparent 0.8px),
-      radial-gradient(circle at 80% 30%, #ffffff 0.6px, transparent 0.8px),
-      radial-gradient(circle at 50% 75%, #ffffff 0.6px, transparent 0.8px);
-    background-size:
-      24px 24px,
-      30px 30px,
-      22px 22px;
-  }
-
-  .process-grid-overlay {
-    inset: 0;
-    z-index: 0;
-    opacity: 0.08;
-    background-image:
-      linear-gradient(rgba(65, 171, 226, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(65, 171, 226, 0.04) 1px, transparent 1px);
-    background-size: 120px 120px;
-    mask-image: radial-gradient(circle at center, black 40%, transparent 88%);
-    -webkit-mask-image: radial-gradient(
-      circle at center,
-      black 40%,
-      transparent 88%
-    );
-  }
-
-  .process-container {
-    position: relative;
-    z-index: 2;
-  }
-
-  .process-header {
-    display: grid;
-    justify-items: center;
-    text-align: center;
-    margin-bottom: 48px;
-  }
-
-  .process-header-main {
-    max-width: 800px;
+    padding: 80px 0;
     text-align: center;
   }
 
   .process-title {
-    margin-bottom: 14px;
-    font-size: clamp(2.8rem, 5vw, 5rem);
-    line-height: 0.94;
-    letter-spacing: -0.04em;
-    text-wrap: balance;
+    font-size: 3rem;
+    margin-bottom: 40px;
   }
 
-  .process-subtitle {
-    max-width: 620px;
-    margin: 0 auto;
-    font-size: 1rem;
-    line-height: 1.82;
-    color: rgba(18, 26, 60, 0.8);
+  .process-swiper {
+    position: relative;
+    overflow: visible;
+    padding: 10px 0 20px;
   }
 
-  .process-desktop-diagram {
-    display: block;
+  .process-swiper .swiper-wrapper {
+    align-items: stretch;
   }
 
-  .process-legend {
-    display: flex;
+  .process-slide {
+    width: 300px;
+    opacity: 0.45;
+    transform: scale(0.86);
+    transition: transform 0.6s ease, opacity 0.6s ease, filter 0.6s ease;
+    filter: saturate(0.9);
+    padding: 8px 6px;
+  }
+
+  .process-swiper .swiper-slide-active {
+    opacity: 1;
+    transform: scale(1);
+    filter: saturate(1.05);
+  }
+
+  .process-swiper .swiper-slide-prev,
+  .process-swiper .swiper-slide-next {
+    opacity: 0.7;
+    transform: scale(0.93);
+    filter: saturate(1);
+  }
+
+  .card {
+    padding: 30px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 18px 40px rgba(11, 32, 51, 0.1);
+    transition: box-shadow 0.4s ease, transform 0.4s ease;
+  }
+
+  .badge {
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+  }
+
+  .group {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: rgba(11, 32, 51, 0.55);
     margin-bottom: 12px;
   }
 
-  .process-legend-top {
-    justify-content: flex-start;
-  }
-
-  .process-legend-bottom {
-    justify-content: flex-end;
-    margin-top: 16px;
-  }
-
-  .process-legend span {
-    display: inline-flex;
-    align-items: center;
-    min-height: 34px;
-    padding: 0 14px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.84);
-    border: 1px solid rgba(28, 43, 82, 0.08);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.94),
-      0 8px 18px rgba(50, 59, 129, 0.05);
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(28, 43, 82, 0.68);
-  }
-
-  .process-flow-line {
+  .media {
     position: relative;
-    height: 18px;
-    margin-bottom: 18px;
-  }
-
-  .flow-line {
-    position: absolute;
-    top: 50%;
-    left: 8px;
-    right: 8px;
-    height: 1.5px;
-    border-radius: 999px;
-    transform: translateY(-50%);
-    background: linear-gradient(
-      90deg,
-      rgba(65, 171, 226, 0.14),
-      rgba(50, 59, 129, 0.22),
-      rgba(65, 171, 226, 0.14)
-    );
-  }
-
-  .flow-glow {
-    position: absolute;
-    top: 50%;
-    width: 18%;
-    height: 8px;
-    border-radius: 999px;
-    transform: translateY(-50%);
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.22) 12%,
-      rgba(65, 171, 226, 0.92) 48%,
-      rgba(255, 255, 255, 0.2) 82%,
-      transparent 100%
-    );
-    filter: blur(0.25px);
-    opacity: 0.95;
-  }
-
-  .flow-glow-right {
-    left: 6%;
-    animation: processFlowRight 4.8s ease-in-out infinite;
-  }
-
-  .flow-glow-left {
-    right: 6%;
-    animation: processFlowLeft 4.8s ease-in-out infinite;
-  }
-
-  .flow-arrow {
-    position: absolute;
-    top: 50%;
-    width: 10px;
-    height: 10px;
-    border-top: 1.5px solid rgba(28, 43, 82, 0.5);
-    border-right: 1.5px solid rgba(28, 43, 82, 0.5);
-  }
-
-  .flow-arrow-right {
-    right: 2px;
-    transform: translateY(-50%) rotate(45deg);
-  }
-
-  .flow-arrow-left {
-    left: 2px;
-    transform: translateY(-50%) rotate(-135deg);
-  }
-
-  .process-grid-desktop {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 22px;
-  }
-
-  .process-grid-desktop-bottom {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-  }
-
-  .process-drop-connector {
-    position: relative;
-    display: grid;
-    place-items: center;
-    height: 50px;
-  }
-
-  .drop-line {
-    position: relative;
-    width: 1.5px;
-    height: 100%;
-    border-radius: 999px;
-    background: linear-gradient(
-      180deg,
-      rgba(65, 171, 226, 0.08),
-      rgba(50, 59, 129, 0.24),
-      rgba(65, 171, 226, 0.08)
-    );
-  }
-
-  .drop-glow {
-    position: absolute;
-    top: 8%;
-    width: 8px;
-    height: 26%;
-    border-radius: 999px;
-    background: linear-gradient(
-      180deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.16) 18%,
-      rgba(65, 171, 226, 0.9) 52%,
-      rgba(255, 255, 255, 0.18) 82%,
-      transparent 100%
-    );
-    filter: blur(0.2px);
-    animation: processFlowDown 2.7s ease-in-out infinite;
-  }
-
-  .drop-dot {
-    position: absolute;
-    top: 11px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: linear-gradient(
-      135deg,
-      var(--color-primary),
-      var(--color-accent)
-    );
-    box-shadow:
-      0 0 0 5px rgba(65, 171, 226, 0.07),
-      0 0 12px rgba(65, 171, 226, 0.14);
-  }
-
-  .drop-arrow {
-    position: absolute;
-    bottom: 4px;
-    width: 10px;
-    height: 10px;
-    border-right: 1.5px solid rgba(28, 43, 82, 0.52);
-    border-bottom: 1.5px solid rgba(28, 43, 82, 0.52);
-    transform: rotate(45deg);
-  }
-
-  .process-card {
-    position: relative;
-    min-height: 320px;
-    border-radius: 28px;
-    overflow: hidden;
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.84) 0%,
-      rgba(247, 252, 255, 0.76) 100%
-    );
-    border: 1px solid rgba(255, 255, 255, 0.88);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.94),
-      0 18px 42px rgba(50, 59, 129, 0.08),
-      0 6px 16px rgba(65, 171, 226, 0.04);
-    backdrop-filter: blur(14px) saturate(1.18);
-    -webkit-backdrop-filter: blur(14px) saturate(1.18);
-    transition:
-      transform 0.28s ease,
-      box-shadow 0.28s ease,
-      border-color 0.28s ease;
-  }
-
-  .process-card:hover {
-    transform: translateY(-6px);
-    border-color: rgba(255, 255, 255, 0.96);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 1),
-      0 24px 54px rgba(50, 59, 129, 0.1),
-      0 10px 22px rgba(65, 171, 226, 0.05);
-  }
-
-  .process-card::before,
-  .process-timeline-content::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 22px;
-    right: 22px;
-    height: 3px;
-    border-radius: 999px;
-    background: linear-gradient(
-      90deg,
-      var(--color-primary) 0%,
-      var(--color-accent) 60%,
-      rgba(157, 212, 242, 0.95) 100%
-    );
-    transform: scaleX(0.34);
-    transform-origin: left;
-    transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
-    box-shadow: 0 0 10px rgba(65, 171, 226, 0.22);
-  }
-
-  .process-card:hover::before,
-  .process-timeline-card:hover .process-timeline-content::before {
-    transform: scaleX(1);
-  }
-
-  .process-card-inner {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 30px 26px 24px;
-  }
-
-  .process-card-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    margin-bottom: 18px;
-  }
-
-  .process-step-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 52px;
-    height: 34px;
-    padding: 0 14px;
-    border-radius: 999px;
-    border: 1px solid rgba(28, 43, 82, 0.12);
-    background: rgba(255, 255, 255, 0.78);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92);
-    font-size: 0.74rem;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    color: var(--color-primary);
-    flex-shrink: 0;
-  }
-
-  .process-icon-wrap {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 82px;
-    height: 82px;
-    border-radius: 24px;
-    flex-shrink: 0;
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.96) 0%,
-      rgba(231, 246, 254, 0.84) 100%
-    );
-    border: 1px solid rgba(255, 255, 255, 0.96);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 1),
-      0 14px 28px rgba(65, 171, 226, 0.12),
-      0 4px 10px rgba(50, 59, 129, 0.05);
-    transition:
-      transform 0.24s ease,
-      box-shadow 0.24s ease;
-  }
-
-  .process-icon-wrap::before {
-    content: "";
-    position: absolute;
-    inset: 7px;
+    margin: 16px auto 20px;
+    width: 100%;
+    max-width: 230px;
+    aspect-ratio: 5 / 4;
     border-radius: 18px;
-    border: 1px solid rgba(65, 171, 226, 0.12);
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: inset 0 0 0 1px rgba(11, 32, 51, 0.04);
+  }
+
+  .media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(11, 32, 51, 0) 35%, rgba(11, 32, 51, 0.18) 100%);
     pointer-events: none;
   }
 
-  .process-card:hover .process-icon-wrap,
-  .process-timeline-card:hover .process-icon-wrap {
-    transform: translateY(-2px) scale(1.035);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 1),
-      0 16px 30px rgba(65, 171, 226, 0.14),
-      0 5px 12px rgba(50, 59, 129, 0.06);
-  }
-
-  .process-card-icon {
-    display: block;
-    color: #16305f;
-    width: 42px;
-    height: 42px;
-    line-height: 1;
-    filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.72));
-  }
-
-  .process-card-icon :global(svg) {
+  .media img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    object-position: center;
     display: block;
   }
 
-  .process-card-meta {
+  .process-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 12px 24px rgba(11, 32, 51, 0.12);
     display: inline-flex;
     align-items: center;
-    align-self: flex-start;
-    min-height: 28px;
-    margin-bottom: 12px;
-    padding: 0 12px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.78);
-    border: 1px solid rgba(28, 43, 82, 0.08);
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(28, 43, 82, 0.68);
-  }
-
-  .process-card h3,
-  .process-timeline-card h3 {
-    margin: 0;
-    font-family: "Barlow Condensed", sans-serif;
-    font-weight: 700;
-    font-size: 1.42rem;
-    line-height: 1;
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
-    color: var(--color-primary);
-  }
-
-  .process-card p,
-  .process-timeline-card p {
-    margin-top: 14px;
-    max-width: 32ch;
-    font-size: 0.95rem;
-    line-height: 1.72;
-    color: rgba(20, 28, 60, 0.8);
-  }
-
-  .process-mobile-timeline {
-    display: none;
-    position: relative;
-  }
-
-  .process-mobile-timeline::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 22px;
-    width: 2px;
-    border-radius: 999px;
-    background: linear-gradient(
-      180deg,
-      rgba(65, 171, 226, 0.08),
-      rgba(50, 59, 129, 0.18),
-      rgba(65, 171, 226, 0.08)
-    );
-  }
-
-  .process-timeline-card {
-    position: relative;
-    display: grid;
-    grid-template-columns: 44px minmax(0, 1fr);
-    gap: 14px;
-    margin-bottom: 18px;
-  }
-
-  .process-timeline-rail {
-    display: flex;
     justify-content: center;
-    padding-top: 28px;
-    position: relative;
+    color: rgba(11, 32, 51, 0.8);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, opacity 0.25s ease;
     z-index: 2;
   }
 
-  .process-timeline-dot {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: linear-gradient(
-      135deg,
-      var(--color-primary),
-      var(--color-accent)
-    );
-    box-shadow:
-      0 0 0 6px rgba(65, 171, 226, 0.08),
-      0 0 16px rgba(65, 171, 226, 0.16);
+  .process-nav svg {
+    width: 18px;
+    height: 18px;
   }
 
-  .process-timeline-content {
-    position: relative;
-    min-height: 300px;
-    border-radius: 24px;
-    overflow: hidden;
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.84) 0%,
-      rgba(247, 252, 255, 0.76) 100%
-    );
-    border: 1px solid rgba(255, 255, 255, 0.88);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.94),
-      0 18px 42px rgba(50, 59, 129, 0.08),
-      0 6px 16px rgba(65, 171, 226, 0.04);
-    backdrop-filter: blur(14px) saturate(1.18);
-    -webkit-backdrop-filter: blur(14px) saturate(1.18);
-    padding: 24px 20px 22px;
+  .process-nav--prev {
+    left: -6px;
   }
 
-  .process-card-top-mobile {
-    justify-content: space-between;
-    align-items: center;
+  .process-nav--next {
+    right: -6px;
   }
 
-  .fade-in {
-    opacity: 0;
-    transform: translateY(18px);
-    transition:
-      opacity 0.7s ease,
-      transform 0.7s ease;
+  .process-nav:hover {
+    transform: translateY(calc(-50% - 1px));
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 16px 28px rgba(11, 32, 51, 0.16);
   }
 
-  .fade-in.is-visible {
-    opacity: 1;
-    transform: translateY(0);
+  .process-nav:active {
+    transform: translateY(-50%);
+    box-shadow: 0 10px 20px rgba(11, 32, 51, 0.12);
   }
 
-  .fade-in-delay-1 {
-    transition-delay: 0.04s;
-  }
-  .fade-in-delay-2 {
-    transition-delay: 0.08s;
-  }
-  .fade-in-delay-3 {
-    transition-delay: 0.12s;
-  }
-  .fade-in-delay-4 {
-    transition-delay: 0.16s;
-  }
-  .fade-in-delay-5 {
-    transition-delay: 0.2s;
-  }
-  .fade-in-delay-6 {
-    transition-delay: 0.24s;
+  .process-nav[disabled],
+  .process-nav.swiper-button-disabled {
+    opacity: 0.35;
+    pointer-events: none;
   }
 
-  @keyframes processFlowRight {
-    0% {
-      left: 4%;
-      opacity: 0.18;
-    }
-    18% {
-      opacity: 1;
-    }
-    50% {
-      left: 42%;
-      opacity: 1;
-    }
-    82% {
-      opacity: 1;
-    }
-    100% {
-      left: 78%;
-      opacity: 0.18;
-    }
+  .process-swiper .swiper-slide-active .card {
+    box-shadow: 0 22px 48px rgba(11, 32, 51, 0.18);
   }
 
-  @keyframes processFlowLeft {
-    0% {
-      right: 4%;
-      opacity: 0.18;
-    }
-    18% {
-      opacity: 1;
-    }
-    50% {
-      right: 42%;
-      opacity: 1;
-    }
-    82% {
-      opacity: 1;
-    }
-    100% {
-      right: 78%;
-      opacity: 0.18;
-    }
-  }
-
-  @keyframes processFlowDown {
-    0% {
-      top: 8%;
-      opacity: 0.18;
-    }
-    20% {
-      opacity: 1;
-    }
-    50% {
-      top: 40%;
-      opacity: 1;
-    }
-    80% {
-      opacity: 1;
-    }
-    100% {
-      top: 72%;
-      opacity: 0.18;
-    }
-  }
-
-  @media (max-width: 1200px) {
-    .process-card-inner {
-      padding: 28px 22px 22px;
-    }
-
-    .process-grid-desktop {
-      gap: 20px;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    .process-header {
-      margin-bottom: 40px;
-    }
-
+  @media (max-width: 720px) {
     .process-title {
-      font-size: clamp(2.6rem, 7vw, 4.4rem);
+      font-size: 2.2rem;
     }
 
-    .process-grid-desktop {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    .process-slide {
+      width: 250px;
     }
 
-    .process-grid-desktop-bottom {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-  }
-
-  @media (max-width: 768px) {
-    .process-desktop-diagram {
-      display: none;
+    .card {
+      padding: 24px;
     }
 
-    .process-mobile-timeline {
-      display: block;
+    .media {
+      max-width: 210px;
     }
 
-    .process-header {
-      margin-bottom: 32px;
-    }
-
-    .process-subtitle {
-      max-width: 100%;
-      font-size: 0.96rem;
-      line-height: 1.72;
-    }
-
-    .process-timeline-content {
-      min-height: 280px;
-      border-radius: 24px;
-    }
-
-    .process-icon-wrap {
-      width: 72px;
-      height: 72px;
-      border-radius: 20px;
-    }
-
-    .process-icon-wrap::before {
-      inset: 6px;
-      border-radius: 15px;
-    }
-
-    .process-card-icon {
+    .process-nav {
       width: 36px;
       height: 36px;
+      top: auto;
+      bottom: -8px;
+      transform: translateY(0);
     }
 
-    .process-card h3,
-    .process-timeline-card h3 {
-      font-size: 1.2rem;
+    .process-nav--prev {
+      left: 6px;
     }
 
-    .process-card p,
-    .process-timeline-card p {
-      max-width: 100%;
-      font-size: 0.91rem;
-      line-height: 1.66;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .process-title {
-      font-size: clamp(2.2rem, 12vw, 3.2rem);
-      letter-spacing: -0.03em;
+    .process-nav--next {
+      right: 6px;
     }
 
-    .process-mobile-timeline::before {
-      left: 18px;
+    .process-nav:hover {
+      transform: translateY(-1px);
     }
 
-    .process-timeline-card {
-      grid-template-columns: 36px minmax(0, 1fr);
-      gap: 12px;
-    }
-
-    .process-timeline-rail {
-      padding-top: 24px;
-    }
-
-    .process-timeline-content {
-      padding: 22px 18px 20px;
-      min-height: auto;
-    }
-
-    .process-step-badge {
-      min-width: 48px;
-      height: 32px;
-      padding: 0 12px;
-      font-size: 0.7rem;
-    }
-
-    .process-card-meta {
-      font-size: 0.66rem;
-      padding: 0 10px;
-    }
-
-    .process-icon-wrap {
-      width: 64px;
-      height: 64px;
-      border-radius: 18px;
-    }
-
-    .process-card-icon {
-      width: 31px;
-      height: 31px;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .process-card,
-    .process-icon-wrap,
-    .fade-in,
-    .flow-glow,
-    .drop-glow {
-      transition: none !important;
-      animation: none !important;
+    .process-nav:active {
+      transform: translateY(0);
     }
   }
 </style>
 
-<script is:inline>
-  (() => {
-    const items = document.querySelectorAll(".fade-in");
-    if (!items.length) return;
+<script>
+  import Swiper from "swiper";
+  import { Navigation, Keyboard, Mousewheel, Autoplay } from "swiper/modules";
 
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    const canHover = window.matchMedia(
-      "(hover: hover) and (pointer: fine)",
-    ).matches;
+  const init = () => {
+    const el = document.querySelector("[data-process-swiper]");
+    if (!el || el.dataset.ready) return;
 
-    if ("IntersectionObserver" in window) {
-      const revealObserver = new IntersectionObserver(
-        (entries, observer) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          });
-        },
-        { threshold: 0.12 },
-      );
+    new Swiper(el, {
+      modules: [Navigation, Keyboard, Mousewheel, Autoplay],
+      loop: true,
+      centeredSlides: true,
+      speed: 900,
+      slidesPerView: "auto",
+      spaceBetween: 12,
+      watchSlidesProgress: true,
+      autoplay: {
+        delay: 3500,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+      },
+      navigation: {
+        nextEl: el.querySelector(".process-nav--next"),
+        prevEl: el.querySelector(".process-nav--prev"),
+      },
+      keyboard: true,
+      mousewheel: true,
+    });
 
-      items.forEach((item) => revealObserver.observe(item));
-    } else {
-      items.forEach((item) => item.classList.add("is-visible"));
-    }
+    el.dataset.ready = "true";
+  };
 
-    if (!reducedMotion && canHover) {
-      const cards = document.querySelectorAll(
-        ".process-card, .process-timeline-content",
-      );
-
-      cards.forEach((card) => {
-        card.addEventListener("pointerenter", () => {
-          card.style.willChange = "transform";
-        });
-
-        card.addEventListener("pointerleave", () => {
-          card.style.willChange = "auto";
-        });
-      });
-    }
-  })();
+  init();
 </script>
