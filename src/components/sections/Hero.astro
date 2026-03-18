@@ -13,35 +13,33 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       <div class="hero-left">
         <div class="hero-badge fade-in">
           <span class="hero-badge-dot"></span>
-          #1 en Villahermosa, Tabasco
+          Suministro B2B en Villahermosa
         </div>
 
         <h1 class="hero-title fade-in fade-in-delay-1">
           <span class="hero-title-top">
-            <span class="hero-title-ice">HIELO</span>
-            <span class="hero-title-ice">PREMIUM</span>
+            <span class="hero-title-ice">HIELO PREMIUM</span>
           </span>
-          <span class="hero-title-bottom">PARA TU NEGOCIO</span>
+          <span class="hero-title-bottom">PARA OPERACIÓN COMERCIAL</span>
         </h1>
 
         <p class="hero-subtitle fade-in fade-in-delay-2">
-          Distribuimos hielo de máxima calidad con entrega rápida y puntual.
-          Ideal para restaurantes, bares, hoteles y eventos en todo
-          Villahermosa, Tabasco.
+          Suministro garantizado de hielo purificado con stock permanente para
+          tu negocio en Villahermosa.
         </p>
 
         <ul class="hero-checks" aria-label="Beneficios principales">
           <li>
             <span class="check-icon">✓</span>
-            <span>Coordinamos el tiempo de entrega</span>
+            <span>Stock permanente para pedidos recurrentes</span>
           </li>
           <li>
             <span class="check-icon">✓</span>
-            <span>Hielo 100% purificado y certificado</span>
+            <span>Hielo purificado con presentación uniforme</span>
           </li>
           <li>
             <span class="check-icon">✓</span>
-            <span>{commercialContent.badges.service247}</span>
+            <span>Entrega coordinada por rutas comerciales</span>
           </li>
         </ul>
 
@@ -89,16 +87,6 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
                   fetchpriority="high"
                 />
               </picture>
-            </div>
-
-            <div class="hero-floating-card hero-floating-card-top">
-              <span class="floating-label">Calidad</span>
-              <strong>Premium</strong>
-            </div>
-
-            <div class="hero-floating-card hero-floating-card-bottom">
-              <span class="floating-label">Cobertura</span>
-              <strong>Entrega rápida</strong>
             </div>
           </div>
         </div>
@@ -258,40 +246,8 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     font-weight: 800;
     line-height: 0.88;
     letter-spacing: -1.9px;
-    color: transparent;
-    -webkit-text-stroke: 1.4px rgba(255, 255, 255, 0.3);
-    background-image:
-      linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.96) 0%,
-        rgba(228, 245, 255, 0.78) 16%,
-        rgba(151, 220, 255, 0.28) 36%,
-        rgba(255, 255, 255, 0.92) 52%,
-        rgba(177, 230, 255, 0.34) 68%,
-        rgba(255, 255, 255, 0.18) 100%
-      ),
-      linear-gradient(
-        115deg,
-        rgba(255, 255, 255, 0) 18%,
-        rgba(255, 255, 255, 0.06) 28%,
-        rgba(255, 255, 255, 0.95) 46%,
-        rgba(255, 255, 255, 0.18) 58%,
-        rgba(255, 255, 255, 0) 72%
-      );
-    background-size:
-      100% 100%,
-      260% 100%;
-    background-position:
-      0 0,
-      -180% 50%;
-    background-repeat: no-repeat;
-    -webkit-background-clip: text;
-    background-clip: text;
-    text-shadow: none;
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.08))
-      drop-shadow(0 0 22px rgba(65, 171, 226, 0.14));
-    will-change: background-position, filter;
-    animation: heroIceSweep 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    color: #f6f9ff;
+    text-shadow: 0 10px 26px rgba(9, 16, 40, 0.35);
   }
 
   .hero-subtitle {
@@ -356,6 +312,23 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   .hero-cta-secondary {
     min-width: 220px;
     text-align: center;
+  }
+
+  .hero-cta-primary {
+    background: linear-gradient(180deg, #8ddcff 0%, #4fb5ef 100%);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    box-shadow:
+      0 18px 40px rgba(5, 15, 50, 0.35),
+      0 6px 16px rgba(79, 181, 239, 0.45);
+    font-weight: 700;
+  }
+
+  .hero-cta-secondary {
+    border: 2px solid rgba(255, 255, 255, 0.72);
+    color: var(--color-white);
+    font-weight: 700;
+    background: transparent;
+    box-shadow: 0 10px 26px rgba(5, 15, 50, 0.2);
   }
 
   .hero-visual {
@@ -465,18 +438,8 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     height: 100%;
     border-radius: 28px;
     overflow: hidden;
-    background:
-      radial-gradient(
-        circle at 50% 40%,
-        rgba(255, 255, 255, 0.2),
-        transparent 55%
-      ),
-      linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.08),
-        rgba(255, 255, 255, 0.02)
-      );
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: #0c1834;
+    border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
   }
 
@@ -491,74 +454,6 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       drop-shadow(0 10px 20px rgba(10, 20, 55, 0.18));
   }
 
-  .hero-floating-card {
-    position: absolute;
-    z-index: 3;
-    min-width: 150px;
-    padding: 14px 16px;
-    border-radius: 18px;
-    background: rgba(9, 21, 58, 0.55);
-    border: 1px solid rgba(157, 212, 242, 0.18);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 16px 32px rgba(4, 10, 35, 0.22);
-  }
-
-  .hero-floating-card strong {
-    display: block;
-    color: var(--color-white);
-    font-size: 1rem;
-    font-weight: 700;
-    letter-spacing: 0.2px;
-  }
-
-  .floating-label {
-    display: inline-block;
-    margin-bottom: 4px;
-    color: rgba(157, 212, 242, 0.88);
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-  }
-
-  .hero-floating-card-top {
-    top: 24px;
-    left: -26px;
-    animation: heroFloatTag 4.2s ease-in-out infinite;
-  }
-
-  .hero-floating-card-bottom {
-    right: -24px;
-    bottom: 28px;
-    animation: heroFloatTag 4.8s ease-in-out infinite 0.4s;
-  }
-
-  @keyframes heroIceSweep {
-    0% {
-      background-position:
-        0 0,
-        -180% 50%;
-      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.06))
-        drop-shadow(0 0 18px rgba(65, 171, 226, 0.12));
-    }
-
-    45% {
-      background-position:
-        0 0,
-        140% 50%;
-      filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.14))
-        drop-shadow(0 0 34px rgba(65, 171, 226, 0.22));
-    }
-
-    100% {
-      background-position:
-        0 0,
-        140% 50%;
-      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.06))
-        drop-shadow(0 0 18px rgba(65, 171, 226, 0.12));
-    }
-  }
-
   @keyframes heroFloatCard {
     0%,
     100% {
@@ -566,16 +461,6 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     }
     50% {
       transform: translateY(-14px);
-    }
-  }
-
-  @keyframes heroFloatTag {
-    0%,
-    100% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-8px);
     }
   }
 
@@ -684,7 +569,6 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
     .hero-title-ice {
       font-size: clamp(3.9rem, 8.5vw, 6rem);
-      -webkit-text-stroke: 1.2px rgba(255, 255, 255, 0.3);
     }
   }
 
@@ -718,11 +602,6 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
     .hero-title-ice {
       font-size: clamp(3.4rem, 11vw, 5rem);
-      -webkit-text-stroke: 1px rgba(255, 255, 255, 0.28);
-      background-size:
-        100% 100%,
-        300% 100%;
-      animation-duration: 3s;
     }
 
     .hero-subtitle {
@@ -768,26 +647,6 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     .hero-media-frame {
       border-radius: 20px;
     }
-
-    .hero-floating-card {
-      min-width: 128px;
-      padding: 11px 13px;
-      border-radius: 14px;
-    }
-
-    .hero-floating-card strong {
-      font-size: 0.9rem;
-    }
-
-    .hero-floating-card-top {
-      top: 10px;
-      left: -8px;
-    }
-
-    .hero-floating-card-bottom {
-      right: -8px;
-      bottom: 14px;
-    }
   }
 
   @media (max-width: 480px) {
@@ -811,7 +670,6 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
     .hero-title-ice {
       font-size: clamp(2.9rem, 11.8vw, 4rem);
-      -webkit-text-stroke: 0.9px rgba(255, 255, 255, 0.28);
     }
 
     .hero-checks li {
@@ -827,19 +685,6 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
     .hero-visual-shell {
       width: 100%;
-    }
-
-    .hero-floating-card {
-      min-width: 116px;
-      padding: 10px 12px;
-    }
-
-    .floating-label {
-      font-size: 0.66rem;
-    }
-
-    .hero-floating-card strong {
-      font-size: 0.84rem;
     }
   }
 

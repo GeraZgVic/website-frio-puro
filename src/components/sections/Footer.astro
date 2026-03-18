@@ -5,11 +5,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 <!-- FOOTER -->
 <footer>
   <div class="footer-bg"></div>
-  <div class="footer-ice-glow footer-ice-glow-1"></div>
-  <div class="footer-ice-glow footer-ice-glow-2"></div>
-  <div class="footer-light-bloom"></div>
   <div class="footer-top-line"></div>
-  <div class="footer-frost"></div>
 
   <div class="container">
     <div class="footer-grid">
@@ -32,7 +28,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
             rel="noopener noreferrer"
             aria-label="Ver ubicación de Oficina y Fábrica de Frío Puro en Google Maps"
           >
-            <strong>OFICINA Y FÁBRICA DE FRIO PURO:</strong><br />
+            <strong>OFICINA Y FÁBRICA DE FRÍO PURO</strong><br />
             Calle Melchor Ocampo, Número 104,<br />
             Colonia Miguel Hidalgo, Villahermosa,<br />
             Centro, Tabasco. C.P. 86127
@@ -56,12 +52,20 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
           <h4>Contacto</h4>
           <ul class="footer-contact footer-links">
             <li>
-              <span class="ic">01</span>
-              <span>{commercialContent.whatsappNumberRaw}</span>
+              <span class="ic" aria-hidden="true">01</span>
+              <a
+                href={buildWhatsAppUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {commercialContent.whatsappNumberRaw}
+              </a>
             </li>
             <li>
-              <span class="ic">02</span>
-              <span>{commercialContent.badges.whatsapp247}</span>
+              <span class="ic" aria-hidden="true">02</span>
+              <a href="mailto:contacto@friopuro.com.mx">
+                contacto@friopuro.com.mx
+              </a>
             </li>
           </ul>
         </div>
@@ -71,7 +75,6 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
         <h4>Síguenos</h4>
 
         <div class="social-icons">
-          <!-- Facebook -->
           <a
             href="https://www.facebook.com/people/FR%C3%8DO-PURO/61586180049631/?mibextid=wwXIfr&rdid=w0UEUjDLTAhu7O95&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F17eBLeLQ5Y%2F%3Fmibextid%3DwwXIfr"
             target="_blank"
@@ -79,7 +82,6 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
             class="social-icon facebook"
             aria-label="Facebook"
           >
-            <span class="social-icon-glow"></span>
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path
                 d="M13.5 21v-7h2.4l.36-2.8H13.5V9.41c0-.81.22-1.36 1.39-1.36H16.4V5.55c-.26-.03-1.14-.1-2.17-.1-2.15 0-3.63 1.31-3.63 3.73v2.02H8.16V14h2.44v7h2.9Z"
@@ -87,7 +89,6 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
             </svg>
           </a>
 
-          <!-- Instagram -->
           <a
             href="https://www.instagram.com/friopuro2024?igsh=MTd5aHZkMHh2a3Zmdw%3D%3D&utm_source=qr"
             target="_blank"
@@ -95,7 +96,6 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
             class="social-icon instagram"
             aria-label="Instagram"
           >
-            <span class="social-icon-glow"></span>
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path
                 d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5A3.95 3.95 0 0 0 7.75 20.2h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5ZM12 7.3A4.7 4.7 0 1 1 7.3 12 4.7 4.7 0 0 1 12 7.3Zm0 1.8A2.9 2.9 0 1 0 14.9 12 2.9 2.9 0 0 0 12 9.1Zm4.95-2.42a1.12 1.12 0 1 1-1.12 1.12 1.12 1.12 0 0 1 1.12-1.12Z"
@@ -103,7 +103,6 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
             </svg>
           </a>
 
-          <!-- WhatsApp -->
           <a
             href={buildWhatsAppUrl()}
             target="_blank"
@@ -111,7 +110,6 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
             class="social-icon whatsapp"
             aria-label="WhatsApp"
           >
-            <span class="social-icon-glow"></span>
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
                 d="M20.52 3.48A11.84 11.84 0 0 0 12.08 0C5.57 0 .27 5.29.27 11.81c0 2.08.54 4.11 1.57 5.9L0 24l6.49-1.7a11.78 11.78 0 0 0 5.59 1.42h.01c6.51 0 11.81-5.3 11.81-11.81 0-3.15-1.23-6.11-3.38-8.43ZM12.09 21.7h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.85 1 1.03-3.75-.23-.38a9.79 9.79 0 0 1-1.5-5.18c0-5.42 4.41-9.83 9.84-9.83 2.63 0 5.09 1.02 6.94 2.88a9.78 9.78 0 0 1 2.88 6.95c0 5.42-4.42 9.83-9.84 9.83Z"
@@ -129,7 +127,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
     <div class="footer-bottom">
       <span>© 2026 Frío Puro. Todos los derechos reservados.</span>
-      <span>Villahermosa, Tabasco</span>
+      <span>Villahermosa, Tabasco, México</span>
     </div>
   </div>
 </footer>
@@ -138,16 +136,15 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   footer {
     position: relative;
     overflow: hidden;
-    padding: 100px 60px 28px;
+    padding: 88px 56px 28px;
     color: rgba(255, 255, 255, 0.72);
     background: linear-gradient(
       180deg,
-      color-mix(in srgb, var(--color-footer) 58%, #182d61 42%) 0%,
-      color-mix(in srgb, var(--color-footer) 78%, #08142d 22%) 18%,
-      color-mix(in srgb, var(--color-footer) 91%, #040b17 9%) 58%,
-      #020712 100%
+      color-mix(in srgb, var(--color-footer) 62%, #1a2f61 38%) 0%,
+      color-mix(in srgb, var(--color-footer) 82%, #081221 18%) 24%,
+      #030915 100%
     );
-    border-top: 1px solid rgba(255, 255, 255, 0.065);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
     isolation: isolate;
   }
 
@@ -157,70 +154,20 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     pointer-events: none;
     background:
       radial-gradient(
-        circle at 14% 12%,
-        rgba(121, 209, 255, 0.085),
+        circle at 14% 10%,
+        rgba(121, 209, 255, 0.07),
         transparent 24%
       ),
       radial-gradient(
-        circle at 82% 16%,
-        rgba(191, 230, 255, 0.06),
+        circle at 84% 14%,
+        rgba(191, 230, 255, 0.05),
         transparent 18%
       ),
       radial-gradient(
         circle at 50% 0%,
-        rgba(255, 255, 255, 0.025),
+        rgba(255, 255, 255, 0.02),
         transparent 30%
       );
-    z-index: 0;
-  }
-
-  .footer-ice-glow {
-    position: absolute;
-    border-radius: 999px;
-    pointer-events: none;
-    filter: blur(58px);
-    z-index: 0;
-  }
-
-  .footer-ice-glow-1 {
-    width: 320px;
-    height: 320px;
-    top: -150px;
-    left: -120px;
-    background: radial-gradient(
-      circle,
-      rgba(110, 205, 255, 0.12),
-      transparent 72%
-    );
-    opacity: 0.72;
-  }
-
-  .footer-ice-glow-2 {
-    width: 280px;
-    height: 280px;
-    right: -80px;
-    bottom: -150px;
-    background: radial-gradient(
-      circle,
-      rgba(184, 233, 255, 0.1),
-      transparent 72%
-    );
-    opacity: 0.48;
-  }
-
-  .footer-light-bloom {
-    position: absolute;
-    top: 8px;
-    left: 8%;
-    width: 280px;
-    height: 160px;
-    background: radial-gradient(
-      circle,
-      rgba(168, 226, 255, 0.07),
-      transparent 68%
-    );
-    filter: blur(24px);
-    pointer-events: none;
     z-index: 0;
   }
 
@@ -234,162 +181,90 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     background: linear-gradient(
       90deg,
       transparent,
-      rgba(162, 224, 255, 0.12),
-      rgba(255, 255, 255, 0.26),
-      rgba(162, 224, 255, 0.12),
+      rgba(162, 224, 255, 0.08),
+      rgba(255, 255, 255, 0.18),
+      rgba(162, 224, 255, 0.08),
       transparent
     );
-    box-shadow:
-      0 0 16px rgba(161, 223, 255, 0.1),
-      0 0 34px rgba(161, 223, 255, 0.05);
     pointer-events: none;
     z-index: 1;
-  }
-
-  .footer-frost {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.07;
-    background:
-      radial-gradient(
-        circle at 18% 24%,
-        rgba(255, 255, 255, 0.05) 0 1px,
-        transparent 1.5px
-      ),
-      radial-gradient(
-        circle at 78% 32%,
-        rgba(255, 255, 255, 0.04) 0 1px,
-        transparent 1.6px
-      ),
-      radial-gradient(
-        circle at 62% 68%,
-        rgba(170, 225, 255, 0.04) 0 1px,
-        transparent 1.8px
-      );
-    background-size:
-      260px 220px,
-      320px 260px,
-      280px 240px;
-    mask-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.45),
-      transparent 88%
-    );
   }
 
   .footer-grid {
     position: relative;
     z-index: 2;
     display: grid;
-    grid-template-columns: minmax(330px, 1.55fr) minmax(320px, 1fr) 0.82fr;
-    gap: 36px;
-    margin-bottom: 42px;
+    grid-template-columns: minmax(330px, 1.45fr) minmax(320px, 1fr) 0.82fr;
+    gap: 34px;
+    margin-bottom: 38px;
     align-items: start;
   }
 
   .footer-brand {
-    position: relative;
-    padding-top: 4px;
     max-width: 420px;
   }
 
   .footer-logo-link {
-    position: relative;
     display: inline-flex;
     align-items: center;
     text-decoration: none;
-    margin-bottom: 20px;
-  }
-
-  .footer-logo-link::before {
-    content: "";
-    position: absolute;
-    inset: -12px -18px -14px -12px;
-    background: radial-gradient(
-      circle,
-      rgba(191, 233, 255, 0.08),
-      transparent 72%
-    );
-    filter: blur(12px);
-    pointer-events: none;
-    z-index: -1;
-  }
-
-  .footer-logo-link::after {
-    content: "";
-    position: absolute;
-    left: 2px;
-    bottom: -10px;
-    width: 156px;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.34),
-      rgba(144, 218, 255, 0.16),
-      transparent
-    );
-    box-shadow: 0 0 12px rgba(174, 228, 255, 0.04);
+    margin-bottom: 18px;
   }
 
   .footer-logo-image {
     width: auto;
-    height: 68px;
+    height: 64px;
     display: block;
     object-fit: contain;
     opacity: 0.995;
-    filter: brightness(1.06) contrast(1.04) saturate(1.02)
-      drop-shadow(0 12px 24px rgba(0, 0, 0, 0.24))
-      drop-shadow(0 0 18px rgba(208, 239, 255, 0.06));
+    filter: brightness(1.05) contrast(1.03)
+      drop-shadow(0 12px 22px rgba(0, 0, 0, 0.22));
     transition:
-      transform var(--transition),
-      filter var(--transition),
-      opacity var(--transition);
+      transform 0.28s ease,
+      filter 0.28s ease;
   }
 
   .footer-logo-link:hover .footer-logo-image {
     transform: translateY(-2px);
-    filter: brightness(1.08) contrast(1.05) saturate(1.03)
-      drop-shadow(0 16px 30px rgba(0, 0, 0, 0.3))
-      drop-shadow(0 0 24px rgba(214, 241, 255, 0.09));
+    filter: brightness(1.07) contrast(1.04)
+      drop-shadow(0 16px 28px rgba(0, 0, 0, 0.28));
   }
 
   .footer-address-block {
-    margin-top: 22px;
-    padding: 14px 16px;
+    margin-top: 16px;
+    padding: 16px 16px;
     display: grid;
-    border-radius: 16px;
-    border: 1px solid rgba(184, 226, 255, 0.12);
+    border-radius: 18px;
+    border: 1px solid rgba(184, 226, 255, 0.1);
     background: linear-gradient(
-      135deg,
+      180deg,
       rgba(255, 255, 255, 0.05),
-      rgba(6, 20, 45, 0.2)
+      rgba(7, 18, 38, 0.16)
     );
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.06),
-      0 10px 24px rgba(0, 0, 0, 0.18);
+      inset 0 1px 0 rgba(255, 255, 255, 0.05),
+      0 10px 24px rgba(0, 0, 0, 0.14);
   }
 
   .footer-address-text {
     display: inline-block;
     margin: 0;
     font-size: 0.88rem;
-    line-height: 1.58;
+    line-height: 1.6;
     color: rgba(231, 239, 255, 0.62);
     text-decoration: none;
     transition:
-      color var(--transition),
-      transform var(--transition);
+      color 0.28s ease,
+      transform 0.28s ease;
   }
 
   .footer-address-text:hover {
-    color: rgba(255, 255, 255, 0.92);
+    color: rgba(255, 255, 255, 0.9);
     transform: translateY(-1px);
   }
 
   .footer-address-text:focus-visible {
-    outline: 2px solid rgba(176, 229, 255, 0.6);
+    outline: 2px solid rgba(176, 229, 255, 0.55);
     outline-offset: 3px;
     border-radius: 8px;
   }
@@ -400,7 +275,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     font-family: "Barlow Condensed", sans-serif;
     font-weight: 700;
     font-size: 0.78rem;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.88);
   }
@@ -422,9 +297,8 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     font-weight: 700;
     font-size: 0.78rem;
     text-transform: uppercase;
-    letter-spacing: 2.8px;
+    letter-spacing: 2.4px;
     color: rgba(255, 255, 255, 0.94);
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.02);
   }
 
   .footer-links {
@@ -441,13 +315,12 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     display: inline-flex;
     align-items: center;
     width: fit-content;
-    color: rgba(232, 240, 255, 0.56);
+    color: rgba(232, 240, 255, 0.58);
     text-decoration: none;
     font-size: 0.91rem;
     transition:
-      color var(--transition),
-      transform var(--transition),
-      text-shadow var(--transition);
+      color 0.28s ease,
+      transform 0.28s ease;
   }
 
   .footer-links a::after {
@@ -459,16 +332,16 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     height: 1px;
     background: linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0.72),
-      rgba(150, 220, 255, 0.38),
+      rgba(255, 255, 255, 0.68),
+      rgba(150, 220, 255, 0.26),
       transparent
     );
-    transition: width var(--transition);
+    transition: width 0.28s ease;
   }
 
   .footer-links a:hover {
     color: rgba(255, 255, 255, 0.9);
-    transform: translateX(3px);
+    transform: translateX(2px);
   }
 
   .footer-links a:hover::after {
@@ -476,9 +349,10 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   }
 
   .footer-contact li {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
+    display: grid;
+    grid-template-columns: 30px minmax(0, 1fr);
+    align-items: start;
+    column-gap: 14px;
     font-size: 0.91rem;
     line-height: 1.6;
     color: rgba(233, 241, 255, 0.58);
@@ -487,14 +361,18 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   .footer-contact .ic {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    min-width: 22px;
-    padding-top: 1px;
+    justify-content: flex-start;
+    width: 30px;
+    padding-top: 2px;
     font-size: 0.66rem;
     font-weight: 700;
     letter-spacing: 0.12em;
-    color: rgba(122, 212, 255, 0.88);
-    text-shadow: 0 0 12px rgba(122, 212, 255, 0.1);
+    color: rgba(122, 212, 255, 0.84);
+  }
+
+  .footer-contact a {
+    word-break: break-word;
+    line-height: 1.65;
   }
 
   .footer-social-col {
@@ -503,128 +381,62 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
   .social-icons {
     display: flex;
-    gap: 14px;
+    gap: 12px;
     flex-wrap: wrap;
     align-items: center;
-    margin-top: 10px;
+    margin-top: 8px;
   }
 
   .social-icon {
     position: relative;
     flex: 0 0 auto;
-    width: 48px;
-    height: 48px;
+    width: 46px;
+    height: 46px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 16px;
+    border-radius: 15px;
     text-decoration: none;
-    color: rgba(245, 249, 255, 0.92);
-    border: 1px solid rgba(190, 225, 255, 0.12);
+    color: rgba(245, 249, 255, 0.9);
+    border: 1px solid rgba(190, 225, 255, 0.1);
     background: linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.09) 0%,
-      rgba(255, 255, 255, 0.035) 100%
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.03) 100%
     );
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.12),
-      0 10px 24px rgba(0, 0, 0, 0.16),
-      0 0 0 1px rgba(255, 255, 255, 0.015);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    overflow: hidden;
-    isolation: isolate;
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 10px 22px rgba(0, 0, 0, 0.14);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     transition:
-      transform 0.35s ease,
-      border-color 0.35s ease,
-      box-shadow 0.35s ease,
-      background 0.35s ease,
-      color 0.35s ease;
-  }
-
-  .social-icon::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.22) 0%,
-      rgba(255, 255, 255, 0.04) 28%,
-      rgba(255, 255, 255, 0) 60%
-    );
-    opacity: 0.78;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .social-icon::after {
-    content: "";
-    position: absolute;
-    inset: auto 8px 6px 8px;
-    height: 10px;
-    border-radius: 999px;
-    background: radial-gradient(
-      ellipse at center,
-      rgba(130, 205, 255, 0.16),
-      transparent 72%
-    );
-    filter: blur(8px);
-    opacity: 0.7;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .social-icon-glow {
-    position: absolute;
-    inset: -24%;
-    background: radial-gradient(
-      circle,
-      rgba(170, 228, 255, 0.16),
-      transparent 58%
-    );
-    opacity: 0;
-    transform: scale(0.8);
-    transition:
-      opacity 0.35s ease,
-      transform 0.35s ease;
-    pointer-events: none;
-    z-index: 0;
+      transform 0.28s ease,
+      border-color 0.28s ease,
+      box-shadow 0.28s ease,
+      color 0.28s ease;
   }
 
   .social-icon svg {
-    position: relative;
-    z-index: 1;
-    width: 20px;
-    height: 20px;
-    transition: transform 0.35s ease;
+    width: 19px;
+    height: 19px;
+    transition: transform 0.28s ease;
   }
 
   .social-icon.whatsapp svg {
-    width: 22px;
-    height: 22px;
+    width: 21px;
+    height: 21px;
   }
 
   .social-icon:hover {
-    transform: translateY(-4px) scale(1.03);
-    border-color: rgba(214, 239, 255, 0.24);
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.14) 0%,
-      rgba(255, 255, 255, 0.05) 100%
-    );
+    transform: translateY(-3px);
+    border-color: rgba(214, 239, 255, 0.18);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.18),
-      0 18px 34px rgba(0, 0, 0, 0.24),
-      0 0 24px rgba(154, 222, 255, 0.08);
-  }
-
-  .social-icon:hover .social-icon-glow {
-    opacity: 1;
-    transform: scale(1);
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      0 16px 28px rgba(0, 0, 0, 0.2);
   }
 
   .social-icon:hover svg {
-    transform: scale(1.06);
+    transform: scale(1.05);
   }
 
   .social-icon.facebook:hover {
@@ -640,7 +452,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   }
 
   .social-icon:focus-visible {
-    outline: 2px solid rgba(176, 229, 255, 0.65);
+    outline: 2px solid rgba(176, 229, 255, 0.55);
     outline-offset: 3px;
   }
 
@@ -652,12 +464,11 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     background: linear-gradient(
       90deg,
       transparent,
-      rgba(145, 219, 255, 0.1),
-      rgba(255, 255, 255, 0.12),
-      rgba(145, 219, 255, 0.1),
+      rgba(145, 219, 255, 0.08),
+      rgba(255, 255, 255, 0.1),
+      rgba(145, 219, 255, 0.08),
       transparent
     );
-    box-shadow: 0 0 12px rgba(165, 226, 255, 0.02);
   }
 
   .footer-bottom {
@@ -669,12 +480,12 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     gap: 16px;
     font-size: 0.76rem;
     letter-spacing: 0.02em;
-    color: rgba(235, 241, 255, 0.28);
+    color: rgba(235, 241, 255, 0.3);
   }
 
   @media (max-width: 1100px) {
     footer {
-      padding: 84px 32px 28px;
+      padding: 76px 32px 28px;
     }
 
     .footer-grid {
@@ -712,12 +523,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     }
 
     .footer-logo-image {
-      height: 60px;
-    }
-
-    .footer-logo-link::after {
-      width: 144px;
-      bottom: -10px;
+      height: 58px;
     }
 
     .footer-links-wrap {
@@ -731,10 +537,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       min-width: 0;
     }
 
-    .footer-social-col {
-      text-align: center;
-    }
-
+    .footer-social-col,
     .footer-social-col h4 {
       text-align: center;
     }
@@ -752,13 +555,13 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     }
 
     .social-icon svg {
-      width: 19px;
-      height: 19px;
+      width: 18px;
+      height: 18px;
     }
 
     .social-icon.whatsapp svg {
-      width: 21px;
-      height: 21px;
+      width: 20px;
+      height: 20px;
     }
 
     .footer-bottom {
@@ -766,16 +569,12 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       text-align: center;
       gap: 8px;
     }
+  }
 
-    .footer-light-bloom {
-      width: 200px;
-      height: 140px;
-      left: -20px;
-      top: 8px;
-    }
-
-    .footer-frost {
-      opacity: 0.05;
+  @media (max-width: 520px) {
+    .footer-links-wrap {
+      grid-template-columns: 1fr;
+      gap: 22px;
     }
   }
 </style>
