@@ -78,37 +78,78 @@ const processFlow = [
 ];
 ---
 
-<section class="process-section">
-  <div class="container">
-    <h2 class="process-title">Proceso de producción</h2>
+<section class="process-section" id="proceso">
+  <div class="container process-container">
+    <div class="process-header">
+      <span class="process-kicker">Producción</span>
+      <h2 class="process-title">Proceso de producción</h2>
+      <p class="process-intro">
+        Un flujo continuo, controlado y trazable desde el tratamiento del agua
+        hasta la distribución final.
+      </p>
+    </div>
 
     <div class="swiper process-swiper" data-process-swiper>
+      <div class="process-line" aria-hidden="true">
+        <span class="process-line-track"></span>
+        <span class="process-line-progress" data-process-progress></span>
+      </div>
+
       <div class="swiper-wrapper">
         {
-          processFlow.map((item) => (
-            <div class="swiper-slide process-slide">
-              <div class="card">
-                <div class="badge">{item.step}</div>
-                <div class="group">{item.group}</div>
-                <div class="media">
-                  <img src={item.image} alt={item.alt} loading="lazy" />
+          processFlow.map((item, index) => (
+            <div class="swiper-slide process-slide" data-step-index={index}>
+              <article class="timeline-card">
+                <div class="timeline-pin" aria-hidden="true">
+                  <span class="timeline-dot" />
+                  <span class="timeline-step">{item.step}</span>
                 </div>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </div>
+
+                <div class="card">
+                  <div class="group">{item.group}</div>
+
+                  <div class="media">
+                    <img src={item.image} alt={item.alt} loading="lazy" />
+                  </div>
+
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </div>
+              </article>
             </div>
           ))
         }
       </div>
 
-      <button class="process-nav process-nav--prev" type="button" aria-label="Anterior">
+      <button
+        class="process-nav process-nav--prev"
+        type="button"
+        aria-label="Anterior"
+      >
         <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path
+            d="M15 5l-7 7 7 7"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
         </svg>
       </button>
-      <button class="process-nav process-nav--next" type="button" aria-label="Siguiente">
+
+      <button
+        class="process-nav process-nav--next"
+        type="button"
+        aria-label="Siguiente"
+      >
         <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path
+            d="M9 5l7 7-7 7"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
         </svg>
       </button>
     </div>
@@ -117,19 +158,184 @@ const processFlow = [
 
 <style>
   .process-section {
-    padding: 80px 0;
+    --process-text: var(--color-text, #0b2033);
+    --process-muted: var(--color-text-muted, rgba(11, 32, 51, 0.68));
+    --process-primary: var(--color-primary, #3f4f97);
+    --process-card-bg: rgba(255, 255, 255, 0.82);
+    --process-card-border: rgba(255, 255, 255, 0.72);
+    --process-shadow: 0 14px 34px rgba(11, 32, 51, 0.08);
+    --process-shadow-active: 0 20px 44px rgba(11, 32, 51, 0.14);
+
+    position: relative;
+    padding: 96px 0 92px;
+    color: var(--process-text);
+    overflow: hidden;
+  }
+
+  .process-container {
+    position: relative;
+  }
+
+  .process-header {
+    max-width: 760px;
+    margin: 0 auto 42px;
     text-align: center;
+    position: relative;
+    z-index: 5;
+  }
+
+  .process-kicker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--process-primary) 14%, white 86%);
+    background: color-mix(in srgb, var(--process-primary) 8%, white 92%);
+    color: var(--process-primary);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    box-shadow: 0 8px 20px rgba(11, 32, 51, 0.04);
   }
 
   .process-title {
-    font-size: 3rem;
-    margin-bottom: 40px;
+    margin: 0;
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    line-height: 1.03;
+    letter-spacing: -0.045em;
+    color: var(--process-text);
+  }
+
+  .process-intro {
+    margin: 14px auto 0;
+    max-width: 620px;
+    font-size: 0.98rem;
+    line-height: 1.72;
+    color: var(--process-muted);
   }
 
   .process-swiper {
     position: relative;
     overflow: visible;
-    padding: 10px 0 20px;
+    padding: 56px 0 16px;
+    z-index: 1;
+  }
+
+  .process-line {
+    --progress: 0;
+    --line-left-gap: 8%;
+    --line-right-gap: 8%;
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 48px;
+    height: 16px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .process-line-track,
+  .process-line-progress {
+    position: absolute;
+    top: 50%;
+    left: var(--line-left-gap);
+    right: var(--line-right-gap);
+    height: 2px;
+    transform: translateY(-50%);
+    border-radius: 999px;
+  }
+
+  .process-line-track {
+    background: linear-gradient(
+      90deg,
+      rgba(11, 32, 51, 0.04) 0%,
+      color-mix(in srgb, var(--process-primary) 18%, white 82%) 20%,
+      color-mix(in srgb, var(--process-primary) 22%, white 78%) 50%,
+      color-mix(in srgb, var(--process-primary) 18%, white 82%) 80%,
+      rgba(11, 32, 51, 0.04) 100%
+    );
+  }
+
+  .process-line-track::after {
+    content: "";
+    position: absolute;
+    inset: -7px 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, var(--process-primary) 10%, transparent) 50%,
+      transparent 100%
+    );
+    filter: blur(10px);
+    opacity: 0.5;
+  }
+
+  .process-line-progress {
+    right: auto;
+    width: calc((100% - 0px) * var(--progress));
+    overflow: visible;
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--process-primary) 28%, white 72%) 0%,
+      color-mix(in srgb, var(--process-primary) 68%, white 32%) 55%,
+      var(--process-primary) 100%
+    );
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--process-primary) 10%, transparent),
+      0 0 14px color-mix(in srgb, var(--process-primary) 22%, transparent);
+    transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .process-line-progress::before {
+    content: "";
+    position: absolute;
+    inset: -8px 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, var(--process-primary) 18%, transparent) 50%,
+      transparent 100%
+    );
+    filter: blur(10px);
+    opacity: 0.75;
+  }
+
+  .process-line-progress::after {
+    content: "";
+    position: absolute;
+    right: -1px;
+    top: 50%;
+    width: 52px;
+    height: 12px;
+    transform: translateY(-50%);
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, var(--process-primary) 28%, transparent) 35%,
+      color-mix(in srgb, var(--process-primary) 90%, white 10%) 100%
+    );
+    filter: blur(6px);
+    opacity: 0.9;
+    animation: processFlowRun 2.8s linear infinite;
+  }
+
+  @keyframes processFlowRun {
+    0% {
+      opacity: 0.35;
+      transform: translateY(-50%) translateX(-8px);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(-50%) translateX(0);
+    }
+    100% {
+      opacity: 0.35;
+      transform: translateY(-50%) translateX(8px);
+    }
   }
 
   .process-swiper .swiper-wrapper {
@@ -137,163 +343,443 @@ const processFlow = [
   }
 
   .process-slide {
-    width: 300px;
-    opacity: 0.45;
-    transform: scale(0.86);
-    transition: transform 0.6s ease, opacity 0.6s ease, filter 0.6s ease;
-    filter: saturate(0.9);
-    padding: 8px 6px;
+    width: 292px;
+    min-height: 430px;
+    padding: 0 8px;
+    opacity: 0.5;
+    transform: scale(0.93);
+    transition:
+      transform 0.65s ease,
+      opacity 0.65s ease,
+      filter 0.65s ease;
+    filter: saturate(0.94);
+    position: relative;
+    z-index: 1;
   }
 
   .process-swiper .swiper-slide-active {
     opacity: 1;
     transform: scale(1);
-    filter: saturate(1.05);
+    filter: saturate(1.03);
+    z-index: 3;
   }
 
   .process-swiper .swiper-slide-prev,
   .process-swiper .swiper-slide-next {
-    opacity: 0.7;
-    transform: scale(0.93);
-    filter: saturate(1);
+    opacity: 0.76;
+    transform: scale(0.965);
+  }
+
+  .timeline-card {
+    position: relative;
+    height: 100%;
+    padding-top: 68px;
   }
 
   .card {
-    padding: 30px;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 18px 40px rgba(11, 32, 51, 0.1);
-    transition: box-shadow 0.4s ease, transform 0.4s ease;
+    position: relative;
+    padding: 18px 18px 20px;
+    border-radius: 22px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.94) 0%,
+      var(--process-card-bg) 100%
+    );
+    border: 1px solid var(--process-card-border);
+    backdrop-filter: blur(14px);
+    box-shadow: var(--process-shadow);
+    transition:
+      transform 0.45s ease,
+      box-shadow 0.45s ease,
+      border-color 0.45s ease,
+      opacity 0.45s ease;
   }
 
-  .badge {
-    letter-spacing: 0.2em;
+  .timeline-pin {
+    position: absolute;
+    left: 50%;
+    top: 48px;
+    width: 0;
+    height: 0;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--process-primary) 68%, white 32%) 0%,
+      var(--process-primary) 100%
+    );
+    box-shadow:
+      0 0 0 5px color-mix(in srgb, var(--process-primary) 10%, transparent),
+      0 8px 18px color-mix(in srgb, var(--process-primary) 14%, transparent);
+    transition:
+      transform 0.45s ease,
+      box-shadow 0.45s ease,
+      background 0.45s ease;
+    z-index: 2;
+  }
+
+  .timeline-dot::before {
+    content: "";
+    position: absolute;
+    inset: -9px;
+    border-radius: 999px;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--process-primary) 28%, transparent) 0%,
+      transparent 72%
+    );
+    opacity: 0;
+    transform: scale(0.8);
+    transition:
+      opacity 0.45s ease,
+      transform 0.45s ease;
+  }
+
+  .timeline-step {
+    position: absolute;
+    left: 50%;
+    top: 18px;
+    transform: translateX(-50%);
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid color-mix(in srgb, var(--process-primary) 14%, white 86%);
+    color: var(--process-primary);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    font-size: 0.8rem;
-    margin-bottom: 10px;
+    box-shadow: 0 10px 24px rgba(11, 32, 51, 0.08);
+    backdrop-filter: blur(12px);
+    white-space: nowrap;
+    transition:
+      transform 0.4s ease,
+      box-shadow 0.4s ease,
+      border-color 0.4s ease;
+  }
+
+  .timeline-card::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 48px;
+    width: 2px;
+    height: 26px;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--process-primary) 26%, white 74%) 0%,
+      rgba(11, 32, 51, 0.08) 100%
+    );
+    z-index: 1;
+    opacity: 0.3;
+    transition:
+      opacity 0.45s ease,
+      background 0.45s ease,
+      box-shadow 0.45s ease;
+  }
+
+  .process-slide.is-completed .timeline-dot {
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--process-primary) 72%, white 28%) 0%,
+      color-mix(in srgb, var(--process-primary) 92%, black 8%) 100%
+    );
+    box-shadow:
+      0 0 0 6px color-mix(in srgb, var(--process-primary) 12%, transparent),
+      0 8px 22px color-mix(in srgb, var(--process-primary) 18%, transparent);
+  }
+
+  .process-slide.is-completed .timeline-card::before {
+    opacity: 0.58;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--process-primary) 58%, white 42%) 0%,
+      color-mix(in srgb, var(--process-primary) 18%, transparent) 100%
+    );
+  }
+
+  .process-slide.is-completed .timeline-step {
+    border-color: color-mix(in srgb, var(--process-primary) 20%, white 80%);
+    box-shadow: 0 12px 26px rgba(11, 32, 51, 0.1);
+  }
+
+  .process-swiper .swiper-slide-active .timeline-dot {
+    transform: translate(-50%, -50%) scale(1.18);
+    box-shadow:
+      0 0 0 8px color-mix(in srgb, var(--process-primary) 14%, transparent),
+      0 10px 30px color-mix(in srgb, var(--process-primary) 24%, transparent);
+    animation: processPulseDot 2.3s ease-in-out infinite;
+  }
+
+  .process-swiper .swiper-slide-active .timeline-dot::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .process-swiper .swiper-slide-active .timeline-step {
+    transform: translateX(-50%) scale(1.04);
+    border-color: color-mix(in srgb, var(--process-primary) 22%, white 78%);
+    box-shadow: 0 14px 28px rgba(11, 32, 51, 0.12);
+  }
+
+  .process-swiper .swiper-slide-active .timeline-card::before {
+    opacity: 0.8;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--process-primary) 65%, white 35%) 0%,
+      color-mix(in srgb, var(--process-primary) 18%, transparent) 100%
+    );
   }
 
   .group {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: rgba(11, 32, 51, 0.55);
     margin-bottom: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--process-primary);
+    opacity: 0.82;
   }
 
   .media {
     position: relative;
-    margin: 16px auto 20px;
+    margin: 0 auto 14px;
     width: 100%;
-    max-width: 230px;
-    aspect-ratio: 5 / 4;
-    border-radius: 18px;
+    aspect-ratio: 5 / 3.8;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    box-shadow: inset 0 0 0 1px rgba(11, 32, 51, 0.04);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.74);
+    border: 1px solid rgba(255, 255, 255, 0.74);
+    box-shadow:
+      inset 0 0 0 1px rgba(11, 32, 51, 0.03),
+      0 12px 24px rgba(11, 32, 51, 0.06);
   }
 
   .media::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(11, 32, 51, 0) 35%, rgba(11, 32, 51, 0.18) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(11, 32, 51, 0.12) 100%
+    );
     pointer-events: none;
   }
 
   .media img {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
-    display: block;
+  }
+
+  .card h3 {
+    margin: 0 0 6px;
+    font-size: 1.14rem;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--process-text);
+  }
+
+  .card p {
+    margin: 0;
+    font-size: 0.91rem;
+    line-height: 1.58;
+    color: var(--process-muted);
+  }
+
+  .process-swiper .swiper-slide-active .card {
+    border-color: color-mix(in srgb, var(--process-primary) 18%, white 82%);
+    box-shadow: var(--process-shadow-active);
+    transform: translateY(-4px) scale(1.012);
+  }
+
+  @keyframes processPulseDot {
+    0%,
+    100% {
+      transform: translate(-50%, -50%) scale(1.12);
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.22);
+    }
   }
 
   .process-nav {
     position: absolute;
-    top: 50%;
+    top: 48px;
     transform: translateY(-50%);
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    background: rgba(255, 255, 255, 0.85);
-    box-shadow: 0 12px 24px rgba(11, 32, 51, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--process-text);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: rgba(11, 32, 51, 0.8);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, opacity 0.25s ease;
-    z-index: 2;
+    box-shadow: 0 14px 28px rgba(11, 32, 51, 0.12);
+    backdrop-filter: blur(10px);
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease,
+      background 0.25s ease,
+      opacity 0.25s ease;
+    z-index: 4;
   }
 
   .process-nav svg {
-    width: 18px;
-    height: 18px;
+    width: 15px;
+    height: 15px;
   }
 
   .process-nav--prev {
-    left: -6px;
+    left: -8px;
   }
 
   .process-nav--next {
-    right: -6px;
+    right: -8px;
   }
 
   .process-nav:hover {
     transform: translateY(calc(-50% - 1px));
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 16px 28px rgba(11, 32, 51, 0.16);
+    background: rgba(255, 255, 255, 0.97);
+    box-shadow: 0 16px 30px rgba(11, 32, 51, 0.16);
   }
 
   .process-nav:active {
     transform: translateY(-50%);
-    box-shadow: 0 10px 20px rgba(11, 32, 51, 0.12);
   }
 
   .process-nav[disabled],
   .process-nav.swiper-button-disabled {
-    opacity: 0.35;
+    opacity: 0.34;
     pointer-events: none;
   }
 
-  .process-swiper .swiper-slide-active .card {
-    box-shadow: 0 22px 48px rgba(11, 32, 51, 0.18);
-  }
+  @media (max-width: 900px) {
+    .process-section {
+      padding: 86px 0 84px;
+    }
 
-  @media (max-width: 720px) {
-    .process-title {
-      font-size: 2.2rem;
+    .process-header {
+      margin-bottom: 36px;
     }
 
     .process-slide {
-      width: 250px;
+      width: 274px;
+      min-height: 408px;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .process-section {
+      padding: 72px 0 78px;
+    }
+
+    .process-header {
+      margin-bottom: 28px;
+    }
+
+    .process-title {
+      font-size: clamp(2rem, 10vw, 2.6rem);
+    }
+
+    .process-intro {
+      font-size: 0.95rem;
+      line-height: 1.64;
+      max-width: 92%;
+    }
+
+    .process-swiper {
+      padding: 48px 0 56px;
+    }
+
+    .process-line {
+      top: 42px;
+      left: 12px;
+      right: 12px;
+      height: 14px;
+    }
+
+    .process-line-track,
+    .process-line-progress {
+      left: 0;
+      right: 0;
+    }
+
+    .process-line-progress::after {
+      width: 40px;
+      height: 10px;
+    }
+
+    .process-slide {
+      width: 244px;
+      min-height: 390px;
+      padding: 0 7px;
+      opacity: 0.6;
+      transform: scale(0.94);
+    }
+
+    .timeline-card {
+      padding-top: 60px;
+    }
+
+    .timeline-pin {
+      top: 42px;
+    }
+
+    .timeline-card::before {
+      top: 42px;
+      height: 20px;
+    }
+
+    .timeline-step {
+      top: 12px;
+      font-size: 0.66rem;
+      padding: 6px 9px;
     }
 
     .card {
-      padding: 24px;
+      padding: 16px 16px 18px;
+      border-radius: 20px;
     }
 
-    .media {
-      max-width: 210px;
+    .card h3 {
+      font-size: 1.06rem;
+    }
+
+    .card p {
+      font-size: 0.88rem;
     }
 
     .process-nav {
-      width: 36px;
-      height: 36px;
       top: auto;
-      bottom: -8px;
+      bottom: 0;
       transform: translateY(0);
+      width: 38px;
+      height: 38px;
     }
 
     .process-nav--prev {
-      left: 6px;
+      left: calc(50% - 48px);
     }
 
     .process-nav--next {
-      right: 6px;
+      right: calc(50% - 48px);
     }
 
     .process-nav:hover {
@@ -302,6 +788,10 @@ const processFlow = [
 
     .process-nav:active {
       transform: translateY(0);
+    }
+
+    .process-swiper .swiper-slide-active .card {
+      transform: translateY(-3px) scale(1.01);
     }
   }
 </style>
@@ -314,16 +804,41 @@ const processFlow = [
     const el = document.querySelector("[data-process-swiper]");
     if (!el || el.dataset.ready) return;
 
-    new Swiper(el, {
+    const progressEl = el.querySelector("[data-process-progress]");
+    const slides = () => [...el.querySelectorAll(".process-slide")];
+
+    const setVisualState = (swiper) => {
+      if (!progressEl) return;
+
+      const realIndex = swiper.realIndex ?? 0;
+      const total =
+        [...new Set(slides().map((slide) => slide.dataset.stepIndex))].filter(
+          Boolean,
+        ).length ||
+        slides().length ||
+        1;
+
+      const ratio = total <= 1 ? 1 : realIndex / (total - 1);
+
+      progressEl.style.setProperty("--progress", `${ratio}`);
+      progressEl.style.width = `${ratio * 100}%`;
+
+      slides().forEach((slide) => {
+        const idx = Number(slide.dataset.stepIndex || -1);
+        slide.classList.toggle("is-completed", idx < realIndex);
+      });
+    };
+
+    const swiper = new Swiper(el, {
       modules: [Navigation, Keyboard, Mousewheel, Autoplay],
       loop: true,
       centeredSlides: true,
-      speed: 900,
+      speed: 820,
       slidesPerView: "auto",
-      spaceBetween: 12,
+      spaceBetween: 6,
       watchSlidesProgress: true,
       autoplay: {
-        delay: 3500,
+        delay: 3400,
         disableOnInteraction: false,
         pauseOnMouseEnter: true,
       },
@@ -331,10 +846,34 @@ const processFlow = [
         nextEl: el.querySelector(".process-nav--next"),
         prevEl: el.querySelector(".process-nav--prev"),
       },
-      keyboard: true,
-      mousewheel: true,
+      keyboard: {
+        enabled: true,
+      },
+      mousewheel: {
+        forceToAxis: true,
+      },
+      breakpoints: {
+        0: {
+          spaceBetween: 4,
+        },
+        721: {
+          spaceBetween: 8,
+        },
+      },
+      on: {
+        init(swiperInstance) {
+          setVisualState(swiperInstance);
+        },
+        slideChange(swiperInstance) {
+          setVisualState(swiperInstance);
+        },
+        autoplay(swiperInstance) {
+          setVisualState(swiperInstance);
+        },
+      },
     });
 
+    setVisualState(swiper);
     el.dataset.ready = "true";
   };
 
