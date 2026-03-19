@@ -8,7 +8,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   <div class="products-ambient products-ambient-2"></div>
   <div class="products-noise" aria-hidden="true"></div>
 
-  <div class="container">
+  <div class="container products-container">
     <div class="products-head">
       <div class="products-heading fade-in">
         <h2
@@ -129,7 +129,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       linear-gradient(180deg, #f8fbff 0%, #eef4fa 48%, #f7fbff 100%);
   }
 
-  #productos .container {
+  .products-container {
     position: relative;
     z-index: 2;
   }
@@ -705,6 +705,10 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       padding-block: 72px;
     }
 
+    .products-container {
+      padding-inline: clamp(14px, 4.4vw, 22px);
+    }
+
     .products-head {
       gap: 16px;
       margin-bottom: 24px;
@@ -720,8 +724,17 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       line-height: 1.62;
     }
 
+    .products-showcase {
+      justify-items: center;
+    }
+
+    .featured-product-card {
+      width: min(100%, 640px);
+    }
+
     .featured-product-shell {
       border-radius: 24px;
+      overflow: visible;
       box-shadow:
         0 20px 48px rgba(27, 47, 94, 0.08),
         0 10px 24px rgba(27, 47, 94, 0.05);
@@ -748,6 +761,14 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.08),
         0 20px 42px rgba(10, 24, 58, 0.14);
+    }
+
+    .featured-product-image {
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-position: center center;
+      transform: scale(1.02);
     }
 
     .featured-product-media-footer {
@@ -843,6 +864,10 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       padding-block: 66px;
     }
 
+    .products-container {
+      padding-inline: 16px;
+    }
+
     .products-head {
       margin-bottom: 22px;
     }
@@ -859,6 +884,11 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       color: rgba(16, 33, 73, 0.76);
     }
 
+    .featured-product-card {
+      width: min(100%, 430px);
+      margin-inline: auto;
+    }
+
     .featured-product-shell {
       border-radius: 22px;
     }
@@ -873,11 +903,11 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     }
 
     .featured-product-image {
-      inset: -1% -6% 0 -6%;
-      width: 112%;
-      height: 103%;
-      object-position: center;
-      transform: scale(1.02);
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-position: center 44%;
+      transform: scale(1.015);
     }
 
     .featured-product-spotlight {
@@ -956,6 +986,10 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   }
 
   @media (max-width: 390px) {
+    .featured-product-card {
+      width: min(100%, 380px);
+    }
+
     .featured-product-media {
       min-height: 338px;
     }
@@ -976,11 +1010,15 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       width: calc(100% - 14px);
       margin-top: -42px;
     }
+
+    .featured-product-panel-inner {
+      padding: 17px 14px 15px;
+    }
   }
 
   @media (hover: none) and (pointer: coarse) {
     .featured-product-card:hover .featured-product-image {
-      transform: scale(1.03);
+      transform: scale(1.02);
       filter: saturate(1.02) contrast(1.02) brightness(1.01);
     }
 

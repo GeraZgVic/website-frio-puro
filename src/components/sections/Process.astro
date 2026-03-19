@@ -1104,6 +1104,10 @@ const processFlow = [
       padding: 64px 0;
     }
 
+    .process-container {
+      padding-inline: clamp(14px, 4.4vw, 22px);
+    }
+
     .process-header {
       margin-bottom: 28px;
     }
@@ -1119,7 +1123,7 @@ const processFlow = [
     }
 
     .process-timeline {
-      --line-x: 16px;
+      --line-x: 18px;
     }
 
     .process-line {
@@ -1148,7 +1152,7 @@ const processFlow = [
     .process-item {
       grid-template-columns: 1fr;
       column-gap: 0;
-      padding-left: 38px;
+      padding-left: 42px;
       justify-items: stretch;
       align-items: start;
     }
@@ -1156,7 +1160,7 @@ const processFlow = [
     .process-card-main,
     .process-item:nth-child(odd) .process-card-main,
     .process-item:nth-child(even) .process-card-main {
-      width: 100%;
+      width: min(100%, 620px);
       max-width: none;
       grid-column: 1 / -1;
       justify-self: stretch;
@@ -1168,7 +1172,7 @@ const processFlow = [
     }
 
     .process-pin {
-      left: 16px;
+      left: 18px;
       top: 18px;
       gap: 0;
     }
@@ -1247,6 +1251,10 @@ const processFlow = [
   }
 
   @media (max-width: 560px) {
+    .process-container {
+      padding-inline: 16px;
+    }
+
     .process-label {
       width: 100%;
       justify-content: center;
@@ -1257,15 +1265,15 @@ const processFlow = [
     }
 
     .process-timeline {
-      --line-x: 13px;
+      --line-x: 16px;
     }
 
     .process-item {
-      padding-left: 30px;
+      padding-left: 38px;
     }
 
     .process-pin {
-      left: 13px;
+      left: 16px;
       top: 16px;
     }
 
@@ -1288,6 +1296,13 @@ const processFlow = [
       box-shadow:
         0 0 0 3px rgba(65, 171, 226, 0.13),
         0 7px 12px rgba(27, 47, 94, 0.11);
+    }
+
+    .process-card-main,
+    .process-item:nth-child(odd) .process-card-main,
+    .process-item:nth-child(even) .process-card-main {
+      width: min(100%, 430px);
+      margin-inline: auto;
     }
 
     .process-card-inner {
@@ -1340,16 +1355,26 @@ const processFlow = [
       font-size: 0.88rem;
     }
 
+    .process-container {
+      padding-inline: 14px;
+    }
+
     .process-item {
-      padding-left: 27px;
+      padding-left: 34px;
     }
 
     .process-timeline {
-      --line-x: 11px;
+      --line-x: 14px;
     }
 
     .process-pin {
-      left: 11px;
+      left: 14px;
+    }
+
+    .process-card-main,
+    .process-item:nth-child(odd) .process-card-main,
+    .process-item:nth-child(even) .process-card-main {
+      width: min(100%, 390px);
     }
 
     .process-card-inner {

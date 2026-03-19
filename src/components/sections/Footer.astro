@@ -20,6 +20,9 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
           />
         </a>
 
+        <div class="footer-divider footer-divider-mobile" aria-hidden="true">
+        </div>
+
         <div class="footer-address-block">
           <a
             class="footer-address-text"
@@ -34,6 +37,9 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
             Centro, Tabasco. C.P. 86127
           </a>
         </div>
+      </div>
+
+      <div class="footer-divider footer-divider-mobile" aria-hidden="true">
       </div>
 
       <div class="footer-links-wrap">
@@ -69,6 +75,9 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
             </li>
           </ul>
         </div>
+      </div>
+
+      <div class="footer-divider footer-divider-mobile" aria-hidden="true">
       </div>
 
       <div class="footer-col footer-social-col">
@@ -471,6 +480,11 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     );
   }
 
+  .footer-divider-mobile {
+    display: none;
+    margin: 18px 0 0;
+  }
+
   .footer-bottom {
     position: relative;
     z-index: 2;
@@ -518,23 +532,54 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
     .footer-grid {
       grid-template-columns: 1fr;
-      gap: 24px;
-      margin-bottom: 28px;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .footer-brand {
+      max-width: 100%;
+      text-align: center;
+    }
+
+    .footer-logo-link {
+      width: 100%;
+      justify-content: center;
+      margin-bottom: 0;
     }
 
     .footer-logo-image {
       height: 58px;
     }
 
+    .footer-divider-mobile {
+      display: block;
+    }
+
+    .footer-address-block {
+      margin-top: 18px;
+      text-align: center;
+    }
+
     .footer-links-wrap {
       grid-template-columns: 1fr 1fr;
       gap: 18px;
       align-items: start;
+      padding-top: 0;
     }
 
     .footer-nav-col,
     .footer-contact-col {
       min-width: 0;
+    }
+
+    .footer-nav-col h4,
+    .footer-contact-col h4 {
+      margin-bottom: 14px;
+      text-align: left;
+    }
+
+    .footer-links a {
+      width: fit-content;
     }
 
     .footer-social-col,
@@ -564,6 +609,11 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       height: 20px;
     }
 
+    .footer-divider {
+      margin-top: 6px;
+      margin-bottom: 18px;
+    }
+
     .footer-bottom {
       flex-direction: column;
       text-align: center;
@@ -572,9 +622,68 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   }
 
   @media (max-width: 520px) {
+    footer {
+      padding: 56px 16px 22px;
+    }
+
+    .footer-grid {
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .footer-logo-image {
+      height: 56px;
+    }
+
+    .footer-address-block {
+      padding: 14px 14px;
+      border-radius: 16px;
+    }
+
+    .footer-address-text {
+      font-size: 0.84rem;
+      line-height: 1.56;
+    }
+
     .footer-links-wrap {
-      grid-template-columns: 1fr;
-      gap: 22px;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .footer-col h4 {
+      margin-bottom: 12px;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+    }
+
+    .footer-links {
+      gap: 8px;
+    }
+
+    .footer-links a,
+    .footer-contact li {
+      font-size: 0.86rem;
+    }
+
+    .footer-contact li {
+      grid-template-columns: 24px minmax(0, 1fr);
+      column-gap: 10px;
+    }
+
+    .footer-contact .ic {
+      width: 24px;
+      font-size: 0.6rem;
+      padding-top: 3px;
+    }
+
+    .footer-divider-mobile {
+      margin-top: 16px;
+    }
+
+    .footer-divider {
+      margin-top: 4px;
+      margin-bottom: 16px;
     }
   }
 </style>

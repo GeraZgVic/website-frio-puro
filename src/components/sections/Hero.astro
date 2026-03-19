@@ -62,19 +62,25 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       <div class="hero-visual fade-in fade-in-delay-2">
         <div class="hero-visual-shell">
           <div class="hero-visual-aura"></div>
-          <div class="hero-visual-ring hero-visual-ring-1"></div>
-          <div class="hero-visual-ring hero-visual-ring-2"></div>
+          <div class="hero-visual-orbit hero-visual-orbit-1"></div>
+          <div class="hero-visual-orbit hero-visual-orbit-2"></div>
 
           <div class="hero-media-card">
+            <div class="hero-media-card-bg"></div>
             <div class="hero-media-shine"></div>
-            <div class="hero-media-noise"></div>
+            <div class="hero-media-overlay-top"></div>
+            <div class="hero-media-edge-highlight"></div>
+            <div class="hero-media-bottom-glow"></div>
 
             <div class="hero-media-frame">
+              <div class="hero-media-inner-bg"></div>
+              <div class="hero-media-vignette"></div>
+
               <picture>
                 <source
                   type="image/webp"
                   srcset="/images/Hero-512.webp 512w, /images/Hero-768.webp 768w, /images/Hero-1024.webp 1024w"
-                  sizes="(min-width: 1025px) 520px, 1px"
+                  sizes="(min-width: 1025px) 540px, 1px"
                 />
                 <img
                   src="/images/Hero.png"
@@ -336,12 +342,12 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 620px;
+    min-height: 640px;
   }
 
   .hero-visual-shell {
     position: relative;
-    width: min(100%, 620px);
+    width: min(100%, 640px);
     aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
@@ -350,56 +356,68 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
   .hero-visual-aura {
     position: absolute;
-    width: 76%;
-    height: 76%;
+    inset: 10%;
     border-radius: 999px;
     background: radial-gradient(
       circle,
-      rgba(65, 171, 226, 0.32) 0%,
-      rgba(65, 171, 226, 0.1) 40%,
-      transparent 72%
+      rgba(65, 171, 226, 0.2) 0%,
+      rgba(65, 171, 226, 0.08) 42%,
+      rgba(65, 171, 226, 0.02) 62%,
+      transparent 76%
     );
-    filter: blur(14px);
-    animation: heroAuraPulse 4.5s ease-in-out infinite;
+    filter: blur(26px);
+    animation: heroAuraPulse 5.8s ease-in-out infinite;
     pointer-events: none;
   }
 
-  .hero-visual-ring {
+  .hero-visual-orbit {
     position: absolute;
     border-radius: 999px;
-    border: 1px solid rgba(157, 212, 242, 0.14);
     pointer-events: none;
   }
 
-  .hero-visual-ring-1 {
-    inset: 8%;
-    animation: heroSpin 20s linear infinite;
+  .hero-visual-orbit-1 {
+    inset: 7%;
+    border: 1px solid rgba(157, 212, 242, 0.1);
+    opacity: 0.46;
+    animation: heroSpin 30s linear infinite;
   }
 
-  .hero-visual-ring-2 {
-    inset: 15%;
-    border-style: dashed;
-    animation: heroSpinReverse 28s linear infinite;
+  .hero-visual-orbit-2 {
+    inset: 14%;
+    border: 1px dashed rgba(157, 212, 242, 0.08);
+    opacity: 0.28;
+    animation: heroSpinReverse 38s linear infinite;
   }
 
   .hero-media-card {
     position: relative;
-    width: min(100%, 520px);
+    width: min(100%, 548px);
     aspect-ratio: 1 / 1;
-    border-radius: 38px;
-    padding: 20px;
+    border-radius: 44px;
+    padding: 16px;
     overflow: visible;
+    isolation: isolate;
+    animation: heroFloatCard 6.1s ease-in-out infinite;
+  }
+
+  .hero-media-card-bg {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
     background: linear-gradient(
       145deg,
-      rgba(255, 255, 255, 0.18),
-      rgba(255, 255, 255, 0.05)
+      rgba(255, 255, 255, 0.14) 0%,
+      rgba(255, 255, 255, 0.06) 38%,
+      rgba(255, 255, 255, 0.025) 100%
     );
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(18px);
     box-shadow:
-      0 30px 80px rgba(5, 15, 50, 0.35),
-      inset 0 1px 0 rgba(255, 255, 255, 0.16);
-    animation: heroFloatCard 5.2s ease-in-out infinite;
+      0 34px 80px rgba(5, 15, 50, 0.34),
+      0 10px 30px rgba(65, 171, 226, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    z-index: 0;
   }
 
   .hero-media-shine {
@@ -409,49 +427,141 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     pointer-events: none;
     background: linear-gradient(
       135deg,
-      rgba(255, 255, 255, 0.16) 0%,
-      rgba(255, 255, 255, 0.04) 30%,
-      transparent 58%
+      rgba(255, 255, 255, 0.13) 0%,
+      rgba(255, 255, 255, 0.045) 24%,
+      rgba(255, 255, 255, 0.015) 44%,
+      transparent 64%
     );
+    z-index: 2;
   }
 
-  .hero-media-noise {
+  .hero-media-overlay-top {
     position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    opacity: 0.06;
+    left: 16px;
+    right: 16px;
+    top: 16px;
+    height: 78px;
+    border-radius: 28px 28px 18px 18px;
     pointer-events: none;
-    background-image:
-      radial-gradient(circle at 20% 20%, #ffffff 0.6px, transparent 0.7px),
-      radial-gradient(circle at 80% 30%, #ffffff 0.6px, transparent 0.7px),
-      radial-gradient(circle at 50% 75%, #ffffff 0.6px, transparent 0.7px);
-    background-size:
-      26px 26px,
-      34px 34px,
-      22px 22px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.04) 46%,
+      transparent 100%
+    );
+    opacity: 0.7;
+    z-index: 2;
+  }
+
+  .hero-media-edge-highlight {
+    position: absolute;
+    inset: 1px;
+    border-radius: 43px;
+    pointer-events: none;
+    border: 1px solid rgba(255, 255, 255, 0.065);
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 1),
+      rgba(0, 0, 0, 0.65) 38%,
+      rgba(0, 0, 0, 0.16) 100%
+    );
+    z-index: 3;
+  }
+
+  .hero-media-bottom-glow {
+    position: absolute;
+    left: 11%;
+    right: 11%;
+    bottom: -14px;
+    height: 92px;
+    border-radius: 999px;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(65, 171, 226, 0.18) 0%,
+      rgba(65, 171, 226, 0.06) 44%,
+      transparent 74%
+    );
+    filter: blur(20px);
+    pointer-events: none;
+    z-index: 0;
   }
 
   .hero-media-frame {
     position: relative;
-    z-index: 2;
+    z-index: 1;
     width: 100%;
     height: 100%;
-    border-radius: 28px;
+    border-radius: 32px;
     overflow: hidden;
-    background: #0c1834;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    background:
+      radial-gradient(
+        circle at 50% 16%,
+        rgba(65, 171, 226, 0.12) 0%,
+        transparent 36%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(8, 20, 48, 0.98) 0%,
+        rgba(7, 19, 44, 0.96) 100%
+      );
+    border: 1px solid rgba(255, 255, 255, 0.095);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 -34px 64px rgba(6, 16, 40, 0.24);
+  }
+
+  .hero-media-inner-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        circle at 50% 10%,
+        rgba(255, 255, 255, 0.08) 0%,
+        transparent 22%
+      ),
+      radial-gradient(
+        circle at 50% 92%,
+        rgba(65, 171, 226, 0.1) 0%,
+        transparent 28%
+      );
+    z-index: 1;
+  }
+
+  .hero-media-vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(4, 10, 26, 0.04) 0%,
+        rgba(4, 10, 26, 0) 24%,
+        rgba(4, 10, 26, 0) 68%,
+        rgba(4, 10, 26, 0.12) 100%
+      ),
+      linear-gradient(
+        90deg,
+        rgba(4, 10, 26, 0.08) 0%,
+        rgba(4, 10, 26, 0) 14%,
+        rgba(4, 10, 26, 0) 86%,
+        rgba(4, 10, 26, 0.08) 100%
+      );
+    z-index: 2;
   }
 
   .hero-image {
+    position: relative;
+    z-index: 1;
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     object-position: center;
-    transform: scale(1.03);
-    filter: drop-shadow(0 22px 50px rgba(65, 171, 226, 0.18))
-      drop-shadow(0 10px 20px rgba(10, 20, 55, 0.18));
+    transform: scale(1.035);
+    filter: saturate(1.03) contrast(1.03) brightness(1.01)
+      drop-shadow(0 18px 42px rgba(65, 171, 226, 0.1))
+      drop-shadow(0 12px 20px rgba(10, 20, 55, 0.2));
   }
 
   @keyframes heroFloatCard {
@@ -513,11 +623,15 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     }
 
     .hero-visual {
-      min-height: 560px;
+      min-height: 580px;
+    }
+
+    .hero-visual-shell {
+      width: min(100%, 580px);
     }
 
     .hero-media-card {
-      width: min(100%, 470px);
+      width: min(100%, 500px);
     }
   }
 
@@ -529,7 +643,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
     .hero-content {
       grid-template-columns: 1fr;
-      gap: 34px;
+      gap: 24px;
     }
 
     .hero-left {
@@ -539,14 +653,26 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
     .hero-subtitle {
       max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    .hero-visual {
-      min-height: auto;
+    .hero-checks {
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-checks li {
+      justify-content: flex-start;
+      text-align: left;
+    }
+
+    .hero-buttons {
       justify-content: center;
     }
 
-    .hero-visual-shell {
+    .hero-visual {
       display: none;
     }
 
@@ -629,24 +755,6 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       width: 100%;
       min-width: 0;
     }
-
-    .hero-visual {
-      display: none;
-    }
-
-    .hero-visual-shell {
-      width: min(100%, 430px);
-    }
-
-    .hero-media-card {
-      width: 100%;
-      padding: 14px;
-      border-radius: 28px;
-    }
-
-    .hero-media-frame {
-      border-radius: 20px;
-    }
   }
 
   @media (max-width: 480px) {
@@ -682,20 +790,14 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       height: 22px;
       font-size: 0.7rem;
     }
-
-    .hero-visual-shell {
-      width: 100%;
-    }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .hero-title-ice,
     .hero-visual-aura,
-    .hero-visual-ring-1,
-    .hero-visual-ring-2,
-    .hero-media-card,
-    .hero-floating-card-top,
-    .hero-floating-card-bottom {
+    .hero-visual-orbit-1,
+    .hero-visual-orbit-2,
+    .hero-media-card {
       animation: none;
     }
   }

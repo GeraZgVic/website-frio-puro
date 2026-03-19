@@ -350,6 +350,7 @@
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 22px;
+    align-items: stretch;
   }
 
   .client-card {
@@ -509,6 +510,7 @@
     letter-spacing: 0.22px;
     color: rgba(28, 43, 82, 0.9);
     text-decoration: none;
+    text-align: center;
     transition:
       color 0.22s ease,
       border-color 0.22s ease,
@@ -549,8 +551,27 @@
   }
 
   @media (max-width: 768px) {
+    .audience-section {
+      padding: clamp(72px, 11vw, 92px) 0;
+    }
+
+    .audience-container {
+      padding-inline: clamp(14px, 4.5vw, 22px);
+    }
+
     .audience-header {
-      margin-bottom: 32px;
+      margin-bottom: 30px;
+    }
+
+    .audience-header-main {
+      max-width: 100%;
+    }
+
+    .audience-title {
+      font-size: clamp(2.25rem, 11vw, 3.4rem);
+      line-height: 0.96;
+      letter-spacing: -0.035em;
+      text-wrap: balance;
     }
 
     .audience-subtitle {
@@ -561,49 +582,111 @@
 
     .clients-grid {
       grid-template-columns: 1fr;
-      gap: 18px;
+      gap: 16px;
     }
 
     .client-card {
-      min-height: 300px;
+      width: min(100%, 560px);
+      min-height: unset;
+      margin-inline: auto;
       border-radius: 24px;
       transform: none !important;
     }
 
+    .client-card::before {
+      left: 16px;
+      right: 16px;
+      transform: scaleX(0.26);
+    }
+
     .client-card-inner {
-      padding: 24px 20px 22px;
+      padding: 22px 18px 20px;
+    }
+
+    .client-card-top {
+      margin-bottom: 16px;
     }
 
     .client-icon-wrap {
-      width: 62px;
-      height: 62px;
+      width: 60px;
+      height: 60px;
       border-radius: 18px;
     }
 
     .card-icon {
-      width: 26px;
-      height: 26px;
+      width: 24px;
+      height: 24px;
     }
 
     .client-card h3 {
-      font-size: 1.2rem;
+      font-size: 1.18rem;
+      letter-spacing: 0.3px;
     }
 
     .client-card p {
       max-width: 100%;
-      font-size: 0.91rem;
-      line-height: 1.66;
+      margin-top: 12px;
+      font-size: 0.9rem;
+      line-height: 1.64;
     }
 
     .client-card-footer {
-      padding-top: 18px;
+      padding-top: 16px;
+    }
+
+    .client-card-cta {
+      min-height: 44px;
+      padding: 0 14px;
+      font-size: 0.76rem;
     }
   }
 
   @media (max-width: 480px) {
+    .audience-container {
+      padding-inline: 16px;
+    }
+
     .audience-title {
-      font-size: clamp(2.2rem, 12vw, 3.2rem);
+      font-size: clamp(2.1rem, 12vw, 3rem);
       letter-spacing: -0.03em;
+    }
+
+    .clients-grid {
+      gap: 14px;
+    }
+
+    .client-card {
+      width: min(100%, 430px);
+      border-radius: 22px;
+    }
+
+    .client-card-inner {
+      padding: 20px 16px 18px;
+    }
+
+    .client-icon-wrap {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+    }
+
+    .card-icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    .client-card h3 {
+      font-size: 1.12rem;
+    }
+
+    .client-card p {
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    .client-card-cta {
+      min-height: 42px;
+      font-size: 0.74rem;
     }
   }
 
