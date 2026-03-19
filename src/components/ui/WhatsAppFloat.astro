@@ -1,0 +1,329 @@
+---
+import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
+---
+
+<a
+  href={buildWhatsAppUrl()}
+  class="wa-fab"
+  id="whatsapp-fab"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label={`Abrir WhatsApp para pedir hielo en tubo al ${commercialContent.whatsappNumberRaw}`}
+>
+  <svg
+    class="wa-icon"
+    viewBox="0 0 32 32"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <path
+      fill="currentColor"
+      d="M16 2.667C8.636 2.667 2.667 8.636 2.667 16c0 2.364.637 4.576 1.748 6.484L2.667 29.333l6.997-1.731A13.267 13.267 0 0 0 16 29.333c7.364 0 13.333-5.969 13.333-13.333S23.364 2.667 16 2.667Zm0 2.4a10.92 10.92 0 0 1 10.933 10.933A10.92 10.92 0 0 1 16 26.933a10.88 10.88 0 0 1-5.876-1.713l-.42-.258-4.151 1.027 1.054-3.992-.28-.434A10.88 10.88 0 0 1 5.067 16 10.92 10.92 0 0 1 16 5.067ZM11.52 9.6c-.267 0-.693.1-.96.373-.267.267-1.067 1.04-1.067 2.507 0 1.493.96 2.906 1.093 3.093.134.187 1.867 2.88 4.587 3.947.64.267 1.147.427 1.547.547.64.187 1.226.16 1.68.1.52-.08 1.6-.654 1.84-1.28.24-.627.24-1.174.16-1.28-.08-.107-.267-.16-.547-.294-.293-.133-1.6-.8-1.867-.893-.267-.08-.427-.133-.613.133-.187.267-.72.894-.88 1.08-.16.173-.32.2-.587.067-.28-.134-1.147-.42-2.187-1.334-.8-.72-1.347-1.6-1.507-1.88-.16-.267 0-.427.12-.56.12-.12.267-.307.4-.467.133-.16.173-.267.267-.453.093-.187.04-.36-.027-.494-.067-.133-.6-1.52-.84-2.08-.213-.533-.44-.453-.6-.453H11.52Z"
+    ></path>
+  </svg>
+
+  <span class="wa-label">WhatsApp</span>
+  <span class="sr-only">WhatsApp</span>
+</a>
+
+<style>
+  .wa-fab {
+    /* ===== Stack con botón scroll top ===== */
+    --wa-side-gap: 12px;
+    --wa-right: calc(
+      var(--back-top-right, 36px) + var(--back-top-size, 48px) +
+        var(--wa-side-gap)
+    );
+    --wa-bottom: calc(
+      var(--back-top-bottom, 36px) +
+        (var(--back-top-size, 48px) - var(--wa-size)) / 2
+    );
+
+    /* ===== Tamaño botón ===== */
+    --wa-size: 56px;
+    --wa-expand-width: 152px;
+
+    position: fixed;
+    right: var(--wa-right);
+    bottom: calc(var(--wa-bottom) + env(safe-area-inset-bottom));
+
+    width: var(--wa-size);
+    height: var(--wa-size);
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    text-decoration: none;
+    color: #fff;
+    cursor: pointer;
+
+    border-radius: 999px;
+    overflow: visible;
+
+    background:
+      linear-gradient(
+        140deg,
+        rgba(255, 255, 255, 0.16) 0%,
+        rgba(255, 255, 255, 0.03) 50%,
+        transparent 100%
+      ),
+      linear-gradient(
+        160deg,
+        #28f870 0%,
+        #1dd660 28%,
+        #14b24c 65%,
+        #0c8f3c 100%
+      );
+
+    border: 1.5px solid rgba(255, 255, 255, 0.36);
+
+    box-shadow:
+      0 10px 24px -4px rgba(0, 0, 0, 0.3),
+      0 4px 10px -2px rgba(18, 178, 76, 0.4),
+      inset 0 1.5px 0 rgba(255, 255, 255, 0.56),
+      inset 0 -2px 5px rgba(0, 0, 0, 0.13);
+
+    z-index: 995;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+      width 0.44s cubic-bezier(0.34, 1.4, 0.64, 1),
+      box-shadow 0.3s ease,
+      transform 0.3s ease,
+      bottom 0.25s ease;
+  }
+
+  .wa-fab.visible {
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .wa-fab::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      170deg,
+      rgba(255, 255, 255, 0.24) 0%,
+      rgba(255, 255, 255, 0.05) 36%,
+      transparent 54%
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .wa-fab::after {
+    content: "";
+    position: absolute;
+    inset: -12px;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: wa-orbit 2.8s linear infinite;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      rgba(40, 248, 112, 0) 0deg,
+      rgba(40, 248, 112, 0.9) 50deg,
+      rgba(40, 248, 112, 0) 100deg,
+      transparent 100deg
+    );
+    -webkit-mask: radial-gradient(
+      circle at center,
+      transparent 62%,
+      black 65%,
+      black 100%
+    );
+    mask: radial-gradient(
+      circle at center,
+      transparent 62%,
+      black 65%,
+      black 100%
+    );
+    transition: opacity 0.25s ease;
+  }
+
+  @keyframes wa-orbit {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .wa-icon {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+    transition: margin-left 0.44s cubic-bezier(0.34, 1.4, 0.64, 1);
+    margin-left: 0;
+  }
+
+  .wa-label {
+    position: relative;
+    z-index: 2;
+    font-family:
+      Inter,
+      -apple-system,
+      BlinkMacSystemFont,
+      "SF Pro Text",
+      "Helvetica Neue",
+      sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 0;
+    opacity: 0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+    transition:
+      max-width 0.44s cubic-bezier(0.34, 1.4, 0.64, 1),
+      opacity 0.2s ease,
+      margin-left 0.44s cubic-bezier(0.34, 1.4, 0.64, 1);
+    margin-left: 0;
+  }
+
+  .wa-fab:hover,
+  .wa-fab:focus-visible {
+    width: var(--wa-expand-width);
+    transform: translateY(-3px);
+    box-shadow:
+      0 0 24px 6px rgba(18, 178, 76, 0.3),
+      0 18px 34px -4px rgba(0, 0, 0, 0.36),
+      0 7px 14px -2px rgba(18, 178, 76, 0.44),
+      inset 0 1.5px 0 rgba(255, 255, 255, 0.6),
+      inset 0 -2px 5px rgba(0, 0, 0, 0.13);
+  }
+
+  .wa-fab:hover .wa-icon,
+  .wa-fab:focus-visible .wa-icon {
+    margin-left: 14px;
+  }
+
+  .wa-fab:hover .wa-label,
+  .wa-fab:focus-visible .wa-label {
+    max-width: 100px;
+    opacity: 1;
+    margin-left: 9px;
+  }
+
+  .wa-fab:hover::after,
+  .wa-fab:focus-visible::after {
+    opacity: 0;
+    animation-play-state: paused;
+  }
+
+  .wa-fab:active {
+    transform: translateY(-1px) scale(0.96);
+  }
+
+  .wa-fab:focus-visible {
+    outline: none;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* ===== Desktop ===== */
+  @media (min-width: 769px) {
+    .wa-fab {
+      --wa-side-gap: 12px;
+      --wa-right: calc(
+        var(--back-top-right, 36px) + var(--back-top-size, 48px) +
+          var(--wa-side-gap)
+      );
+      --wa-bottom: calc(
+        var(--back-top-bottom, 36px) +
+          (var(--back-top-size, 48px) - var(--wa-size)) / 2
+      );
+      --wa-size: 56px;
+    }
+  }
+
+  /* ===== Tablet ===== */
+  @media (max-width: 900px) and (min-width: 769px) {
+    .wa-fab {
+      --wa-side-gap: 10px;
+      --wa-right: calc(
+        var(--back-top-right, 36px) + var(--back-top-size, 48px) +
+          var(--wa-side-gap)
+      );
+      --wa-bottom: calc(
+        var(--back-top-bottom, 36px) +
+          (var(--back-top-size, 48px) - var(--wa-size)) / 2
+      );
+      --wa-size: 54px;
+    }
+  }
+
+  /* ===== Mobile ===== */
+  @media (max-width: 768px) {
+    .wa-fab {
+      --wa-size: 52px;
+      --wa-side-gap: 10px;
+      --wa-right: calc(
+        var(--back-top-right, 36px) + var(--back-top-size, 48px) +
+          var(--wa-side-gap)
+      );
+      --wa-bottom: calc(
+        var(--back-top-bottom, 36px) +
+          (var(--back-top-size, 48px) - var(--wa-size)) / 2
+      );
+
+      width: var(--wa-size);
+      height: var(--wa-size);
+    }
+
+    .wa-fab:hover,
+    .wa-fab:focus-visible {
+      width: var(--wa-size);
+      transform: none;
+    }
+
+    .wa-fab:hover .wa-icon,
+    .wa-fab:focus-visible .wa-icon {
+      margin-left: 0;
+    }
+
+    .wa-fab:hover .wa-label,
+    .wa-fab:focus-visible .wa-label {
+      max-width: 0;
+      opacity: 0;
+      margin-left: 0;
+    }
+
+    .wa-fab:hover::after,
+    .wa-fab:focus-visible::after {
+      opacity: 1;
+      animation-play-state: running;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wa-fab::after {
+      animation: none;
+    }
+
+    .wa-fab,
+    .wa-icon,
+    .wa-label {
+      transition: none;
+    }
+  }
+</style>
+
+

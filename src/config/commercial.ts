@@ -1,5 +1,7 @@
 const whatsappNumberRaw = "+52 921 362 9468" as const;
-const whatsappUrlBase = "https://wa.link/zbvkgs" as const;
+const whatsappProjectUrl =
+  "https://api.whatsapp.com/send?phone=5219213629468&text=Hola%2C%20buen%20d%C3%ADa.%20Me%20gustar%C3%ADa%20hacer%20un%20pedido%20de%20hielo%20en%20tubo.%20%C2%BFPodr%C3%ADan%20compartirme%20precio%2C%20cantidad%20m%C3%ADnima%20y%20tiempo%20de%20entrega%3F" as const;
+const whatsappUrlBase = whatsappProjectUrl;
 
 type CommercialContent = {
   whatsappNumberRaw: string;
@@ -72,18 +74,7 @@ export const commercialContent = {
 } as const satisfies CommercialContent;
 
 export const buildWhatsAppUrl = (message?: string): string => {
-  const normalizedMessage = message?.trim();
-  if (!normalizedMessage) {
-    return commercialContent.whatsappUrlBase;
-  }
-
-  const digits = commercialContent.whatsappNumberRaw.replace(/\D/g, "");
-  if (!digits) {
-    return commercialContent.whatsappUrlBase;
-  }
-
-  const encodedMessage = encodeURIComponent(normalizedMessage);
-  return `https://wa.me/${digits}?text=${encodedMessage}`;
+  return commercialContent.whatsappUrlBase;
 };
 
 export type CommercialContentData = typeof commercialContent;
