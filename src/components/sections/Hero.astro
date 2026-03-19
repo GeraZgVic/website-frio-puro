@@ -6,10 +6,11 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   <div id="hero">
     <canvas id="hero-particles-canvas" aria-hidden="true"></canvas>
 
+    <div class="hero-noise" aria-hidden="true"></div>
     <div class="hero-bg-glow hero-bg-glow-1"></div>
     <div class="hero-bg-glow hero-bg-glow-2"></div>
 
-    <!-- Imagen integrada en la zona visual del hero antiguo -->
+    <!-- Imagen integrada -->
     <div class="hero-visual-bg fade-in fade-in-delay-2" aria-hidden="true">
       <picture class="hero-picture">
         <img
@@ -24,59 +25,16 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
         />
       </picture>
 
-      <div class="hero-vignette"></div>
+      <!--  <div class="hero-vignette"></div>
       <div class="hero-image-overlay"></div>
-
-      <div class="hero-chip">
-        <span class="hero-chip-dot"></span>
-        Stock disponible
-      </div>
-
-      <div class="hero-pill hero-pill-1">
-        <svg
-          viewBox="0 0 16 16"
-          fill="none"
-          class="hero-pill-icon"
-          aria-hidden="true"
-        >
-          <path
-            d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41"
-            stroke="currentColor"
-            stroke-width="1.4"
-            stroke-linecap="round"></path>
-          <circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.4"
-          ></circle>
-        </svg>
-        Hielo purificado
-      </div>
-
-      <div class="hero-pill hero-pill-2">
-        <svg
-          viewBox="0 0 16 16"
-          fill="none"
-          class="hero-pill-icon"
-          aria-hidden="true"
-        >
-          <path
-            d="M1.5 8a6.5 6.5 0 1 1 13 0 6.5 6.5 0 0 1-13 0Z"
-            stroke="currentColor"
-            stroke-width="1.4"></path>
-          <path
-            d="M8 5v3.5l2.5 1.5"
-            stroke="currentColor"
-            stroke-width="1.4"
-            stroke-linecap="round"
-            stroke-linejoin="round"></path>
-        </svg>
-        Entrega coordinada
-      </div>
+      <div class="hero-image-shine"></div> -->
     </div>
 
     <div class="hero-content">
       <div class="hero-left">
         <div class="hero-badge fade-in">
           <span class="hero-badge-dot"></span>
-          Suministro B2B en Villahermosa
+          Suministro B2B premium en Villahermosa
         </div>
 
         <h1 class="hero-title fade-in fade-in-delay-1">
@@ -87,22 +45,23 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
         </h1>
 
         <p class="hero-subtitle fade-in fade-in-delay-2">
-          Suministro garantizado de hielo purificado con stock permanente para
-          tu negocio en Villahermosa.
+          Abasto confiable de hielo purificado para negocios que exigen
+          continuidad operativa, presentación impecable y atención comercial
+          puntual.
         </p>
 
         <ul class="hero-checks" aria-label="Beneficios principales">
-          <li>
+          <li class="fade-in fade-in-delay-2">
             <span class="check-icon">✓</span>
-            <span>Stock permanente para pedidos recurrentes</span>
+            <span>Stock permanente para operación recurrente</span>
           </li>
-          <li>
+          <li class="fade-in fade-in-delay-2">
             <span class="check-icon">✓</span>
-            <span>Hielo purificado con presentación uniforme</span>
+            <span>Hielo uniforme con presencia premium</span>
           </li>
-          <li>
+          <li class="fade-in fade-in-delay-3">
             <span class="check-icon">✓</span>
-            <span>Entrega coordinada por rutas comerciales</span>
+            <span>Entrega coordinada para rutas comerciales</span>
           </li>
         </ul>
 
@@ -131,12 +90,21 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   }
 
   #hero {
+    --hero-blue: #8fd4ff;
+    --hero-blue-strong: #5cbdf5;
+    --hero-blue-soft: rgba(143, 212, 255, 0.18);
+    --hero-ice: #f4f8ff;
+    --hero-ink: #ffffff;
+    --hero-muted: rgba(230, 238, 247, 0.84);
+    --hero-panel: rgba(255, 255, 255, 0.08);
+    --hero-panel-border: rgba(255, 255, 255, 0.14);
+
     position: relative;
     min-height: 100vh;
     display: flex;
     align-items: center;
     overflow: hidden;
-    padding: 140px 60px 90px;
+    padding: 138px 60px 92px;
     isolation: isolate;
     background:
       radial-gradient(
@@ -165,6 +133,10 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     height: 100%;
     pointer-events: none;
     z-index: 1;
+  }
+
+  .hero-noise {
+    display: none;
   }
 
   .hero-bg-glow {
@@ -197,7 +169,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     top: 0;
     right: 0;
     bottom: 0;
-    left: 50.8%;
+    left: 51.5%;
     z-index: 2;
     overflow: hidden;
   }
@@ -214,7 +186,8 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     height: 100%;
     object-fit: cover;
     object-position: center 18%;
-    filter: saturate(0.95) contrast(1.04) brightness(0.9);
+    filter: saturate(0.92) contrast(1.04) brightness(0.94);
+    transform: scale(1.02);
   }
 
   .hero-vignette {
@@ -225,14 +198,14 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     background:
       linear-gradient(
         to right,
-        rgba(23, 29, 72, 1) 0%,
-        rgba(23, 29, 72, 0.92) 7%,
-        rgba(23, 29, 72, 0.68) 16%,
-        rgba(23, 29, 72, 0.34) 28%,
-        transparent 44%
+        rgba(8, 17, 31, 1) 0%,
+        rgba(8, 17, 31, 0.95) 9%,
+        rgba(8, 17, 31, 0.78) 19%,
+        rgba(8, 17, 31, 0.42) 32%,
+        transparent 47%
       ),
-      linear-gradient(to top, rgba(8, 16, 40, 0.34) 0%, transparent 26%),
-      linear-gradient(to bottom, rgba(8, 16, 40, 0.16) 0%, transparent 18%);
+      linear-gradient(to top, rgba(6, 12, 24, 0.34) 0%, transparent 24%),
+      linear-gradient(to bottom, rgba(6, 12, 24, 0.18) 0%, transparent 15%);
   }
 
   .hero-image-overlay {
@@ -242,92 +215,31 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     z-index: 1;
     background:
       radial-gradient(
-        circle at 54% 42%,
-        rgba(65, 171, 226, 0.08) 0%,
-        transparent 34%
+        circle at 58% 38%,
+        rgba(255, 255, 255, 0.06) 0%,
+        transparent 22%
       ),
       radial-gradient(
-        circle at 78% 72%,
-        rgba(255, 255, 255, 0.05) 0%,
-        transparent 24%
+        circle at 72% 72%,
+        rgba(143, 212, 255, 0.08) 0%,
+        transparent 20%
       );
+    mix-blend-mode: screen;
   }
 
-  .hero-chip {
+  .hero-image-shine {
     position: absolute;
-    top: 34px;
-    left: 55%;
-    transform: translateX(-50%);
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 8px 14px;
-    border-radius: 999px;
-    background: rgba(8, 16, 40, 0.68);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px) saturate(1.4);
-    -webkit-backdrop-filter: blur(20px) saturate(1.4);
-    box-shadow:
-      0 8px 24px rgba(0, 0, 0, 0.3),
-      0 1px 0 rgba(255, 255, 255, 0.05) inset;
-    font-family: -apple-system, "Helvetica Neue", sans-serif;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    color: rgba(223, 240, 250, 0.92);
-    z-index: 10;
-    white-space: nowrap;
-  }
-
-  .hero-chip-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #22dd6e;
-    flex-shrink: 0;
-    animation: heroPulseDotGreen 2.2s ease-out infinite;
-  }
-
-  .hero-pill {
-    position: absolute;
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 9px 14px;
-    border-radius: 999px;
-    background: rgba(8, 16, 40, 0.72);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(18px) saturate(1.3);
-    -webkit-backdrop-filter: blur(18px) saturate(1.3);
-    box-shadow:
-      0 10px 28px rgba(0, 0, 0, 0.3),
-      0 1px 0 rgba(255, 255, 255, 0.05) inset;
-    font-family: -apple-system, "Helvetica Neue", sans-serif;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.25px;
-    color: rgba(212, 233, 248, 0.9);
-    z-index: 10;
+    inset: -10%;
     pointer-events: none;
-  }
-
-  .hero-pill-icon {
-    width: 13px;
-    height: 13px;
-    color: #9dd4f2;
-    flex-shrink: 0;
-  }
-
-  .hero-pill-1 {
-    left: 9%;
-    bottom: 20%;
-    animation: pillFloat 5s ease-in-out infinite;
-  }
-
-  .hero-pill-2 {
-    right: 2.4%;
-    bottom: 7.2%;
-    animation: pillFloat 6.2s ease-in-out infinite reverse;
+    z-index: 3;
+    background: linear-gradient(
+      115deg,
+      transparent 34%,
+      rgba(255, 255, 255, 0.05) 46%,
+      rgba(255, 255, 255, 0.015) 54%,
+      transparent 64%
+    );
+    transform: translateX(-8%);
   }
 
   .hero-content {
@@ -343,9 +255,9 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   .hero-left {
     position: relative;
     z-index: 2;
-    width: 50.8%;
-    max-width: 640px;
-    padding-right: 32px;
+    width: 50%;
+    max-width: 645px;
+    padding-right: 36px;
   }
 
   .hero-badge {
@@ -354,77 +266,82 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     gap: 10px;
     min-height: 42px;
     padding: 10px 18px;
-    margin-bottom: 28px;
+    margin-bottom: 26px;
     border-radius: 999px;
-    border: 1px solid rgba(157, 212, 242, 0.28);
+    border: 1px solid rgba(143, 212, 255, 0.22);
     background: linear-gradient(
       135deg,
       rgba(255, 255, 255, 0.12),
-      rgba(255, 255, 255, 0.06)
+      rgba(255, 255, 255, 0.05)
     );
-    backdrop-filter: blur(12px);
-    color: var(--color-pale);
-    font-size: 0.8rem;
+    backdrop-filter: blur(16px) saturate(1.15);
+    -webkit-backdrop-filter: blur(16px) saturate(1.15);
+    color: rgba(241, 247, 255, 0.92);
+    font-size: 0.76rem;
     font-weight: 700;
-    letter-spacing: 1.8px;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    box-shadow: 0 12px 40px rgba(5, 15, 50, 0.22);
+    box-shadow:
+      0 14px 36px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
 
   .hero-badge-dot {
-    width: 10px;
-    height: 10px;
+    width: 9px;
+    height: 9px;
     border-radius: 999px;
-    background: var(--color-accent);
-    box-shadow: 0 0 0 6px rgba(65, 171, 226, 0.14);
+    background: linear-gradient(180deg, #9addff 0%, #56bdf4 100%);
+    box-shadow: 0 0 0 6px rgba(92, 189, 245, 0.12);
     flex-shrink: 0;
   }
 
   .hero-title {
-    margin-bottom: 24px;
-    font-family: "Barlow Condensed", sans-serif;
-    text-transform: uppercase;
     width: 100%;
-    max-width: 760px;
-    line-height: 0.9;
+    max-width: 780px;
+    margin: 0 0 24px;
+    line-height: 0.92;
+    text-transform: uppercase;
   }
 
   .hero-title-top {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    gap: 18px;
-    margin-bottom: 10px;
-  }
-
-  .hero-title-bottom {
     display: block;
-    font-size: clamp(3.2rem, 6.2vw, 5.6rem);
-    font-weight: 800;
-    line-height: 0.9;
-    letter-spacing: -1.6px;
-    color: var(--color-white);
-    text-shadow: 0 10px 40px rgba(10, 16, 48, 0.28);
+    margin-bottom: 8px;
   }
 
   .hero-title-ice {
     display: inline-block;
     position: relative;
     width: fit-content;
-    font-size: clamp(4.3rem, 8vw, 7.2rem);
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: clamp(4.5rem, 8vw, 7.3rem);
     font-weight: 800;
     line-height: 0.88;
-    letter-spacing: -1.9px;
-    color: #f6f9ff;
-    text-shadow: 0 10px 26px rgba(9, 16, 40, 0.35);
+    letter-spacing: -0.04em;
+    color: var(--hero-ice);
+    text-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.16),
+      0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  .hero-title-bottom {
+    display: block;
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: clamp(3rem, 6vw, 5.3rem);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    color: rgba(255, 255, 255, 0.96);
+    text-shadow: 0 10px 34px rgba(0, 0, 0, 0.14);
   }
 
   .hero-subtitle {
     max-width: 560px;
-    margin-bottom: 34px;
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: rgba(224, 239, 248, 0.88);
+    margin-bottom: 32px;
+    color: rgba(230, 238, 247, 0.82);
+    font-size: 1.08rem;
+    line-height: 1.85;
+    font-weight: 400;
+    text-wrap: balance;
   }
 
   .hero-checks {
@@ -432,7 +349,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     display: flex;
     flex-direction: column;
     gap: 14px;
-    margin-bottom: 40px;
+    margin: 0 0 40px;
     padding: 0;
   }
 
@@ -440,41 +357,39 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    color: rgba(255, 255, 255, 0.92);
-    font-size: 1rem;
-    font-weight: 600;
-    line-height: 1.55;
-    opacity: 0;
-    transform: translateX(-20px);
-    transition: all 0.5s ease;
-  }
-
-  .hero-checks li.visible {
-    opacity: 1;
-    transform: translateX(0);
+    color: rgba(250, 252, 255, 0.94);
+    font-size: 0.995rem;
+    font-weight: 500;
+    line-height: 1.58;
   }
 
   .check-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
-    margin-top: 1px;
+    width: 23px;
+    height: 23px;
+    margin-top: 2px;
     border-radius: 999px;
     flex-shrink: 0;
-    background: linear-gradient(135deg, #41abe2, #7ad3ff);
-    color: var(--color-white);
-    font-size: 0.75rem;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.2),
+        rgba(255, 255, 255, 0.06)
+      ),
+      linear-gradient(135deg, #8fd4ff, #58bdf4);
+    color: #ffffff;
+    font-size: 0.7rem;
     box-shadow:
-      0 8px 20px rgba(65, 171, 226, 0.35),
-      inset 0 1px 0 rgba(255, 255, 255, 0.28);
+      0 8px 20px rgba(8, 27, 48, 0.24),
+      inset 0 1px 0 rgba(255, 255, 255, 0.22);
   }
 
   .hero-buttons {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
+    gap: 14px;
     align-items: center;
   }
 
@@ -485,30 +400,67 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   }
 
   .hero-cta-primary {
-    background: linear-gradient(180deg, #8ddcff 0%, #4fb5ef 100%);
-    border: 1px solid rgba(255, 255, 255, 0.28);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.12),
+        rgba(255, 255, 255, 0.04)
+      ),
+      linear-gradient(135deg, #97dcff 0%, #5fbeef 100%);
+    color: #08111f;
+    font-weight: 800;
     box-shadow:
-      0 18px 40px rgba(5, 15, 50, 0.35),
-      0 6px 16px rgba(79, 181, 239, 0.45);
-    font-weight: 700;
+      0 18px 40px rgba(0, 0, 0, 0.22),
+      0 6px 18px rgba(95, 190, 239, 0.24),
+      inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  }
+
+  .hero-cta-primary::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      115deg,
+      transparent 20%,
+      rgba(255, 255, 255, 0.18) 48%,
+      transparent 72%
+    );
+    transform: translateX(-120%);
+    transition: transform 0.9s ease;
+  }
+
+  .hero-cta-primary:hover::before {
+    transform: translateX(120%);
   }
 
   .hero-cta-secondary {
-    border: 2px solid rgba(255, 255, 255, 0.72);
-    color: var(--color-white);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: rgba(255, 255, 255, 0.96);
     font-weight: 700;
-    background: transparent;
-    box-shadow: 0 10px 26px rgba(5, 15, 50, 0.2);
+    background: rgba(255, 255, 255, 0.045);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow:
+      0 12px 30px rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  .hero-cta-secondary:hover {
+    border-color: rgba(143, 212, 255, 0.34);
+    background: rgba(255, 255, 255, 0.075);
   }
 
   .fade-in {
     opacity: 0;
     transform: translateY(18px);
-    animation: revealUp 0.6s ease forwards;
+    animation: revealUp 0.72s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
 
   .fade-in-delay-1 {
-    animation-delay: 0.15s;
+    animation-delay: 0.14s;
   }
 
   .fade-in-delay-2 {
@@ -526,64 +478,24 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     }
   }
 
-  @keyframes pillFloat {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-6px);
-    }
-  }
-
-  @keyframes heroPulseDotGreen {
-    0% {
-      box-shadow: 0 0 0 0 rgba(34, 221, 110, 0.45);
-    }
-    70% {
-      box-shadow: 0 0 0 7px rgba(34, 221, 110, 0);
-    }
-    100% {
-      box-shadow: 0 0 0 0 rgba(34, 221, 110, 0);
-    }
-  }
-
   @media (max-width: 1200px) {
     #hero {
       padding: 132px 40px 84px;
     }
 
     .hero-left {
-      width: 53%;
+      width: 52%;
     }
 
     .hero-visual-bg {
       left: 53%;
-    }
-
-    .hero-title-bottom {
-      font-size: clamp(2.9rem, 5.6vw, 4.9rem);
-    }
-
-    .hero-title-ice {
-      font-size: clamp(3.9rem, 7.2vw, 6.3rem);
-    }
-
-    .hero-pill-1 {
-      left: 6%;
-      bottom: 18%;
-    }
-
-    .hero-pill-2 {
-      right: 2%;
-      bottom: 6%;
     }
   }
 
   @media (max-width: 1024px) {
     #hero {
       min-height: auto;
-      padding: 126px 32px 72px;
+      padding: 124px 32px 72px;
       display: flex;
       flex-direction: column;
     }
@@ -601,47 +513,27 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       padding-right: 0;
     }
 
+    .hero-title,
     .hero-subtitle {
-      max-width: 680px;
       margin-left: auto;
       margin-right: auto;
     }
 
     .hero-checks {
-      max-width: 720px;
+      max-width: 740px;
       margin-left: auto;
       margin-right: auto;
-      flex-direction: row;
+      display: grid;
+      grid-template-columns: 1fr;
     }
 
     .hero-checks li {
-      justify-content: flex-start;
       text-align: left;
+      justify-content: flex-start;
     }
 
     .hero-buttons {
       justify-content: center;
-    }
-
-    .hero-title {
-      text-align: center;
-      margin-left: auto;
-      margin-right: auto;
-      max-width: 100%;
-    }
-
-    .hero-title-top {
-      justify-content: center;
-      gap: 14px;
-      margin-bottom: 8px;
-    }
-
-    .hero-title-bottom {
-      font-size: clamp(2.8rem, 6.4vw, 4.6rem);
-    }
-
-    .hero-title-ice {
-      font-size: clamp(3.9rem, 8.5vw, 6rem);
     }
 
     .hero-visual-bg {
@@ -649,32 +541,21 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       inset: auto;
       width: 100%;
       height: 48vh;
-      min-height: 300px;
+      min-height: 320px;
       order: 1;
-      margin-top: 30px;
-      border-radius: 28px;
+      margin-top: 34px;
+      border-radius: 30px;
       left: auto;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow:
+        0 26px 60px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
     }
 
     .hero-vignette {
       background:
-        linear-gradient(to bottom, rgba(8, 16, 40, 0.55) 0%, transparent 25%),
-        linear-gradient(to top, rgba(8, 16, 40, 0.45) 0%, transparent 28%);
-    }
-
-    .hero-chip {
-      top: 14px;
-      left: 50%;
-    }
-
-    .hero-pill-1 {
-      left: 4%;
-      bottom: 16%;
-    }
-
-    .hero-pill-2 {
-      right: 4%;
-      bottom: 8%;
+        linear-gradient(to bottom, rgba(8, 17, 31, 0.52) 0%, transparent 24%),
+        linear-gradient(to top, rgba(8, 17, 31, 0.44) 0%, transparent 24%);
     }
   }
 
@@ -686,33 +567,35 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
   @media (max-width: 768px) {
     #hero {
-      padding: 118px 24px 64px;
+      padding: 116px 22px 62px;
     }
 
     .hero-badge {
-      font-size: 0.72rem;
-      letter-spacing: 1.4px;
+      font-size: 0.69rem;
+      letter-spacing: 0.14em;
       padding: 9px 14px;
       margin-bottom: 22px;
     }
 
+    .hero-title {
+      margin-bottom: 20px;
+    }
+
     .hero-title-top {
-      gap: 10px;
       margin-bottom: 6px;
     }
 
-    .hero-title-bottom {
-      font-size: clamp(2.5rem, 8vw, 3.8rem);
-      letter-spacing: -1.2px;
+    .hero-title-ice {
+      font-size: clamp(3.5rem, 11vw, 5.4rem);
     }
 
-    .hero-title-ice {
-      font-size: clamp(3.4rem, 11vw, 5rem);
+    .hero-title-bottom {
+      font-size: clamp(2.45rem, 7.8vw, 3.95rem);
     }
 
     .hero-subtitle {
-      font-size: 1rem;
-      line-height: 1.75;
+      font-size: 0.99rem;
+      line-height: 1.78;
       margin-bottom: 28px;
     }
 
@@ -722,7 +605,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     }
 
     .hero-checks li {
-      font-size: 0.96rem;
+      font-size: 0.95rem;
     }
 
     .hero-buttons {
@@ -738,57 +621,43 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
     .hero-visual-bg {
       height: 40vh;
-      min-height: 240px;
-    }
-
-    .hero-chip,
-    .hero-pill {
-      transform: scale(0.94);
-    }
-
-    .hero-pill-1 {
-      left: 3.5%;
-      bottom: 14%;
-    }
-
-    .hero-pill-2 {
-      right: 3.5%;
-      bottom: 6%;
+      min-height: 250px;
+      border-radius: 24px;
     }
   }
 
   @media (max-width: 480px) {
     #hero {
-      padding: 112px 18px 56px;
+      padding: 108px 18px 54px;
     }
 
     .hero-badge {
       width: 100%;
       justify-content: center;
-    }
-
-    .hero-title-top {
-      gap: 8px;
-    }
-
-    .hero-title-bottom {
-      font-size: clamp(2.15rem, 8.8vw, 3rem);
-      letter-spacing: -1px;
+      margin-bottom: 20px;
     }
 
     .hero-title-ice {
-      font-size: clamp(2.9rem, 11.8vw, 4rem);
+      font-size: clamp(2.95rem, 12.2vw, 4.15rem);
+    }
+
+    .hero-title-bottom {
+      font-size: clamp(2.05rem, 8.8vw, 2.85rem);
+    }
+
+    .hero-subtitle {
+      font-size: 0.95rem;
     }
 
     .hero-checks li {
       gap: 10px;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
     }
 
     .check-icon {
       width: 22px;
       height: 22px;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
     }
 
     .hero-visual-bg {
@@ -797,17 +666,16 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero-chip-dot,
-    .hero-pill-1,
-    .hero-pill-2 {
-      animation: none !important;
-    }
-
     .fade-in,
-    .hero-visual-bg {
+    .hero-image-shine {
       animation: none !important;
+      transition: none !important;
       opacity: 1 !important;
       transform: none !important;
+    }
+
+    .hero-cta-primary::before {
+      display: none;
     }
   }
 </style>
