@@ -125,9 +125,20 @@ import { commercialContent } from "../../config/commercial";
             muted
             loop
             playsinline
+            webkit-playsinline
+            preload="metadata"
             aria-label="Video de planta de producción de hielo"
           >
-            <source src="/gallery/video.mp4" type="video/mp4" />
+            <source
+              src="/gallery/videoOptimizado.mp4"
+              type="video/mp4"
+              media="(max-width: 1024px)"
+            />
+            <source
+              src="/gallery/video.mp4"
+              type="video/mp4"
+              media="(min-width: 1025px)"
+            />
           </video>
 
           <div class="vcard__overlay" aria-hidden="true"></div>
@@ -1079,6 +1090,82 @@ import { commercialContent } from "../../config/commercial";
         perspective: 900,
         media: vcardVideo,
       });
+    }
+
+    {
+      const video = section.querySelector(".vcard__video");
+
+      if (video) {
+        const enableInline = () => {
+          video.setAttribute("playsinline", "");
+          video.setAttribute("webkit-playsinline", "");
+          video.playsInline = true;
+        };
+
+        const ensureMuted = () => {
+          video.muted = true;
+          video.defaultMuted = true;
+          video.setAttribute("muted", "");
+        };
+
+        const attemptPlay = () => {
+          enableInline();
+          ensureMuted();
+          video.loop = true;
+
+          const playPromise = video.play();
+          if (playPromise && typeof playPromise.catch === "function") {
+            playPromise.catch(() => {
+              // Autoplay can be blocked; we'll retry on visibility/user interaction.
+            });
+          }
+        };
+
+        const onCanPlay = () => {
+          attemptPlay();
+        };
+
+        if (video.readyState >= 2) {
+          attemptPlay();
+        } else {
+          video.addEventListener("canplay", onCanPlay, { once: true });
+        }
+
+        const io = createObserver(
+          (entries, observer) => {
+            const entry = entries[0];
+            if (!entry?.isIntersecting) return;
+            attemptPlay();
+            observer.unobserve(entry.target);
+          },
+          { threshold: 0.35 },
+        );
+
+        io.observe(video);
+
+        const onVisible = () => {
+          if (document.visibilityState === "visible") {
+            attemptPlay();
+          }
+        };
+
+        const onUser = () => {
+          attemptPlay();
+        };
+
+        document.addEventListener("visibilitychange", onVisible);
+        window.addEventListener("pageshow", onUser);
+        window.addEventListener("touchstart", onUser, { passive: true });
+        window.addEventListener("pointerdown", onUser, { passive: true });
+
+        cleanups.push(() => {
+          video.removeEventListener("canplay", onCanPlay);
+          document.removeEventListener("visibilitychange", onVisible);
+          window.removeEventListener("pageshow", onUser);
+          window.removeEventListener("touchstart", onUser);
+          window.removeEventListener("pointerdown", onUser);
+        });
+      }
     }
 
     cleanups.push(() => {
