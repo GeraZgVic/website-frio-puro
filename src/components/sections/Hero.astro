@@ -11,21 +11,32 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       <picture class="hero-bg-picture">
         <source
           type="image/webp"
-          srcset="/images/Hero6-512.webp 512w, /images/Hero6-768.webp 768w, /images/Hero6-1024.webp 1024w"
-          sizes="100vw"
+          srcset="
+            /images/Hero6-512.webp 512w,
+            /images/Hero6-768.webp 768w,
+            /images/Hero6-1024.webp 1024w,
+            /images/Hero6-1536.webp 1536w,
+            /images/Hero6-2048.webp 2048w
+          "
+          sizes="
+            (max-width: 480px) 100vw,
+            (max-width: 768px) 100vw,
+            (max-width: 1200px) 100vw,
+            100vw
+          "
         />
         <img
-          src="/images/Hero6.png"
-          alt=""
+          src="/images/Hero6-2048.webp"
+          alt="Máquina de hielo industrial produciendo hielo"
           class="hero-bg-image"
-          width="1536"
-          height="1024"
+          width="2048"
+          height="1365"
           loading="eager"
           decoding="async"
           fetchpriority="high"
         />
       </picture>
-      <!--  <div class="hero-bg-vignette"></div>
+      <!-- <div class="hero-bg-vignette"></div>
       <div class="hero-bg-overlay"></div> -->
     </div>
 
@@ -164,9 +175,12 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     height: 100%;
     object-fit: cover;
     object-position: 72% center;
-    transform: scale(1.03);
+    transform: scale(1.03) translateZ(0);
     filter: saturate(0.95) contrast(1.06) brightness(0.82);
     opacity: 0.92;
+    image-rendering: -webkit-optimize-contrast;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
   }
 
   .hero-bg-vignette {
