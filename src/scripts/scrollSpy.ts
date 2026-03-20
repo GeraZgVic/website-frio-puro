@@ -1,6 +1,6 @@
 export const initScrollSpy = (): void => {
   const navLinks = document.querySelectorAll<HTMLAnchorElement>(".nav-link");
-  const sections = document.querySelectorAll<HTMLElement>("section[id], #hero");
+  const sections = document.querySelectorAll<HTMLElement>("section[id]");
 
   if (navLinks.length === 0 || sections.length === 0) {
     return;

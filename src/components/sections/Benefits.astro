@@ -126,7 +126,8 @@ import { commercialContent } from "../../config/commercial";
             loop
             playsinline
             webkit-playsinline
-            preload="metadata"
+            preload="none"
+            poster="/gallery/HieloenTubo01-960.webp"
             aria-label="Video de planta de producción de hielo"
           >
             <source
@@ -1116,7 +1117,7 @@ import { commercialContent } from "../../config/commercial";
           const playPromise = video.play();
           if (playPromise && typeof playPromise.catch === "function") {
             playPromise.catch(() => {
-              // Autoplay can be blocked; we'll retry on visibility/user interaction.
+              // Autoplay puede bloquearse inicialmente; se reintenta abajo.
             });
           }
         };

@@ -22,7 +22,7 @@ const {
 const canonicalUrl = Astro.site
   ? new URL(Astro.url.pathname, Astro.site)
   : Astro.url;
-const ogImageUrl = new URL("/images/Hero.png", Astro.site ?? Astro.url);
+const ogImageUrl = new URL("/images/Hero5-1536.webp", Astro.site ?? Astro.url);
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -50,12 +50,13 @@ const jsonLd = {
     <meta property="og:description" content={ogDescription} />
     <meta property="og:type" content="website" />
     <meta property="og:image" content={ogImageUrl.toString()} />
+    <meta name="twitter:card" content="summary_large_image" />
     <link
       rel="preload"
       as="image"
-      href="/images/Hero-1024.webp"
+      href="/images/Hero5-1024.webp"
       type="image/webp"
-      imagesrcset="/images/Hero-512.webp 512w, /images/Hero-768.webp 768w, /images/Hero-1024.webp 1024w"
+      imagesrcset="/images/Hero5-512.webp 512w, /images/Hero5-768.webp 768w, /images/Hero5-1024.webp 1024w, /images/Hero5-1536.webp 1536w"
       imagesizes="(min-width: 1025px) 520px, 1px"
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
