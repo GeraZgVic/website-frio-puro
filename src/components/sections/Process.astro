@@ -139,7 +139,7 @@ const processFlow = [
               </div>
 
               <article class="process-card process-card-main">
-                <div class="process-card-inner" tabindex="0">
+                <div class="process-card-inner">
                   <div class="process-card-top">
                     <span class="process-group">{item.group}</span>
                     <span class="process-step-badge">Paso {item.step}</span>
@@ -193,11 +193,7 @@ const processFlow = [
 </section>
 
 <style>
-  /* ──────────────────────────────────────────────────────────────
-     Process Timeline — Enhanced Refactor
-     Mantiene identidad visual, estructura y clases existentes
-  ────────────────────────────────────────────────────────────── */
-
+  /* ─── Custom Properties ─────────────────────────────────────── */
   .process-section {
     --clr-primary: var(--color-primary, #102149);
     --clr-accent: #41abe2;
@@ -208,29 +204,16 @@ const processFlow = [
     --clr-text-faint: rgba(16, 33, 73, 0.44);
     --clr-border: rgba(255, 255, 255, 0.94);
     --clr-border-accent: rgba(65, 171, 226, 0.22);
-
     --shadow-card:
       inset 0 1px 0 rgba(255, 255, 255, 0.96),
       0 18px 38px rgba(27, 47, 94, 0.08), 0 6px 14px rgba(27, 47, 94, 0.04);
-
     --shadow-card-hover:
       inset 0 1px 0 rgba(255, 255, 255, 1), 0 24px 48px rgba(27, 47, 94, 0.11),
       0 10px 22px rgba(27, 47, 94, 0.06);
-
-    --shadow-card-focus:
-      inset 0 1px 0 rgba(255, 255, 255, 1), 0 0 0 1px rgba(65, 171, 226, 0.16),
-      0 0 0 6px rgba(65, 171, 226, 0.08), 0 24px 48px rgba(27, 47, 94, 0.1);
-
     --radius-card: 22px;
     --radius-media: 15px;
-
     --timing-smooth: cubic-bezier(0.22, 1, 0.36, 1);
-    --timing-soft: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --timing-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-
-    --duration-fast: 0.24s;
-    --duration-base: 0.38s;
-    --duration-slow: 0.62s;
   }
 
   /* ─── Section Base ──────────────────────────────────────────── */
@@ -253,26 +236,19 @@ const processFlow = [
       linear-gradient(180deg, #f9fcff 0%, #eef5fb 52%, #ffffff 100%);
   }
 
-  .process-section *,
-  .process-section *::before,
-  .process-section *::after {
-    box-sizing: border-box;
-  }
-
   /* ─── Ambient / Decorative Layers ──────────────────────────── */
   .process-ambient,
   .process-noise,
   .process-grid-overlay {
     position: absolute;
     pointer-events: none;
+    will-change: transform; /* Promote to composited layer */
   }
 
   .process-ambient {
     border-radius: 999px;
     filter: blur(80px);
     z-index: 0;
-    will-change: transform;
-    transform: translateZ(0);
   }
 
   .process-ambient-1 {
@@ -295,9 +271,11 @@ const processFlow = [
     animation: ambientDrift2 22s ease-in-out infinite alternate;
   }
 
+  /* NEW: subtle center ambient for depth */
   .process-ambient-3 {
     top: 50%;
     left: 50%;
+    transform: translate(-50%, -50%);
     width: 600px;
     height: 300px;
     background: radial-gradient(
@@ -307,24 +285,23 @@ const processFlow = [
     );
     opacity: 1;
     filter: blur(40px);
-    transform: translate3d(-50%, -50%, 0);
   }
 
   @keyframes ambientDrift1 {
     from {
-      transform: translate3d(0, 0, 0) scale(1);
+      transform: translate(0, 0) scale(1);
     }
     to {
-      transform: translate3d(24px, 18px, 0) scale(1.06);
+      transform: translate(24px, 18px) scale(1.06);
     }
   }
 
   @keyframes ambientDrift2 {
     from {
-      transform: translate3d(0, 0, 0) scale(1);
+      transform: translate(0, 0) scale(1);
     }
     to {
-      transform: translate3d(-20px, -14px, 0) scale(1.04);
+      transform: translate(-20px, -14px) scale(1.04);
     }
   }
 
@@ -368,12 +345,12 @@ const processFlow = [
   /* ─── Header ────────────────────────────────────────────────── */
   .process-header {
     max-width: 760px;
-    margin: 0 auto 56px;
+    margin: 0 auto 52px;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0;
+    gap: 0; /* Controlled per-child */
   }
 
   .process-label {
@@ -395,9 +372,8 @@ const processFlow = [
     color: var(--clr-primary);
     backdrop-filter: blur(12px);
     transition:
-      box-shadow var(--duration-base) ease,
-      border-color var(--duration-base) ease,
-      transform var(--duration-base) var(--timing-soft);
+      box-shadow 0.3s ease,
+      border-color 0.3s ease;
   }
 
   .process-label:hover {
@@ -405,9 +381,9 @@ const processFlow = [
     box-shadow:
       0 12px 32px rgba(24, 48, 88, 0.08),
       inset 0 1px 0 rgba(255, 255, 255, 0.95);
-    transform: translateY(-1px);
   }
 
+  /* Animated dot pulse */
   .process-dot {
     width: 7px;
     height: 7px;
@@ -450,7 +426,7 @@ const processFlow = [
     --progress: 0;
     --line-x: 50%;
     position: relative;
-    padding: 10px 12px 4px;
+    padding: 8px 12px;
   }
 
   /* ─── Vertical Line ─────────────────────────────────────────── */
@@ -459,7 +435,7 @@ const processFlow = [
     left: var(--line-x);
     top: 0;
     bottom: 0;
-    width: 12px;
+    width: 10px;
     transform: translateX(-50%);
     pointer-events: none;
     z-index: 0;
@@ -497,7 +473,7 @@ const processFlow = [
       rgba(157, 212, 242, 0.02) 100%
     );
     filter: blur(6px);
-    opacity: 0.88;
+    opacity: 0.85;
   }
 
   .process-line-progress {
@@ -513,34 +489,35 @@ const processFlow = [
     box-shadow:
       0 0 0 1px rgba(65, 171, 226, 0.1),
       0 0 22px rgba(65, 171, 226, 0.12);
-    transition: height 0.22s linear;
+    transition: height 0.85s var(--timing-smooth);
     will-change: height;
   }
 
-  /* ─── Steps ─────────────────────────────────────────────────── */
+  /* ─── Steps List ────────────────────────────────────────────── */
   .process-steps {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 30px;
+    gap: 28px;
   }
 
+  /* ─── Individual Step Item ──────────────────────────────────── */
   .process-item {
     position: relative;
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    column-gap: clamp(40px, 4vw, 64px);
+    column-gap: 64px;
     align-items: start;
     opacity: 0;
-    transform: translate3d(0, 24px, 0);
+    transform: translateY(22px);
     transition:
-      opacity var(--duration-slow) var(--timing-smooth),
-      transform var(--duration-slow) var(--timing-smooth);
+      opacity 0.62s var(--timing-smooth),
+      transform 0.62s var(--timing-smooth);
     will-change: opacity, transform;
-    contain: layout paint style;
   }
 
+  /* Stagger delay per item for cascade feel */
   .process-item:nth-child(1) {
     transition-delay: 0ms;
   }
@@ -571,9 +548,10 @@ const processFlow = [
 
   .process-item.is-visible {
     opacity: 1;
-    transform: translate3d(0, 0, 0);
+    transform: translateY(0);
   }
 
+  /* ─── Card Sizing & Placement ───────────────────────────────── */
   .process-card-main,
   .process-detail-card {
     width: 100%;
@@ -581,24 +559,24 @@ const processFlow = [
     align-self: start;
   }
 
+  /* Odd: main card left, detail right */
   .process-item:nth-child(odd) .process-card-main {
     grid-column: 1 / 2;
     grid-row: 1;
     justify-self: end;
   }
-
   .process-item:nth-child(odd) .process-detail-card {
     grid-column: 2 / 3;
     grid-row: 1;
     justify-self: start;
   }
 
+  /* Even: detail left, main card right */
   .process-item:nth-child(even) .process-detail-card {
     grid-column: 1 / 2;
     grid-row: 1;
     justify-self: end;
   }
-
   .process-item:nth-child(even) .process-card-main {
     grid-column: 2 / 3;
     grid-row: 1;
@@ -609,7 +587,7 @@ const processFlow = [
   .process-pin {
     position: absolute;
     left: var(--line-x);
-    top: 34px;
+    top: 32px;
     transform: translateX(-50%);
     z-index: 3;
     display: grid;
@@ -632,6 +610,7 @@ const processFlow = [
     will-change: transform;
   }
 
+  /* NEW: outer ping ring for active state */
   .process-pin-ring--outer {
     width: 34px;
     height: 34px;
@@ -674,39 +653,23 @@ const processFlow = [
       0 10px 18px rgba(27, 47, 94, 0.13);
     transition:
       transform 0.45s var(--timing-bounce),
-      box-shadow 0.45s ease,
-      filter 0.45s ease;
+      box-shadow 0.45s ease;
     will-change: transform;
   }
 
+  /* Visible state – pin animations */
   .process-item.is-visible .process-pin-ring {
-    transform: scale(1.08);
+    transform: scale(1.1);
   }
-
   .process-item.is-visible .process-pin-ring--outer {
     transform: scale(1.12);
     opacity: 1;
   }
-
   .process-item.is-visible .process-pin-dot {
     transform: scale(1.1);
     box-shadow:
       0 0 0 6px rgba(65, 171, 226, 0.15),
       0 10px 20px rgba(27, 47, 94, 0.14);
-  }
-
-  .process-item.is-active .process-pin-dot {
-    filter: saturate(1.08) brightness(1.03);
-    box-shadow:
-      0 0 0 7px rgba(65, 171, 226, 0.18),
-      0 0 22px rgba(65, 171, 226, 0.18),
-      0 10px 24px rgba(27, 47, 94, 0.16);
-    transform: scale(1.16);
-  }
-
-  .process-item.is-active .process-pin-ring--outer {
-    opacity: 1;
-    transform: scale(1.18);
   }
 
   .process-pin-step {
@@ -729,9 +692,9 @@ const processFlow = [
   /* ─── Connector ─────────────────────────────────────────────── */
   .process-connector {
     position: absolute;
-    top: 41px;
+    top: 39px;
     left: 50%;
-    width: 46px;
+    width: 44px;
     height: 14px;
     transform: translateX(-50%);
     pointer-events: none;
@@ -741,7 +704,6 @@ const processFlow = [
   .process-item:nth-child(odd) .process-connector {
     margin-left: 24px;
   }
-
   .process-item:nth-child(even) .process-connector {
     margin-left: -24px;
   }
@@ -759,7 +721,7 @@ const processFlow = [
       rgba(65, 171, 226, 0.2) 30%,
       rgba(65, 171, 226, 0.46) 100%
     );
-    opacity: 0.94;
+    opacity: 0.9;
   }
 
   .process-item:nth-child(even) .process-connector-line {
@@ -771,6 +733,7 @@ const processFlow = [
     );
   }
 
+  /* Flow shimmer animation on connector */
   .process-connector-line::before {
     content: "";
     position: absolute;
@@ -783,8 +746,8 @@ const processFlow = [
     );
     background-size: 120px 100%;
     background-repeat: repeat-x;
-    opacity: 0.45;
-    animation: processFlowLine 4.8s linear infinite;
+    opacity: 0.5;
+    animation: processFlowLine 4.6s linear infinite;
     mix-blend-mode: screen;
   }
 
@@ -792,10 +755,7 @@ const processFlow = [
     animation-direction: reverse;
   }
 
-  .process-item.is-active .process-connector-line::before {
-    opacity: 0.72;
-  }
-
+  /* Arrow tip */
   .process-connector-line::after {
     content: "";
     position: absolute;
@@ -823,7 +783,7 @@ const processFlow = [
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 13px;
     padding: 15px;
     border-radius: var(--radius-card);
     background: linear-gradient(
@@ -835,16 +795,13 @@ const processFlow = [
     box-shadow: var(--shadow-card);
     backdrop-filter: blur(16px) saturate(1.06);
     transition:
-      transform var(--duration-base) var(--timing-smooth),
-      box-shadow var(--duration-base) ease,
-      border-color var(--duration-base) ease,
-      background var(--duration-base) ease;
+      transform 0.38s var(--timing-smooth),
+      box-shadow 0.38s ease,
+      border-color 0.38s ease;
     will-change: transform;
-    outline: none;
-    content-visibility: auto;
-    contain-intrinsic-size: 320px;
   }
 
+  /* Top gradient accent bar */
   .process-card-inner::before {
     content: "";
     position: absolute;
@@ -868,6 +825,7 @@ const processFlow = [
     will-change: transform;
   }
 
+  /* Inner gloss sheen */
   .process-card-inner::after {
     content: "";
     position: absolute;
@@ -879,7 +837,7 @@ const processFlow = [
       rgba(255, 255, 255, 0.22) 0%,
       rgba(255, 255, 255, 0) 44%
     );
-    opacity: 0.82;
+    opacity: 0.8;
   }
 
   .process-item.is-visible .process-card-inner::before {
@@ -887,24 +845,13 @@ const processFlow = [
     opacity: 0.65;
   }
 
-  .process-card-inner:hover,
-  .process-card-inner:focus-visible {
-    transform: translate3d(0, -4px, 0) scale(1.005);
+  .process-card-inner:hover {
+    transform: translateY(-4px) scale(1.005);
     border-color: rgba(255, 255, 255, 0.98);
     box-shadow: var(--shadow-card-hover);
   }
 
-  .process-card-inner:focus-visible {
-    box-shadow: var(--shadow-card-focus);
-  }
-
-  .process-item.is-active .process-card-inner {
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 1),
-      0 28px 56px rgba(27, 47, 94, 0.11),
-      0 10px 24px rgba(27, 47, 94, 0.06);
-  }
-
+  /* ─── Card Elements ─────────────────────────────────────────── */
   .process-card-top,
   .process-card-content {
     position: relative;
@@ -957,9 +904,9 @@ const processFlow = [
       inset 0 1px 0 rgba(255, 255, 255, 0.76),
       0 10px 24px rgba(27, 47, 94, 0.07);
     z-index: 2;
-    transform: translateZ(0);
   }
 
+  /* Subtle gradient overlay on media */
   .process-media::after {
     content: "";
     position: absolute;
@@ -979,6 +926,7 @@ const processFlow = [
     pointer-events: none;
   }
 
+  /* NEW: shimmer placeholder while image loads */
   .process-media-shimmer {
     position: absolute;
     inset: 0;
@@ -991,12 +939,6 @@ const processFlow = [
     background-size: 200% 100%;
     animation: shimmer 1.8s ease-in-out infinite;
     z-index: 0;
-    opacity: 1;
-    transition: opacity 0.5s ease;
-  }
-
-  .process-media.is-loaded .process-media-shimmer {
-    opacity: 0;
   }
 
   @keyframes shimmer {
@@ -1016,16 +958,19 @@ const processFlow = [
     object-fit: cover;
     object-position: center;
     z-index: 2;
-    transform: scale(1.001);
     transition:
-      transform 0.6s var(--timing-smooth),
-      filter 0.6s ease;
+      transform 0.55s var(--timing-smooth),
+      filter 0.55s ease;
     will-change: transform;
   }
 
-  .process-card-inner:hover .process-media img,
-  .process-card-inner:focus-visible .process-media img {
-    transform: scale(1.035);
+  .process-media img.is-loaded + .process-media-shimmer,
+  .process-media-shimmer:has(+ img.is-loaded) {
+    opacity: 0;
+  }
+
+  .process-card-inner:hover .process-media img {
+    transform: scale(1.03);
     filter: saturate(1.04) brightness(1.01);
   }
 
@@ -1033,8 +978,9 @@ const processFlow = [
   .process-card-content {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 5px;
     flex: 1 1 auto;
+    position: relative;
     z-index: 2;
   }
 
@@ -1046,16 +992,13 @@ const processFlow = [
     letter-spacing: -0.02em;
     text-transform: uppercase;
     color: var(--clr-primary);
-    text-wrap: balance;
   }
 
   .process-card-text {
     margin: 0;
     font-size: 0.84rem;
-    line-height: 1.56;
+    line-height: 1.52;
     color: var(--clr-text-muted);
-    text-wrap: pretty;
-    max-width: 34ch;
   }
 
   /* ─── Detail Card ───────────────────────────────────────────── */
@@ -1087,10 +1030,9 @@ const processFlow = [
       box-shadow 0.35s ease,
       border-color 0.35s ease;
     will-change: transform;
-    content-visibility: auto;
-    contain-intrinsic-size: 320px;
   }
 
+  /* Top accent bar */
   .process-detail-card-inner::before {
     content: "";
     position: absolute;
@@ -1120,7 +1062,7 @@ const processFlow = [
   }
 
   .process-detail-card-inner:hover {
-    transform: translate3d(0, -3px, 0) scale(1.004);
+    transform: translateY(-3px) scale(1.004);
     border-color: rgba(255, 255, 255, 0.98);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 1),
@@ -1128,18 +1070,12 @@ const processFlow = [
       0 9px 20px rgba(27, 47, 94, 0.045);
   }
 
-  .process-item.is-active .process-detail-card-inner {
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 1),
-      0 24px 48px rgba(27, 47, 94, 0.09),
-      0 10px 24px rgba(27, 47, 94, 0.045);
-  }
-
   .process-detail-card-inner > * {
     position: relative;
     z-index: 2;
   }
 
+  /* ─── Detail Card Content ───────────────────────────────────── */
   .process-detail-top {
     display: flex;
     align-items: center;
@@ -1209,7 +1145,6 @@ const processFlow = [
     letter-spacing: -0.02em;
     text-transform: uppercase;
     color: var(--clr-primary);
-    text-wrap: balance;
   }
 
   .process-detail-text {
@@ -1269,7 +1204,7 @@ const processFlow = [
     }
   }
 
-  /* ─── Large Desktop ─────────────────────────────────────────── */
+  /* ─── Responsive: ≥ 1200px ──────────────────────────────────── */
   @media (min-width: 1200px) {
     .process-card-main,
     .process-detail-card {
@@ -1277,95 +1212,78 @@ const processFlow = [
     }
   }
 
-  /* ─── Tablet / Desktop Medium ──────────────────────────────── */
+  /* ─── Responsive: 769px–1199px ──────────────────────────────── */
   @media (max-width: 1199px) and (min-width: 769px) {
-    .process-header {
-      margin-bottom: 48px;
-    }
-
-    .process-steps {
-      gap: 26px;
-    }
-
     .process-detail-card-inner {
       gap: 14px;
       padding: 22px 20px 20px;
     }
-
     .process-detail-main {
       max-width: 28ch;
     }
-
     .process-detail-title {
       font-size: 1.08rem;
     }
-
     .process-detail-text {
       font-size: 0.84rem;
       line-height: 1.66;
     }
   }
 
+  /* ─── Responsive: ≤ 1100px ──────────────────────────────────── */
   @media (max-width: 1100px) {
+    .process-item {
+      column-gap: 48px;
+    }
     .process-card-main,
     .process-detail-card {
       max-width: 472px;
     }
-
     .process-connector {
       width: 38px;
     }
-
     .process-item:nth-child(odd) .process-connector {
       margin-left: 19px;
     }
-
     .process-item:nth-child(even) .process-connector {
       margin-left: -19px;
     }
   }
 
+  /* ─── Responsive: ≤ 1024px ──────────────────────────────────── */
   @media (max-width: 1024px) {
     .process-header {
       margin-bottom: 38px;
     }
-
     .process-steps {
-      gap: 22px;
+      gap: 20px;
     }
-
     .process-card-inner,
     .process-detail-card-inner {
       border-radius: 20px;
     }
-
     .process-card-inner {
       padding: 13px;
     }
-
     .process-media {
       border-radius: 14px;
     }
   }
 
-  /* ─── Mobile ────────────────────────────────────────────────── */
+  /* ─── Responsive: ≤ 768px (Mobile) ─────────────────────────── */
   @media (max-width: 768px) {
     .process-section {
       padding: 64px 0;
     }
-
     .process-container {
       padding-inline: clamp(14px, 4.4vw, 22px);
     }
-
     .process-header {
-      margin-bottom: 32px;
+      margin-bottom: 30px;
     }
-
     .process-title {
       font-size: clamp(2rem, 9vw, 2.8rem);
     }
-
     .process-subtitle {
       max-width: 100%;
       font-size: 0.92rem;
@@ -1374,7 +1292,6 @@ const processFlow = [
 
     .process-timeline {
       --line-x: 18px;
-      padding-inline: 0;
     }
 
     .process-line {
@@ -1382,14 +1299,12 @@ const processFlow = [
       transform: none;
       width: 10px;
     }
-
     .process-line-track,
     .process-line-progress {
       left: 0;
       transform: none;
       width: 2px;
     }
-
     .process-line-glow {
       left: 0;
       transform: translateX(-4px);
@@ -1397,16 +1312,17 @@ const processFlow = [
     }
 
     .process-steps {
-      gap: 18px;
+      gap: 16px;
     }
 
     .process-item {
       grid-template-columns: 1fr;
       column-gap: 0;
-      padding-left: 44px;
+      padding-left: 42px;
       justify-items: stretch;
     }
 
+    /* Reset column placement for mobile */
     .process-card-main,
     .process-item:nth-child(odd) .process-card-main,
     .process-item:nth-child(even) .process-card-main {
@@ -1425,7 +1341,6 @@ const processFlow = [
       top: 18px;
       gap: 0;
     }
-
     .process-pin-step,
     .process-connector {
       display: none;
@@ -1436,19 +1351,16 @@ const processFlow = [
       height: 20px;
       top: -4px;
     }
-
     .process-pin-ring--outer {
       width: 28px;
       height: 28px;
       top: -8px;
     }
-
     .process-pin-core {
       width: 12px;
       height: 12px;
       top: 0;
     }
-
     .process-pin-dot {
       width: 7px;
       height: 7px;
@@ -1459,7 +1371,7 @@ const processFlow = [
     }
 
     .process-card-inner {
-      gap: 12px;
+      gap: 11px;
       padding: 12px;
       border-radius: 18px;
       box-shadow:
@@ -1467,90 +1379,74 @@ const processFlow = [
         0 12px 26px rgba(27, 47, 94, 0.08),
         0 4px 10px rgba(27, 47, 94, 0.04);
     }
-
     .process-card-inner::before {
       left: 12px;
       right: 12px;
     }
-
     .process-card-top {
       gap: 7px;
       align-items: center;
     }
-
     .process-group {
       font-size: 0.55rem;
       letter-spacing: 0.15em;
     }
-
     .process-step-badge {
       display: inline-flex;
       font-size: 0.55rem;
       padding: 3px 8px;
       flex-shrink: 0;
     }
-
     .process-media {
-      aspect-ratio: 16 / 8.9;
+      aspect-ratio: 16 / 8.8;
       border-radius: 12px;
     }
-
     .process-card-title {
       font-size: 0.96rem;
     }
-
     .process-card-text {
       font-size: 0.82rem;
-      line-height: 1.5;
-      max-width: none;
+      line-height: 1.48;
     }
   }
 
+  /* ─── Responsive: ≤ 560px ───────────────────────────────────── */
   @media (max-width: 560px) {
     .process-container {
       padding-inline: 16px;
     }
-
     .process-label {
       width: 100%;
       justify-content: center;
     }
-
     .process-header {
       margin-bottom: 26px;
     }
-
     .process-timeline {
       --line-x: 16px;
     }
-
     .process-item {
-      padding-left: 40px;
+      padding-left: 38px;
     }
-
     .process-pin {
       left: 16px;
       top: 16px;
     }
-
     .process-pin-ring {
       width: 18px;
       height: 18px;
       top: -3px;
     }
-
     .process-pin-ring--outer {
       width: 26px;
       height: 26px;
       top: -7px;
     }
-
     .process-pin-core {
       width: 11px;
       height: 11px;
       top: 0;
     }
-
     .process-pin-dot {
       width: 6px;
       height: 6px;
@@ -1567,65 +1463,54 @@ const processFlow = [
     .process-card-inner {
       padding: 11px;
       border-radius: 16px;
-      gap: 10px;
+      gap: 9px;
     }
-
     .process-card-top {
       align-items: flex-start;
       gap: 6px;
       flex-wrap: wrap;
     }
-
     .process-group {
       font-size: 0.54rem;
       letter-spacing: 0.14em;
     }
-
     .process-step-badge {
       font-size: 0.54rem;
       padding: 3px 7px;
     }
-
     .process-media {
       aspect-ratio: 1.6 / 1;
       border-radius: 11px;
     }
-
     .process-card-title {
       font-size: 0.92rem;
     }
-
     .process-card-text {
       font-size: 0.8rem;
-      line-height: 1.46;
+      line-height: 1.44;
     }
   }
 
+  /* ─── Responsive: ≤ 390px ───────────────────────────────────── */
   @media (max-width: 390px) {
     .process-section {
       padding: 58px 0;
     }
-
     .process-title {
       font-size: clamp(1.82rem, 10vw, 2.2rem);
     }
-
     .process-subtitle {
       font-size: 0.88rem;
     }
-
     .process-container {
       padding-inline: 14px;
     }
-
     .process-item {
-      padding-left: 36px;
+      padding-left: 34px;
     }
-
     .process-timeline {
       --line-x: 14px;
     }
-
     .process-pin {
       left: 14px;
     }
@@ -1639,7 +1524,6 @@ const processFlow = [
     .process-card-inner {
       padding: 10px;
     }
-
     .process-media {
       aspect-ratio: 1.52 / 1;
     }
@@ -1660,8 +1544,7 @@ const processFlow = [
     .process-dot,
     .process-ambient-1,
     .process-ambient-2,
-    .process-media-shimmer,
-    .process-label {
+    .process-media-shimmer {
       transition: none !important;
       animation: none !important;
       transform: none !important;
@@ -1682,127 +1565,34 @@ const processFlow = [
       "(prefers-reduced-motion: reduce)",
     ).matches;
 
-    if (!items.length || !progressEl) return;
-
-    let lastActiveIndex = 0;
-    let ticking = false;
-    let itemCenters = [];
-    let timelineTop = 0;
-    let timelineHeight = 1;
-
-    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
-
-    const markImageLoaded = (img) => {
-      img.classList.add("is-loaded");
-      const media = img.closest(".process-media");
-      if (media) media.classList.add("is-loaded");
+    // ── Progress bar (CSS custom property approach) ───────────────
+    const setProgress = (activeIndex) => {
+      if (!progressEl || items.length === 0) return;
+      const ratio = Math.min(activeIndex / Math.max(items.length - 1, 1), 1);
+      timeline.style.setProperty("--progress", ratio.toFixed(4));
     };
 
-    const setProgress = (ratio) => {
-      timeline.style.setProperty("--progress", clamp(ratio, 0, 1).toFixed(4));
-    };
-
-    const setActiveItem = (index) => {
-      const safeIndex = clamp(index, 0, items.length - 1);
-
-      if (
-        safeIndex === lastActiveIndex &&
-        items[safeIndex]?.classList.contains("is-active")
-      ) {
-        return;
-      }
-
-      items.forEach((item, itemIndex) => {
-        item.classList.toggle("is-active", itemIndex === safeIndex);
-      });
-
-      lastActiveIndex = safeIndex;
-    };
-
-    const measure = () => {
-      const timelineRect = timeline.getBoundingClientRect();
-      const scrollY = window.scrollY || window.pageYOffset;
-
-      timelineTop = timelineRect.top + scrollY;
-      timelineHeight = Math.max(timeline.offsetHeight, 1);
-
-      itemCenters = items.map((item) => {
-        const rect = item.getBoundingClientRect();
-        const top = rect.top + scrollY;
-        return top + rect.height * 0.34;
-      });
-    };
-
-    const updateProgressFromScroll = () => {
-      ticking = false;
-
-      const scrollY = window.scrollY || window.pageYOffset;
-      const viewportHeight =
-        window.innerHeight || document.documentElement.clientHeight;
-      const viewportAnchor = scrollY + viewportHeight * 0.42;
-
-      const rawRatio = (viewportAnchor - timelineTop) / timelineHeight;
-      setProgress(rawRatio);
-
-      let closestIndex = 0;
-      let closestDistance = Infinity;
-
-      for (let i = 0; i < itemCenters.length; i += 1) {
-        const distance = Math.abs(itemCenters[i] - viewportAnchor);
-        if (distance < closestDistance) {
-          closestDistance = distance;
-          closestIndex = i;
-        }
-      }
-
-      setActiveItem(closestIndex);
-    };
-
-    const requestTick = () => {
-      if (ticking) return;
-      ticking = true;
-      window.requestAnimationFrame(updateProgressFromScroll);
-    };
-
+    // ── Fast-path: reduced motion or no IntersectionObserver ──────
     if (reducedMotion || !("IntersectionObserver" in window)) {
       items.forEach((item) => item.classList.add("is-visible"));
-      setActiveItem(items.length - 1);
-      setProgress(1);
-
-      items.forEach((item) => {
-        const img = item.querySelector(".process-media img");
-        if (!img) return;
-        if (img.complete) {
-          markImageLoaded(img);
-        } else {
-          img.addEventListener("load", () => markImageLoaded(img), {
-            once: true,
-          });
-          img.addEventListener("error", () => markImageLoaded(img), {
-            once: true,
-          });
-        }
-      });
-
+      setProgress(items.length - 1);
       return;
     }
 
+    // ── Mark images as loaded so shimmer fades ────────────────────
     items.forEach((item) => {
       const img = item.querySelector(".process-media img");
       if (!img) return;
-
+      const markLoaded = () => img.classList.add("is-loaded");
       if (img.complete) {
-        markImageLoaded(img);
+        markLoaded();
       } else {
-        img.addEventListener("load", () => markImageLoaded(img), {
-          once: true,
-        });
-        img.addEventListener("error", () => markImageLoaded(img), {
-          once: true,
-        });
+        img.addEventListener("load", markLoaded, { once: true });
       }
     });
 
+    // ── IntersectionObserver for step visibility + progress ───────
+    let lastActiveIndex = 0;
     const visibilityRatios = new Map();
 
     const observer = new IntersectionObserver(
@@ -1813,63 +1603,30 @@ const processFlow = [
           entry.target.classList.toggle("is-visible", ratio > 0.14);
         }
 
+        // Pick the most-visible item as "active" for the progress line
         let bestIndex = lastActiveIndex;
         let bestRatio = -1;
 
         items.forEach((item, i) => {
-          const ratio = visibilityRatios.get(item) ?? 0;
-          if (ratio > bestRatio) {
-            bestRatio = ratio;
+          const r = visibilityRatios.get(item) ?? 0;
+          if (r > bestRatio) {
+            bestRatio = r;
             bestIndex = i;
           }
         });
 
-        setActiveItem(bestIndex);
-        requestTick();
+        if (bestIndex !== lastActiveIndex) {
+          lastActiveIndex = bestIndex;
+          setProgress(lastActiveIndex);
+        }
       },
       {
-        threshold: [0, 0.14, 0.28, 0.46, 0.64, 0.82],
+        threshold: [0, 0.14, 0.28, 0.46, 0.64],
         rootMargin: "0px 0px -14% 0px",
       },
     );
 
     items.forEach((item) => observer.observe(item));
-
-    const resizeObserver =
-      "ResizeObserver" in window
-        ? new ResizeObserver(() => {
-            measure();
-            requestTick();
-          })
-        : null;
-
-    resizeObserver?.observe(timeline);
-    items.forEach((item) => resizeObserver?.observe(item));
-
-    window.addEventListener(
-      "scroll",
-      () => {
-        requestTick();
-      },
-      { passive: true },
-    );
-
-    window.addEventListener(
-      "resize",
-      () => {
-        measure();
-        requestTick();
-      },
-      { passive: true },
-    );
-
-    window.addEventListener("load", () => {
-      measure();
-      requestTick();
-    });
-
-    measure();
-    setActiveItem(0);
-    requestTick();
+    setProgress(0);
   })();
 </script>
