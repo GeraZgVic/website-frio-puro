@@ -96,6 +96,7 @@ const processFlow = [
 <section class="process-section" id="proceso">
   <div class="process-ambient process-ambient-1" aria-hidden="true"></div>
   <div class="process-ambient process-ambient-2" aria-hidden="true"></div>
+  <div class="process-ambient process-ambient-3" aria-hidden="true"></div>
   <div class="process-noise" aria-hidden="true"></div>
   <div class="process-grid-overlay" aria-hidden="true"></div>
 
@@ -127,6 +128,7 @@ const processFlow = [
             <li class="process-item" data-step-index={index}>
               <div class="process-pin" aria-hidden="true">
                 <span class="process-pin-ring" />
+                <span class="process-pin-ring process-pin-ring--outer" />
                 <span class="process-pin-core" />
                 <span class="process-pin-dot" />
                 <span class="process-pin-step">Paso {item.step}</span>
@@ -144,6 +146,7 @@ const processFlow = [
                   </div>
 
                   <div class="process-media">
+                    <div class="process-media-shimmer" aria-hidden="true" />
                     <img
                       src={item.image}
                       alt={item.alt}
@@ -191,6 +194,31 @@ const processFlow = [
 
 <style>
   .process-section {
+    --clr-primary: var(--color-primary, #102149);
+    --clr-accent: #41abe2;
+    --clr-accent-light: #9dd4f2;
+    --clr-accent-deep: #323b81;
+    --clr-surface: rgba(255, 255, 255, 0.94);
+    --clr-text-muted: rgba(16, 33, 73, 0.62);
+    --clr-text-faint: rgba(16, 33, 73, 0.44);
+    --clr-border: rgba(255, 255, 255, 0.94);
+    --clr-border-accent: rgba(65, 171, 226, 0.22);
+
+    --shadow-card:
+      inset 0 1px 0 rgba(255, 255, 255, 0.96),
+      0 18px 38px rgba(27, 47, 94, 0.08), 0 6px 14px rgba(27, 47, 94, 0.04);
+
+    --shadow-card-hover:
+      inset 0 1px 0 rgba(255, 255, 255, 1), 0 24px 48px rgba(27, 47, 94, 0.11),
+      0 10px 22px rgba(27, 47, 94, 0.06);
+
+    --radius-card: 22px;
+    --radius-media: 15px;
+    --timing-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+    --timing-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .process-section {
     position: relative;
     overflow: hidden;
     isolation: isolate;
@@ -198,15 +226,21 @@ const processFlow = [
     background:
       radial-gradient(
         ellipse 64% 46% at 8% 12%,
-        rgba(157, 212, 242, 0.12) 0%,
+        rgba(157, 212, 242, 0.13) 0%,
         transparent 52%
       ),
       radial-gradient(
         ellipse 46% 50% at 92% 88%,
-        rgba(65, 171, 226, 0.06) 0%,
+        rgba(65, 171, 226, 0.07) 0%,
         transparent 50%
       ),
       linear-gradient(180deg, #f9fcff 0%, #eef5fb 52%, #ffffff 100%);
+  }
+
+  .process-section *,
+  .process-section *::before,
+  .process-section *::after {
+    box-sizing: border-box;
   }
 
   .process-ambient,
@@ -214,44 +248,61 @@ const processFlow = [
   .process-grid-overlay {
     position: absolute;
     pointer-events: none;
+    will-change: transform;
   }
 
   .process-ambient {
     border-radius: 999px;
-    filter: blur(78px);
-    opacity: 0.66;
+    filter: blur(80px);
     z-index: 0;
   }
 
   .process-ambient-1 {
-    top: -140px;
-    left: -140px;
-    width: 400px;
-    height: 400px;
-    background: rgba(157, 212, 242, 0.13);
+    top: -160px;
+    left: -160px;
+    width: 440px;
+    height: 440px;
+    background: rgba(157, 212, 242, 0.14);
+    opacity: 0.7;
   }
 
   .process-ambient-2 {
-    right: -120px;
-    bottom: -140px;
-    width: 350px;
-    height: 350px;
-    background: rgba(65, 171, 226, 0.08);
+    right: -130px;
+    bottom: -160px;
+    width: 380px;
+    height: 380px;
+    background: rgba(65, 171, 226, 0.09);
+    opacity: 0.7;
+  }
+
+  .process-ambient-3 {
+    top: 50%;
+    left: 50%;
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(
+      ellipse,
+      rgba(65, 171, 226, 0.04) 0%,
+      transparent 70%
+    );
+    opacity: 1;
+    filter: blur(40px);
+    transform: translate(-50%, -50%);
   }
 
   .process-noise {
     inset: 0;
     z-index: 1;
-    opacity: 0.01;
+    opacity: 0.018;
     background-image:
       radial-gradient(
         circle at 20% 20%,
-        rgba(16, 33, 73, 0.08) 0.7px,
+        rgba(16, 33, 73, 0.09) 0.7px,
         transparent 0.8px
       ),
       radial-gradient(
         circle at 80% 40%,
-        rgba(16, 33, 73, 0.08) 0.7px,
+        rgba(16, 33, 73, 0.09) 0.7px,
         transparent 0.8px
       );
     background-size:
@@ -262,7 +313,7 @@ const processFlow = [
   .process-grid-overlay {
     inset: 0;
     z-index: 1;
-    opacity: 0.045;
+    opacity: 0.04;
     background-image:
       linear-gradient(rgba(65, 171, 226, 0.05) 1px, transparent 1px),
       linear-gradient(90deg, rgba(65, 171, 226, 0.05) 1px, transparent 1px);
@@ -277,30 +328,27 @@ const processFlow = [
 
   .process-header {
     max-width: 760px;
-    margin: 0 auto 46px;
+    margin: 0 auto 56px;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
 
   .process-label {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    margin: 0 0 16px;
-    padding: 7px 13px;
+    margin: 0 0 18px;
+    padding: 7px 14px;
     border-radius: 999px;
-    border: 1px solid rgba(65, 171, 226, 0.2);
-    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(65, 171, 226, 0.22);
+    background: rgba(255, 255, 255, 0.82);
     box-shadow:
-      0 10px 26px rgba(24, 48, 88, 0.05),
+      0 10px 28px rgba(24, 48, 88, 0.06),
       inset 0 1px 0 rgba(255, 255, 255, 0.9);
     font-size: 0.68rem;
     font-weight: 700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--color-primary);
+    color: var(--clr-primary);
     backdrop-filter: blur(12px);
   }
 
@@ -313,36 +361,32 @@ const processFlow = [
   }
 
   .process-title {
-    margin: 0 0 12px;
+    margin: 0 0 14px;
     line-height: 0.96;
     letter-spacing: -0.04em;
     text-transform: uppercase;
-    text-wrap: balance;
-    color: var(--color-primary);
+    color: var(--clr-primary);
   }
 
   .process-subtitle {
-    max-width: 620px;
-    margin: 0;
+    max-width: 580px;
+    margin: 0 auto;
     font-size: 0.96rem;
-    line-height: 1.64;
-    color: rgba(16, 33, 73, 0.74);
-    text-wrap: balance;
+    line-height: 1.68;
+    color: var(--clr-text-muted);
   }
 
   .process-timeline {
-    --progress: 0;
-    --line-x: 50%;
     position: relative;
-    padding: 8px 12px;
+    padding: 10px 12px 4px;
   }
 
   .process-line {
     position: absolute;
-    left: var(--line-x);
+    left: 50%;
     top: 0;
     bottom: 0;
-    width: 10px;
+    width: 12px;
     transform: translateX(-50%);
     pointer-events: none;
     z-index: 0;
@@ -364,7 +408,7 @@ const processFlow = [
     background: linear-gradient(
       180deg,
       rgba(16, 33, 73, 0.04) 0%,
-      rgba(65, 171, 226, 0.16) 48%,
+      rgba(65, 171, 226, 0.18) 48%,
       rgba(16, 33, 73, 0.04) 100%
     );
   }
@@ -372,31 +416,31 @@ const processFlow = [
   .process-line-glow {
     top: 0;
     bottom: 0;
-    width: 10px;
+    width: 12px;
     background: linear-gradient(
       180deg,
       rgba(157, 212, 242, 0.02) 0%,
-      rgba(65, 171, 226, 0.08) 50%,
+      rgba(65, 171, 226, 0.09) 50%,
       rgba(157, 212, 242, 0.02) 100%
     );
-    filter: blur(5px);
-    opacity: 0.9;
+    filter: blur(6px);
+    opacity: 0.88;
   }
 
   .process-line-progress {
     top: 0;
     width: 2px;
-    height: calc(100% * var(--progress));
+    height: 0;
     background: linear-gradient(
       180deg,
-      rgba(65, 171, 226, 0.34) 0%,
-      rgba(65, 171, 226, 0.8) 58%,
-      rgba(50, 59, 129, 0.92) 100%
+      rgba(65, 171, 226, 0.36) 0%,
+      rgba(65, 171, 226, 0.84) 52%,
+      rgba(50, 59, 129, 0.94) 100%
     );
     box-shadow:
-      0 0 0 1px rgba(65, 171, 226, 0.08),
-      0 0 18px rgba(65, 171, 226, 0.09);
-    transition: height 0.72s cubic-bezier(0.22, 1, 0.36, 1);
+      0 0 0 1px rgba(65, 171, 226, 0.1),
+      0 0 22px rgba(65, 171, 226, 0.12);
+    transition: height 0.25s ease;
   }
 
   .process-steps {
@@ -404,20 +448,20 @@ const processFlow = [
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 26px;
+    gap: 30px;
   }
 
   .process-item {
     position: relative;
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    column-gap: 60px;
+    column-gap: clamp(40px, 4vw, 64px);
     align-items: start;
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(24px);
     transition:
-      opacity 0.55s ease,
-      transform 0.55s ease;
+      opacity 0.7s var(--timing-smooth),
+      transform 0.7s var(--timing-smooth);
   }
 
   .process-item.is-visible {
@@ -430,49 +474,32 @@ const processFlow = [
     width: 100%;
     max-width: 500px;
     align-self: start;
-    margin-top: 0;
   }
 
   .process-item:nth-child(odd) .process-card-main {
     grid-column: 1 / 2;
-    grid-row: 1;
     justify-self: end;
   }
 
   .process-item:nth-child(odd) .process-detail-card {
     grid-column: 2 / 3;
-    grid-row: 1;
     justify-self: start;
   }
 
   .process-item:nth-child(even) .process-detail-card {
     grid-column: 1 / 2;
-    grid-row: 1;
     justify-self: end;
   }
 
   .process-item:nth-child(even) .process-card-main {
     grid-column: 2 / 3;
-    grid-row: 1;
     justify-self: start;
-  }
-
-  .process-item:nth-child(odd) .process-card-main,
-  .process-item:nth-child(odd) .process-detail-card,
-  .process-item:nth-child(even) .process-card-main,
-  .process-item:nth-child(even) .process-detail-card {
-    align-self: start;
-  }
-
-  .process-item > .process-card-main,
-  .process-item > .process-detail-card {
-    transform: translateY(0);
   }
 
   .process-pin {
     position: absolute;
-    left: var(--line-x);
-    top: 32px;
+    left: 50%;
+    top: 34px;
     transform: translateX(-50%);
     z-index: 3;
     display: grid;
@@ -489,9 +516,16 @@ const processFlow = [
     background: rgba(65, 171, 226, 0.06);
     border: 1px solid rgba(65, 171, 226, 0.14);
     backdrop-filter: blur(8px);
-    transition:
-      transform 0.35s ease,
-      opacity 0.35s ease;
+    transition: transform 0.45s var(--timing-bounce);
+  }
+
+  .process-pin-ring--outer {
+    width: 34px;
+    height: 34px;
+    top: -11px;
+    background: transparent;
+    border-color: rgba(65, 171, 226, 0.07);
+    opacity: 0;
   }
 
   .process-pin-core {
@@ -500,11 +534,11 @@ const processFlow = [
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.92);
-    border: 1px solid rgba(65, 171, 226, 0.22);
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(65, 171, 226, 0.24);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.95),
-      0 8px 14px rgba(27, 47, 94, 0.08);
+      0 8px 16px rgba(27, 47, 94, 0.09);
   }
 
   .process-pin-dot {
@@ -515,51 +549,50 @@ const processFlow = [
     border-radius: 50%;
     background: linear-gradient(
       180deg,
-      rgba(65, 171, 226, 0.94),
-      rgba(50, 59, 129, 0.94)
+      rgba(65, 171, 226, 0.96),
+      rgba(50, 59, 129, 0.96)
     );
     box-shadow:
       0 0 0 4px rgba(65, 171, 226, 0.12),
-      0 10px 16px rgba(27, 47, 94, 0.12);
-    transition:
-      transform 0.35s ease,
-      box-shadow 0.35s ease;
+      0 10px 18px rgba(27, 47, 94, 0.13);
+    transition: transform 0.45s var(--timing-bounce);
   }
 
   .process-item.is-visible .process-pin-ring {
     transform: scale(1.08);
+  }
+
+  .process-item.is-visible .process-pin-ring--outer {
+    transform: scale(1.12);
     opacity: 1;
   }
 
   .process-item.is-visible .process-pin-dot {
-    transform: scale(1.06);
-    box-shadow:
-      0 0 0 5px rgba(65, 171, 226, 0.14),
-      0 10px 18px rgba(27, 47, 94, 0.13);
+    transform: scale(1.1);
   }
 
   .process-pin-step {
     position: relative;
-    margin-top: 9px;
+    margin-top: 10px;
     padding: 3px 9px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.93);
+    background: rgba(255, 255, 255, 0.94);
     border: 1px solid rgba(65, 171, 226, 0.2);
     color: rgba(16, 33, 73, 0.82);
     font-size: 0.58rem;
     font-weight: 800;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    box-shadow: 0 5px 12px rgba(11, 32, 51, 0.05);
+    box-shadow: 0 5px 14px rgba(11, 32, 51, 0.06);
     backdrop-filter: blur(10px);
     white-space: nowrap;
   }
 
   .process-connector {
     position: absolute;
-    top: 39px;
+    top: 41px;
     left: 50%;
-    width: 44px;
+    width: 46px;
     height: 14px;
     transform: translateX(-50%);
     pointer-events: none;
@@ -584,141 +617,43 @@ const processFlow = [
     background: linear-gradient(
       90deg,
       rgba(65, 171, 226, 0) 0%,
-      rgba(65, 171, 226, 0.18) 30%,
-      rgba(65, 171, 226, 0.42) 100%
+      rgba(65, 171, 226, 0.2) 30%,
+      rgba(65, 171, 226, 0.46) 100%
     );
-    opacity: 0.88;
   }
 
   .process-item:nth-child(even) .process-connector-line {
     background: linear-gradient(
       90deg,
-      rgba(65, 171, 226, 0.42) 0%,
-      rgba(65, 171, 226, 0.18) 70%,
+      rgba(65, 171, 226, 0.46) 0%,
+      rgba(65, 171, 226, 0.2) 70%,
       rgba(65, 171, 226, 0) 100%
     );
-  }
-
-  .process-connector-line::before {
-    content: "";
-    position: absolute;
-    inset: -1px 0;
-    background-image: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.55) 50%,
-      transparent 100%
-    );
-    background-size: 120px 100%;
-    background-repeat: repeat-x;
-    opacity: 0.55;
-    animation: processFlowLine 4.6s linear infinite;
-    mix-blend-mode: screen;
-  }
-
-  .process-item:nth-child(even) .process-connector-line::before {
-    animation-direction: reverse;
-  }
-
-  .process-connector-line::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: 0;
-    width: 7px;
-    height: 7px;
-    border-top: 1.5px solid rgba(65, 171, 226, 0.4);
-    border-right: 1.5px solid rgba(65, 171, 226, 0.4);
-    transform: translateY(-50%) rotate(45deg);
-  }
-
-  .process-item:nth-child(even) .process-connector-line::after {
-    right: auto;
-    left: 0;
-    border-top: 0;
-    border-right: 0;
-    border-left: 1.5px solid rgba(65, 171, 226, 0.4);
-    border-bottom: 1.5px solid rgba(65, 171, 226, 0.4);
-    transform: translateY(-50%) rotate(45deg);
   }
 
   .process-card-inner {
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding: 14px;
-    border-radius: 22px;
+    gap: 14px;
+    padding: 15px;
+    border-radius: var(--radius-card);
     background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.94) 0%,
-      rgba(248, 252, 255, 0.9) 100%
+      160deg,
+      rgba(255, 255, 255, 0.96) 0%,
+      rgba(248, 252, 255, 0.92) 100%
     );
-    border: 1px solid rgba(255, 255, 255, 0.94);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.96),
-      0 16px 34px rgba(27, 47, 94, 0.075),
-      0 6px 14px rgba(27, 47, 94, 0.03);
-    backdrop-filter: blur(14px) saturate(1.05);
+    border: 1px solid var(--clr-border);
+    box-shadow: var(--shadow-card);
+    backdrop-filter: blur(16px) saturate(1.06);
     transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease,
-      border-color 0.3s ease;
-  }
-
-  .process-card-inner::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 14px;
-    right: 14px;
-    height: 3px;
-    border-radius: 999px;
-    background: linear-gradient(
-      90deg,
-      rgba(50, 59, 129, 0.34),
-      rgba(65, 171, 226, 0.8),
-      rgba(157, 212, 242, 0.74)
-    );
-    opacity: 0.55;
-    transform: scaleX(0.42);
-    transform-origin: left;
-    transition:
-      transform 0.35s ease,
-      opacity 0.35s ease;
-  }
-
-  .process-card-inner::after {
-    content: "";
-    position: absolute;
-    inset: 1px;
-    border-radius: inherit;
-    pointer-events: none;
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.18),
-      rgba(255, 255, 255, 0) 42%
-    );
-    opacity: 0.75;
-  }
-
-  .process-item.is-visible .process-card-inner::before {
-    transform: scaleX(1);
+      transform 0.38s var(--timing-smooth),
+      box-shadow 0.38s ease;
   }
 
   .process-card-inner:hover {
-    transform: translateY(-3px);
-    border-color: rgba(255, 255, 255, 0.98);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 1),
-      0 20px 42px rgba(27, 47, 94, 0.09),
-      0 8px 18px rgba(27, 47, 94, 0.05);
-  }
-
-  .process-card-top,
-  .process-card-content {
-    position: relative;
-    z-index: 2;
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
   }
 
   .process-card-top {
@@ -733,7 +668,7 @@ const processFlow = [
     font-weight: 700;
     letter-spacing: 0.17em;
     text-transform: uppercase;
-    color: rgba(16, 33, 73, 0.52);
+    color: var(--clr-text-faint);
   }
 
   .process-step-badge {
@@ -742,14 +677,14 @@ const processFlow = [
     justify-content: center;
     padding: 3px 9px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(65, 171, 226, 0.2);
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid var(--clr-border-accent);
     color: rgba(16, 33, 73, 0.82);
     font-size: 0.58rem;
     font-weight: 800;
     letter-spacing: 0.13em;
     text-transform: uppercase;
-    box-shadow: 0 5px 12px rgba(11, 32, 51, 0.05);
+    box-shadow: 0 4px 12px rgba(11, 32, 51, 0.05);
     backdrop-filter: blur(10px);
     white-space: nowrap;
   }
@@ -758,140 +693,99 @@ const processFlow = [
     position: relative;
     width: 100%;
     aspect-ratio: 16 / 8.6;
-    border-radius: 15px;
+    border-radius: var(--radius-media);
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.82);
+    background: rgba(240, 248, 255, 0.88);
     border: 1px solid rgba(255, 255, 255, 0.92);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.74),
-      0 10px 22px rgba(27, 47, 94, 0.065);
+      inset 0 1px 0 rgba(255, 255, 255, 0.76),
+      0 10px 24px rgba(27, 47, 94, 0.07);
   }
 
-  .process-media::before {
-    content: "";
+  .process-media-shimmer {
     position: absolute;
     inset: 0;
-    background:
-      radial-gradient(
-        circle at 18% 14%,
-        rgba(255, 255, 255, 0.22),
-        transparent 28%
-      ),
-      linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.02) 0%,
-        rgba(16, 33, 73, 0.12) 100%
-      );
-    z-index: 1;
-    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      rgba(220, 235, 248, 0.5) 0%,
+      rgba(240, 249, 255, 0.8) 50%,
+      rgba(220, 235, 248, 0.5) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.8s ease-in-out infinite;
+    z-index: 0;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+  }
+
+  .process-media.is-loaded .process-media-shimmer {
+    opacity: 0;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
   }
 
   .process-media img {
     display: block;
+    position: relative;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
-    transition:
-      transform 0.5s ease,
-      filter 0.5s ease;
-  }
-
-  .process-card-inner:hover .process-media img {
-    transform: scale(1.024);
-    filter: saturate(1.03);
+    z-index: 1;
   }
 
   .process-card-content {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    flex: 1 1 auto;
-    justify-content: flex-start;
+    gap: 6px;
   }
 
   .process-card-title {
     margin: 0;
     font-family: "Barlow Condensed", sans-serif;
-    font-size: 1.02rem;
-    line-height: 1.03;
+    font-size: 1.04rem;
+    line-height: 1.04;
     letter-spacing: -0.02em;
     text-transform: uppercase;
-    color: var(--color-primary);
+    color: var(--clr-primary);
   }
 
   .process-card-text {
     margin: 0;
     font-size: 0.84rem;
-    line-height: 1.5;
-    color: rgba(16, 33, 73, 0.7);
-  }
-
-  .process-detail-card {
-    position: relative;
+    line-height: 1.56;
+    color: var(--clr-text-muted);
   }
 
   .process-detail-card-inner {
-    position: relative;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
-    padding: 24px 24px 22px;
-    border-radius: 22px;
+    gap: 18px;
+    padding: 26px 26px 24px;
+    border-radius: var(--radius-card);
     background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.95) 0%,
-      rgba(246, 251, 255, 0.92) 100%
+      160deg,
+      rgba(255, 255, 255, 0.96) 0%,
+      rgba(246, 251, 255, 0.93) 100%
     );
-    border: 1px solid rgba(255, 255, 255, 0.94);
+    border: 1px solid var(--clr-border);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.98),
-      0 16px 34px rgba(27, 47, 94, 0.06),
-      0 6px 14px rgba(27, 47, 94, 0.024);
-    backdrop-filter: blur(14px) saturate(1.03);
-    transition:
-      transform 0.28s ease,
-      box-shadow 0.28s ease,
-      border-color 0.28s ease;
-  }
-
-  .process-detail-card-inner::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 18px;
-    right: 18px;
-    height: 3px;
-    border-radius: 999px;
-    background: linear-gradient(
-      90deg,
-      rgba(50, 59, 129, 0.22),
-      rgba(65, 171, 226, 0.58),
-      rgba(157, 212, 242, 0.42)
-    );
-    opacity: 0.5;
-    transform: scaleX(0.5);
-    transform-origin: left;
-    transition: transform 0.34s ease;
-  }
-
-  .process-item.is-visible .process-detail-card-inner::before {
-    transform: scaleX(1);
+      0 18px 38px rgba(27, 47, 94, 0.065),
+      0 6px 16px rgba(27, 47, 94, 0.028);
+    backdrop-filter: blur(16px) saturate(1.04);
+    transition: transform 0.35s var(--timing-smooth);
   }
 
   .process-detail-card-inner:hover {
-    transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.98);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 1),
-      0 20px 40px rgba(27, 47, 94, 0.08),
-      0 8px 18px rgba(27, 47, 94, 0.04);
-  }
-
-  .process-detail-card-inner > * {
-    position: relative;
-    z-index: 2;
+    transform: translateY(-3px);
   }
 
   .process-detail-top {
@@ -900,7 +794,6 @@ const processFlow = [
     justify-content: space-between;
     gap: 10px;
     width: 100%;
-    min-height: 24px;
   }
 
   .process-detail-label {
@@ -908,7 +801,7 @@ const processFlow = [
     font-weight: 800;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: rgba(16, 33, 73, 0.44);
+    color: var(--clr-text-faint);
   }
 
   .process-detail-step {
@@ -918,7 +811,7 @@ const processFlow = [
     padding: 3px 8px;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.92);
-    border: 1px solid rgba(65, 171, 226, 0.16);
+    border: 1px solid rgba(65, 171, 226, 0.18);
     color: rgba(16, 33, 73, 0.74);
     font-size: 0.52rem;
     font-weight: 800;
@@ -930,20 +823,19 @@ const processFlow = [
   .process-detail-main {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 11px;
     max-width: 31ch;
-    width: 100%;
   }
 
   .process-detail-kicker {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 9px;
     font-size: 0.58rem;
     font-weight: 800;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: rgba(16, 33, 73, 0.48);
+    color: var(--clr-text-faint);
   }
 
   .process-detail-kicker::before {
@@ -951,35 +843,31 @@ const processFlow = [
     width: 18px;
     height: 1px;
     border-radius: 999px;
-    background: rgba(65, 171, 226, 0.4);
+    background: rgba(65, 171, 226, 0.42);
   }
 
   .process-detail-title {
     margin: 0;
-    min-height: 1em;
     font-family: "Barlow Condensed", sans-serif;
-    font-size: 1.18rem;
+    font-size: 1.2rem;
     line-height: 0.98;
     letter-spacing: -0.02em;
     text-transform: uppercase;
-    color: var(--color-primary);
+    color: var(--clr-primary);
   }
 
   .process-detail-text {
     margin: 0;
     max-width: 32ch;
     font-size: 0.9rem;
-    line-height: 1.72;
+    line-height: 1.74;
     color: rgba(16, 33, 73, 0.72);
-    text-wrap: pretty;
   }
 
   .process-detail-accent {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-top: 6px;
-    padding-top: 2px;
   }
 
   .process-detail-accent-line {
@@ -988,7 +876,7 @@ const processFlow = [
     border-radius: 999px;
     background: linear-gradient(
       90deg,
-      rgba(65, 171, 226, 0.58),
+      rgba(65, 171, 226, 0.62),
       rgba(65, 171, 226, 0.08)
     );
   }
@@ -1000,40 +888,23 @@ const processFlow = [
     background: radial-gradient(
       circle,
       rgba(65, 171, 226, 0.95) 0%,
-      rgba(65, 171, 226, 0.4) 45%,
-      rgba(65, 171, 226, 0.08) 100%
+      rgba(65, 171, 226, 0.38) 46%,
+      rgba(65, 171, 226, 0.07) 100%
     );
     box-shadow:
       0 0 0 6px rgba(65, 171, 226, 0.08),
-      0 6px 14px rgba(27, 47, 94, 0.08);
-  }
-
-  @keyframes processFlowLine {
-    0% {
-      background-position: 0 0;
-      opacity: 0.2;
-    }
-    50% {
-      opacity: 0.65;
-    }
-    100% {
-      background-position: 120px 0;
-      opacity: 0.2;
-    }
-  }
-
-  @media (min-width: 1200px) {
-    .process-card-main,
-    .process-detail-card {
-      max-width: 510px;
-    }
-
-    .process-detail-card-inner {
-      padding: 24px 24px 22px;
-    }
+      0 6px 14px rgba(27, 47, 94, 0.09);
   }
 
   @media (max-width: 1199px) and (min-width: 769px) {
+    .process-header {
+      margin-bottom: 48px;
+    }
+
+    .process-steps {
+      gap: 26px;
+    }
+
     .process-detail-card-inner {
       gap: 14px;
       padding: 22px 20px 20px;
@@ -1049,18 +920,14 @@ const processFlow = [
 
     .process-detail-text {
       font-size: 0.84rem;
-      line-height: 1.64;
+      line-height: 1.66;
     }
   }
 
   @media (max-width: 1100px) {
-    .process-item {
-      column-gap: 46px;
-    }
-
     .process-card-main,
     .process-detail-card {
-      max-width: 470px;
+      max-width: 472px;
     }
 
     .process-connector {
@@ -1078,11 +945,11 @@ const processFlow = [
 
   @media (max-width: 1024px) {
     .process-header {
-      margin-bottom: 36px;
+      margin-bottom: 38px;
     }
 
     .process-steps {
-      gap: 18px;
+      gap: 22px;
     }
 
     .process-card-inner,
@@ -1099,17 +966,18 @@ const processFlow = [
     }
   }
 
+  /* MOBILE CORREGIDO: MÁS AIRE HORIZONTAL */
   @media (max-width: 768px) {
     .process-section {
       padding: 64px 0;
     }
 
     .process-container {
-      padding-inline: clamp(14px, 4.4vw, 22px);
+      padding-inline: clamp(18px, 5vw, 26px);
     }
 
     .process-header {
-      margin-bottom: 28px;
+      margin-bottom: 32px;
     }
 
     .process-title {
@@ -1119,15 +987,15 @@ const processFlow = [
     .process-subtitle {
       max-width: 100%;
       font-size: 0.92rem;
-      line-height: 1.58;
+      line-height: 1.6;
     }
 
     .process-timeline {
-      --line-x: 18px;
+      padding-inline: 0;
     }
 
     .process-line {
-      left: var(--line-x);
+      left: 20px;
       transform: none;
       width: 10px;
     }
@@ -1146,25 +1014,23 @@ const processFlow = [
     }
 
     .process-steps {
-      gap: 14px;
+      gap: 18px;
     }
 
     .process-item {
       grid-template-columns: 1fr;
       column-gap: 0;
-      padding-left: 42px;
+      padding-left: 50px;
       justify-items: stretch;
-      align-items: start;
     }
 
     .process-card-main,
     .process-item:nth-child(odd) .process-card-main,
     .process-item:nth-child(even) .process-card-main {
-      width: min(100%, 620px);
+      width: min(100%, 640px);
       max-width: none;
       grid-column: 1 / -1;
       justify-self: stretch;
-      align-self: start;
     }
 
     .process-detail-card {
@@ -1172,7 +1038,7 @@ const processFlow = [
     }
 
     .process-pin {
-      left: 18px;
+      left: 20px;
       top: 18px;
       gap: 0;
     }
@@ -1188,6 +1054,12 @@ const processFlow = [
       top: -4px;
     }
 
+    .process-pin-ring--outer {
+      width: 28px;
+      height: 28px;
+      top: -8px;
+    }
+
     .process-pin-core {
       width: 12px;
       height: 12px;
@@ -1198,24 +1070,12 @@ const processFlow = [
       width: 7px;
       height: 7px;
       margin-top: 3px;
-      box-shadow:
-        0 0 0 3px rgba(65, 171, 226, 0.13),
-        0 8px 14px rgba(27, 47, 94, 0.12);
     }
 
     .process-card-inner {
-      gap: 10px;
-      padding: 12px;
+      gap: 12px;
+      padding: 13px;
       border-radius: 18px;
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.96),
-        0 12px 24px rgba(27, 47, 94, 0.07),
-        0 4px 10px rgba(27, 47, 94, 0.04);
-    }
-
-    .process-card-inner::before {
-      left: 12px;
-      right: 12px;
     }
 
     .process-card-top {
@@ -1236,7 +1096,7 @@ const processFlow = [
     }
 
     .process-media {
-      aspect-ratio: 16 / 8.8;
+      aspect-ratio: 16 / 8.9;
       border-radius: 12px;
     }
 
@@ -1246,13 +1106,33 @@ const processFlow = [
 
     .process-card-text {
       font-size: 0.82rem;
-      line-height: 1.46;
+      line-height: 1.5;
+      max-width: none;
     }
   }
 
   @media (max-width: 560px) {
     .process-container {
-      padding-inline: 16px;
+      padding-inline: 20px;
+    }
+
+    .process-line {
+      left: 18px;
+    }
+
+    .process-item {
+      padding-left: 46px;
+    }
+
+    .process-pin {
+      left: 18px;
+    }
+
+    .process-card-main,
+    .process-item:nth-child(odd) .process-card-main,
+    .process-item:nth-child(even) .process-card-main {
+      width: min(100%, 100%);
+      margin-inline: auto;
     }
 
     .process-label {
@@ -1261,26 +1141,19 @@ const processFlow = [
     }
 
     .process-header {
-      margin-bottom: 24px;
-    }
-
-    .process-timeline {
-      --line-x: 16px;
-    }
-
-    .process-item {
-      padding-left: 38px;
-    }
-
-    .process-pin {
-      left: 16px;
-      top: 16px;
+      margin-bottom: 26px;
     }
 
     .process-pin-ring {
       width: 18px;
       height: 18px;
       top: -3px;
+    }
+
+    .process-pin-ring--outer {
+      width: 26px;
+      height: 26px;
+      top: -7px;
     }
 
     .process-pin-core {
@@ -1293,22 +1166,12 @@ const processFlow = [
       width: 6px;
       height: 6px;
       margin-top: 3px;
-      box-shadow:
-        0 0 0 3px rgba(65, 171, 226, 0.13),
-        0 7px 12px rgba(27, 47, 94, 0.11);
-    }
-
-    .process-card-main,
-    .process-item:nth-child(odd) .process-card-main,
-    .process-item:nth-child(even) .process-card-main {
-      width: min(100%, 430px);
-      margin-inline: auto;
     }
 
     .process-card-inner {
       padding: 11px;
       border-radius: 16px;
-      gap: 9px;
+      gap: 10px;
     }
 
     .process-card-top {
@@ -1338,7 +1201,7 @@ const processFlow = [
 
     .process-card-text {
       font-size: 0.8rem;
-      line-height: 1.42;
+      line-height: 1.46;
     }
   }
 
@@ -1356,25 +1219,25 @@ const processFlow = [
     }
 
     .process-container {
-      padding-inline: 14px;
+      padding-inline: 18px;
+    }
+
+    .process-line {
+      left: 16px;
     }
 
     .process-item {
-      padding-left: 34px;
-    }
-
-    .process-timeline {
-      --line-x: 14px;
+      padding-left: 42px;
     }
 
     .process-pin {
-      left: 14px;
+      left: 16px;
     }
 
     .process-card-main,
     .process-item:nth-child(odd) .process-card-main,
     .process-item:nth-child(even) .process-card-main {
-      width: min(100%, 390px);
+      width: min(100%, 100%);
     }
 
     .process-card-inner {
@@ -1389,14 +1252,11 @@ const processFlow = [
   @media (prefers-reduced-motion: reduce) {
     .process-item,
     .process-card-inner,
-    .process-card-inner::before,
     .process-detail-card-inner,
-    .process-detail-card-inner::before,
-    .process-media img,
-    .process-line-progress,
     .process-pin-ring,
     .process-pin-dot,
-    .process-connector-line::before {
+    .process-line-progress,
+    .process-media-shimmer {
       transition: none !important;
       animation: none !important;
       transform: none !important;
@@ -1410,57 +1270,58 @@ const processFlow = [
     if (!timeline) return;
 
     const items = Array.from(timeline.querySelectorAll(".process-item"));
-    const progressEl = timeline.querySelector("[data-process-progress]");
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+    const progress = timeline.querySelector("[data-process-progress]");
 
-    const setProgress = (activeIndex) => {
-      if (!progressEl || !items.length) return;
-      const maxIndex = Math.max(items.length - 1, 1);
-      const ratio = Math.min(activeIndex / maxIndex, 1);
-      progressEl.style.setProperty("--progress", String(ratio));
-    };
+    if (!items.length || !progress) return;
 
-    if (reducedMotion || !("IntersectionObserver" in window)) {
-      items.forEach((item) => item.classList.add("is-visible"));
-      setProgress(items.length - 1);
-      return;
-    }
-
-    let currentActiveIndex = 0;
-    const ratios = new Map();
-
-    const observer = new IntersectionObserver(
+    const revealObserver = new IntersectionObserver(
       (entries) => {
-        for (const entry of entries) {
-          const item = entry.target;
-          const ratio = entry.isIntersecting ? entry.intersectionRatio : 0;
-          ratios.set(item, ratio);
-          item.classList.toggle("is-visible", ratio > 0.16);
-        }
-
-        let bestIndex = currentActiveIndex;
-        let bestRatio = -1;
-
-        items.forEach((item, index) => {
-          const ratio = ratios.get(item) || 0;
-          if (ratio > bestRatio) {
-            bestRatio = ratio;
-            bestIndex = index;
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
           }
         });
-
-        currentActiveIndex = bestIndex;
-        setProgress(currentActiveIndex);
       },
       {
-        threshold: [0, 0.16, 0.3, 0.48, 0.66],
-        rootMargin: "0px 0px -16% 0px",
+        threshold: 0.18,
+        rootMargin: "0px 0px -8% 0px",
       },
     );
 
-    items.forEach((item) => observer.observe(item));
-    setProgress(0);
+    items.forEach((item) => revealObserver.observe(item));
+
+    const handleImages = () => {
+      const images = timeline.querySelectorAll(".process-media img");
+
+      images.forEach((img) => {
+        const media = img.closest(".process-media");
+        if (!media) return;
+
+        const markLoaded = () => media.classList.add("is-loaded");
+
+        if (img.complete) {
+          markLoaded();
+        } else {
+          img.addEventListener("load", markLoaded, { once: true });
+          img.addEventListener("error", markLoaded, { once: true });
+        }
+      });
+    };
+
+    const updateProgress = () => {
+      const rect = timeline.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const total = rect.height + viewportHeight * 0.35;
+      const visible = viewportHeight * 0.45 - rect.top;
+      const ratio = Math.max(0, Math.min(1, visible / total));
+      progress.style.height = `${ratio * 100}%`;
+    };
+
+    handleImages();
+    updateProgress();
+
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress, { passive: true });
+    window.addEventListener("load", updateProgress);
   })();
 </script>
