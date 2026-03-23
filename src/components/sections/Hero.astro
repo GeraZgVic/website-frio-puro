@@ -35,7 +35,6 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
           fetchpriority="high"
         />
       </picture>
-      <div class="hero-bg-vignette"></div>
     </div>
 
     <div class="hero-noise" aria-hidden="true"></div>
@@ -176,31 +175,6 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     image-rendering: -webkit-optimize-contrast;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-  }
-
-  .hero-bg-vignette {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    background:
-      linear-gradient(
-        90deg,
-        rgba(7, 12, 20, 0.322) 0%,
-        rgba(7, 12, 20, 0.274) 15%,
-        rgba(9, 16, 28, 0.082) 28%,
-        rgba(10, 19, 34, 0) 40%,
-        rgba(10, 19, 34, 0) 56%,
-        rgba(10, 19, 34, 0) 72%,
-        rgba(10, 19, 34, 0) 100%
-      ),
-      linear-gradient(
-        180deg,
-        rgba(4, 9, 16, 0) 0%,
-        transparent 22%,
-        transparent 76%,
-        rgba(4, 9, 16, 0) 100%
-      );
   }
 
   .hero-noise {
@@ -515,29 +489,48 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     }
   }
 
-  /* SOLO TABLET */
+  /* SOLO TABLET: sin column y mejor balanceado */
   @media (min-width: 769px) and (max-width: 1024px) {
     .hero-checks {
+      display: flex;
       flex-direction: row;
-      flex-wrap: nowrap;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      max-width: 100%;
-      margin-left: auto;
-      margin-right: auto;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: stretch;
+      gap: 14px 18px;
+      max-width: 760px;
+      margin: 0 auto 36px;
+      padding: 0;
     }
 
     .hero-checks li {
-      flex: 1 1 0;
-      min-width: 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      flex: 0 1 calc(50% - 12px);
+      min-width: 240px;
+      max-width: 350px;
       text-align: left;
-      font-size: 0.92rem;
-      line-height: 1.45;
+      font-size: 0.94rem;
+      line-height: 1.5;
+    }
+
+    .hero-checks li:last-child {
+      flex-basis: 100%;
+      max-width: 420px;
+      justify-content: center;
+    }
+
+    .hero-checks li:last-child span:last-child {
+      max-width: 320px;
     }
 
     .hero-checks li span:last-child {
       display: block;
+    }
+
+    .check-icon {
+      margin-top: 2px;
     }
   }
 
@@ -550,16 +543,6 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     .hero-bg-image {
       object-position: 74% center;
       filter: saturate(0.92) contrast(1.03) brightness(0.72);
-    }
-
-    .hero-bg-vignette {
-      background: linear-gradient(
-        180deg,
-        rgba(8, 17, 31, 0) 0%,
-        rgba(8, 17, 31, 0) 22%,
-        rgba(8, 17, 31, 0.336) 44%,
-        rgba(8, 17, 31, 0) 100%
-      );
     }
 
     .hero-left {
@@ -642,6 +625,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     }
 
     .hero-checks {
+      flex-direction: column;
       gap: 12px;
       margin-bottom: 28px;
     }
