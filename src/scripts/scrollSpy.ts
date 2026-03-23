@@ -1,31 +1,72 @@
 export const initScrollSpy = (): void => {
   const navLinks = document.querySelectorAll<HTMLAnchorElement>(".nav-link");
-  const sections = document.querySelectorAll<HTMLElement>("section[id]");
+  const sections = Array.from(
+    document.querySelectorAll<HTMLElement>("section[id]"),
+  );
 
   if (navLinks.length === 0 || sections.length === 0) {
     return;
   }
 
-  const spyObserver = new IntersectionObserver(
-    (entries: IntersectionObserverEntry[]): void => {
-      entries.forEach((entry: IntersectionObserverEntry) => {
-        if (!entry.isIntersecting) return;
+  const setActiveById = (id: string): void => {
+    if (!id) return;
+    navLinks.forEach((link: HTMLAnchorElement) => {
+      link.classList.remove("active");
+      if (link.getAttribute("href") === `#${id}`) {
+        link.classList.add("active");
+      }
+    });
+  };
 
-        const id = (entry.target as HTMLElement).id;
+  const getActiveSectionId = (): string | null => {
+    const referenceY = window.innerHeight * 0.32;
+    let bestId: string | null = null;
+    let bestDistance = Number.POSITIVE_INFINITY;
 
-        navLinks.forEach((link: HTMLAnchorElement) => {
-          link.classList.remove("active");
+    sections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+      const spansReference = rect.top <= referenceY && rect.bottom >= referenceY;
 
-          if (link.getAttribute("href") === `#${id}`) {
-            link.classList.add("active");
-          }
-        });
-      });
-    },
-    {
-      threshold: 0.35,
-    },
-  );
+      if (spansReference) {
+        bestId = section.id;
+        bestDistance = 0;
+        return;
+      }
 
-  sections.forEach((section: HTMLElement) => spyObserver.observe(section));
+      const distance = Math.min(
+        Math.abs(rect.top - referenceY),
+        Math.abs(rect.bottom - referenceY),
+      );
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        bestId = section.id;
+      }
+    });
+
+    return bestId;
+  };
+
+  let rafId = 0;
+  const updateActiveOnScroll = (): void => {
+    if (rafId) return;
+    rafId = window.requestAnimationFrame(() => {
+      rafId = 0;
+      const id = getActiveSectionId();
+      if (id) setActiveById(id);
+    });
+  };
+
+  const syncFromHash = (): void => {
+    const hash = window.location.hash;
+    if (!hash) return;
+    setActiveById(hash.replace("#", ""));
+  };
+
+  // Ensure initial load + hash navigation are reflected, then fall back to scroll.
+  syncFromHash();
+  updateActiveOnScroll();
+
+  window.addEventListener("scroll", updateActiveOnScroll, { passive: true });
+  window.addEventListener("resize", updateActiveOnScroll, { passive: true });
+  window.addEventListener("hashchange", syncFromHash, { passive: true });
 };

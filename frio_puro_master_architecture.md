@@ -7,7 +7,7 @@
 
 ## Roadmap por fases
 - Fase 1: Base visual y arquitectura (tokens, tipografia, primitives base, coherencia de sistema) — ✅ Completada
-- Fase 2: Secciones core (Header, Hero, Audience, Products) refinadas a nivel premium — ✅ Completada
+- Fase 2: Secciones core (Header, Hero, Clients, Products) refinadas a nivel premium — ✅ Completada
 - Fase 3: Secciones faltantes (Steps, Benefits, Testimonials, Coverage, CTA, Footer) — ✅ Completada
 - Fase 4: Contenido dinamico extendido (testimonials, coverage, integraciones) — ⏳ Pendiente
 - Fase 5: SEO tecnico, performance y QA final — ⏳ Pendiente
@@ -28,7 +28,7 @@
   - src/components/ui/Heading.astro
   - src/components/sections/Header.astro
   - src/components/sections/Hero.astro
-  - src/components/sections/Audience.astro
+  - src/components/sections/Clients.astro
   - src/components/sections/Products.astro
   - src/content/products/hielo-tubo.md
 - Pendientes remanentes:
@@ -45,23 +45,23 @@
   - src/components/ui/Heading.astro
   - src/components/sections/Header.astro
   - src/components/sections/Hero.astro
-  - src/components/sections/Audience.astro
+  - src/components/sections/Clients.astro
   - src/components/sections/Products.astro
   - src/content/products/hielo-tubo.md
 - Nota: verificacion basada en contenido actual del archivo y tiempos de ultima escritura locales.
 
 ## Fase 2 — Refinamiento premium y experiencia mobile
-- Objetivo: refinar Header, Hero, Audience y Products a nivel premium e integrar navegacion mobile y logo real.
+- Objetivo: refinar Header, Hero, Clients y Products a nivel premium e integrar navegacion mobile y logo real.
 - Estado: ✅ Completada
 - Entregables implementados:
   - Header con logo real y menu mobile premium basado en details/summary.
   - Hero con jerarquia tipografica, badges y CTAs refinados.
-  - Audience con tarjetas mas solidas y ritmo visual mejorado.
+  - Clients con tarjetas mas solidas y ritmo visual mejorado.
   - Products con jerarquia visual y estructura de card refinada.
 - Archivos impactados:
   - src/components/sections/Header.astro
   - src/components/sections/Hero.astro
-  - src/components/sections/Audience.astro
+  - src/components/sections/Clients.astro
   - src/components/sections/Products.astro
 - Observaciones tecnicas:
   - Navegacion mobile implementada sin JavaScript para mantener simplicidad.

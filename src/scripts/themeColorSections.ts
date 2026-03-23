@@ -15,7 +15,7 @@ export const initThemeColorSections = (): void => {
 
   const sectionColors: Array<[string, string]> = [
     ["#inicio", colors.dark],
-    ["#nosotros", colors.primary],
+    ["#clientes", colors.primary],
     ["#productos", colors.primary],
     ["#como-pedir", colors.primary],
     ["#beneficios", colors.primary],
