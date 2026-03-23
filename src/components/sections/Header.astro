@@ -23,14 +23,15 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     </a>
   </div>
 
-  <nav aria-label="Navegación principal">
-    <ul>
+  <nav aria-label="Navegación principal" class="nav-desktop">
+    <ul class="nav-list" data-nav-list>
       <li><a href="#inicio" class="nav-link">Inicio</a></li>
       <li><a href="#clientes" class="nav-link">Clientes</a></li>
       <li><a href="#productos" class="nav-link">Productos</a></li>
       <li><a href="#proceso" class="nav-link">Proceso de producción</a></li>
       <li><a href="#contacto" class="nav-link">Contacto</a></li>
     </ul>
+    <span class="nav-indicator" data-nav-indicator aria-hidden="true"></span>
   </nav>
 
   <a
@@ -178,12 +179,18 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     height: 3.5rem;
   }
 
-  nav ul {
+  .nav-desktop {
+    position: relative;
+  }
+
+  .nav-list {
     list-style: none;
     display: flex;
     gap: clamp(18px, 3vw, 36px);
     align-items: center;
     flex-wrap: nowrap;
+    position: relative;
+    padding-bottom: 4px;
   }
 
   nav ul li a {
@@ -195,34 +202,43 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     text-transform: uppercase;
     letter-spacing: 1.5px;
     position: relative;
-    transition: color var(--transition);
-  }
-
-  nav ul li a::after {
-    content: "";
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--color-accent);
-    transition: width 0.3s ease;
+    transition: color 0.28s ease;
   }
 
   nav ul li a:hover {
     color: var(--color-white);
   }
 
-  nav ul li a:hover::after {
-    width: 100%;
-  }
-
   nav ul li a.active {
     color: var(--color-accent);
   }
 
-  nav ul li a.active::after {
-    width: 100%;
+  .nav-indicator {
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 0;
+    height: 2px;
+    border-radius: 999px;
+    opacity: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      rgba(157, 212, 242, 0.12) 0%,
+      rgba(157, 212, 242, 0.96) 50%,
+      rgba(157, 212, 242, 0.12) 100%
+    );
+    transform: translateX(0);
+    transform-origin: center;
+    transition:
+      transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+      width 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.22s ease;
+    will-change: transform, width, opacity;
+  }
+
+  .nav-indicator.is-visible {
+    opacity: 1;
   }
 
   .btn-whatsapp {
@@ -363,6 +379,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     }
 
     nav ul,
+    .nav-indicator,
     .btn-whatsapp {
       display: none;
     }
@@ -393,3 +410,112 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     }
   }
 </style>
+
+<script is:inline>
+  (() => {
+    const navList = document.querySelector("[data-nav-list]");
+    const indicator = document.querySelector("[data-nav-indicator]");
+    const navLinks = Array.from(document.querySelectorAll(".nav-link"));
+
+    if (!navList || !indicator || navLinks.length === 0) return;
+
+    const desktopQuery = window.matchMedia("(min-width: 769px)");
+    let hoveredLink = null;
+    let rafId = 0;
+
+    const applyIndicator = (link) => {
+      if (!desktopQuery.matches || !link) {
+        indicator.classList.remove("is-visible");
+        return;
+      }
+
+      const listRect = navList.getBoundingClientRect();
+      const linkRect = link.getBoundingClientRect();
+
+      if (!listRect.width || !linkRect.width) {
+        indicator.classList.remove("is-visible");
+        return;
+      }
+
+      const inset = Math.min(10, linkRect.width * 0.16);
+      const width = Math.max(linkRect.width - inset * 2, 22);
+      const offset =
+        linkRect.left - listRect.left + (linkRect.width - width) / 2;
+
+      indicator.style.width = `${width}px`;
+      indicator.style.transform = `translateX(${offset}px)`;
+      indicator.classList.add("is-visible");
+    };
+
+    const getActiveLink = () =>
+      navLinks.find((link) => link.classList.contains("active")) ?? null;
+
+    const syncIndicator = () => {
+      applyIndicator(hoveredLink ?? getActiveLink());
+    };
+
+    const queueSync = () => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = 0;
+        syncIndicator();
+      });
+    };
+
+    navLinks.forEach((link) => {
+      link.addEventListener("pointerenter", () => {
+        hoveredLink = link;
+        queueSync();
+      });
+
+      link.addEventListener("pointerleave", () => {
+        hoveredLink = null;
+        queueSync();
+      });
+
+      link.addEventListener("focus", () => {
+        hoveredLink = link;
+        queueSync();
+      });
+
+      link.addEventListener("blur", () => {
+        hoveredLink = null;
+        queueSync();
+      });
+    });
+
+    const activeObserver = new MutationObserver(() => {
+      queueSync();
+    });
+
+    navLinks.forEach((link) => {
+      activeObserver.observe(link, {
+        attributes: true,
+        attributeFilter: ["class"],
+      });
+    });
+
+    const handleViewportChange = () => {
+      hoveredLink = null;
+      queueSync();
+    };
+
+    if (typeof desktopQuery.addEventListener === "function") {
+      desktopQuery.addEventListener("change", handleViewportChange);
+    } else if (typeof desktopQuery.addListener === "function") {
+      desktopQuery.addListener(handleViewportChange);
+    }
+
+    window.addEventListener("resize", queueSync, { passive: true });
+    window.addEventListener("hashchange", queueSync, { passive: true });
+    window.addEventListener("load", queueSync, { once: true });
+
+    if ("fonts" in document && "ready" in document.fonts) {
+      document.fonts.ready.then(() => {
+        queueSync();
+      });
+    }
+
+    queueSync();
+  })();
+</script>
