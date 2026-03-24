@@ -1,59 +1,38 @@
+import type { ThemeSectionChangeDetail } from "./themeColorSections";
+
+const THEME_SECTION_CHANGE_EVENT = "theme:section-change";
+
+const isThemeSectionChangeEvent = (
+  event: Event,
+): event is CustomEvent<ThemeSectionChangeDetail> => {
+  return event instanceof CustomEvent && typeof event.detail === "object" && event.detail !== null;
+};
+
 export const initScrollSpy = (): void => {
   const navLinks = document.querySelectorAll<HTMLAnchorElement>(".nav-link");
-  const sections = Array.from(
-    document.querySelectorAll<HTMLElement>("section[id]"),
-  );
-
-  if (navLinks.length === 0 || sections.length === 0) {
-    return;
-  }
+  if (navLinks.length === 0) return;
 
   const setActiveById = (id: string): void => {
     if (!id) return;
-    navLinks.forEach((link: HTMLAnchorElement) => {
-      link.classList.remove("active");
-      if (link.getAttribute("href") === `#${id}`) {
-        link.classList.add("active");
+    const href = `#${id}`;
+
+    let hasMatch = false;
+    for (const link of navLinks) {
+      if (link.getAttribute("href") === href) {
+        hasMatch = true;
+        break;
       }
-    });
+    }
+
+    if (!hasMatch) return;
+
+    for (const link of navLinks) {
+      link.classList.toggle("active", link.getAttribute("href") === href);
+    }
   };
 
-  const getActiveSectionId = (): string | null => {
-    const referenceY = window.innerHeight * 0.32;
-    let bestId: string | null = null;
-    let bestDistance = Number.POSITIVE_INFINITY;
-
-    sections.forEach((section) => {
-      const rect = section.getBoundingClientRect();
-      const spansReference = rect.top <= referenceY && rect.bottom >= referenceY;
-
-      if (spansReference) {
-        bestId = section.id;
-        bestDistance = 0;
-        return;
-      }
-
-      const distance = Math.min(
-        Math.abs(rect.top - referenceY),
-        Math.abs(rect.bottom - referenceY),
-      );
-      if (distance < bestDistance) {
-        bestDistance = distance;
-        bestId = section.id;
-      }
-    });
-
-    return bestId;
-  };
-
-  let rafId = 0;
-  const updateActiveOnScroll = (): void => {
-    if (rafId) return;
-    rafId = window.requestAnimationFrame(() => {
-      rafId = 0;
-      const id = getActiveSectionId();
-      if (id) setActiveById(id);
-    });
+  const applyFromDetail = (detail: ThemeSectionChangeDetail): void => {
+    setActiveById(detail.navId || detail.id);
   };
 
   const syncFromHash = (): void => {
@@ -62,11 +41,23 @@ export const initScrollSpy = (): void => {
     setActiveById(hash.replace("#", ""));
   };
 
-  // Ensure initial load + hash navigation are reflected, then fall back to scroll.
-  syncFromHash();
-  updateActiveOnScroll();
+  const last = (
+    window as typeof window & {
+      __frioPuroThemeSection?: ThemeSectionChangeDetail;
+    }
+  ).__frioPuroThemeSection;
 
-  window.addEventListener("scroll", updateActiveOnScroll, { passive: true });
-  window.addEventListener("resize", updateActiveOnScroll, { passive: true });
+  if (last) applyFromDetail(last);
+  else syncFromHash();
+
+  window.addEventListener(
+    THEME_SECTION_CHANGE_EVENT,
+    (event: Event) => {
+      if (!isThemeSectionChangeEvent(event)) return;
+      applyFromDetail(event.detail);
+    },
+    { passive: true },
+  );
+
   window.addEventListener("hashchange", syncFromHash, { passive: true });
 };

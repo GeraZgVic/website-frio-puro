@@ -67,6 +67,24 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   }
 
   #navbar {
+    --nav-scroll: 0;
+    --nav-solid-boost: 0;
+    --nav-elevate: 0;
+
+    --nav-ink: rgba(255, 255, 255, 0.92);
+    --nav-link: rgba(255, 255, 255, 0.85);
+
+    --nav-border-rgb: 157 212 242;
+    --nav-bg-top-rgb: 50 59 129;
+    --nav-bg-bottom-rgb: 26 31 78;
+    --nav-shadow-rgb: 9 12 40;
+    --nav-glow-rgb: 65 171 226;
+
+    --nav-cta-bg: var(--color-accent);
+    --nav-cta-ink: var(--color-white);
+    --nav-cta-border: rgba(255, 255, 255, 0.08);
+    --nav-cta-shadow-alpha: 0.22;
+
     position: fixed;
     top: 10px;
     left: 50%;
@@ -82,24 +100,62 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     min-height: 70px;
     background: linear-gradient(
       180deg,
-      rgba(50, 59, 129, 0.1) 0%,
-      rgba(26, 31, 78, 0.06) 100%
+      rgb(var(--nav-bg-top-rgb) /
+            calc(0.1 + var(--nav-solid-boost) + var(--nav-scroll) * 0.58)) 0%,
+      rgb(var(--nav-bg-bottom-rgb) /
+            calc(0.06 + var(--nav-solid-boost) + var(--nav-scroll) * 0.76))
+        100%
     );
-    border: 1px solid rgba(157, 212, 242, 0.08);
+    border: 1px solid
+      rgb(var(--nav-border-rgb) / calc(0.08 + var(--nav-scroll) * 0.14));
     border-radius: 999px;
-    box-shadow: 0 6px 18px rgba(9, 12, 40, 0.08);
-    backdrop-filter: blur(3px) saturate(104%);
-    -webkit-backdrop-filter: blur(3px) saturate(104%);
+    box-shadow:
+      0 6px 18px
+        rgb(
+          var(--nav-shadow-rgb) /
+            calc(0.08 + var(--nav-scroll) * 0.16 + var(--nav-elevate) * 0.1)
+        ),
+      0 1px 0
+        rgb(255 255 255 / calc(0.06 + var(--nav-scroll) * 0.1)) inset;
+    backdrop-filter: blur(calc(3px + var(--nav-scroll) * 11px))
+      saturate(calc(104% + var(--nav-scroll) * 46%));
+    -webkit-backdrop-filter: blur(calc(3px + var(--nav-scroll) * 11px))
+      saturate(calc(104% + var(--nav-scroll) * 46%));
     overflow: hidden;
     isolation: isolate;
-    will-change: transform, box-shadow;
+    will-change: transform;
     transition:
-      background 0.4s ease,
-      backdrop-filter 0.4s ease,
-      padding 0.4s ease,
-      box-shadow 0.4s ease,
-      border-color 0.4s ease,
-      transform 0.4s ease;
+      background 0.45s ease,
+      backdrop-filter 0.45s ease,
+      -webkit-backdrop-filter 0.45s ease,
+      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.35s ease,
+      border-color 0.35s ease;
+  }
+
+  #navbar.nav--glass {
+    --nav-solid-boost: 0;
+  }
+
+  #navbar.nav--solid {
+    --nav-solid-boost: 0.12;
+  }
+
+  #navbar.nav--elevated {
+    --nav-elevate: 1;
+  }
+
+  #navbar[data-nav-mode="light"] {
+    --nav-ink: rgba(14, 20, 48, 0.92);
+    --nav-link: rgba(14, 20, 48, 0.72);
+
+    --nav-border-rgb: 14 20 48;
+    --nav-bg-top-rgb: 255 255 255;
+    --nav-bg-bottom-rgb: 245 250 255;
+    --nav-shadow-rgb: 10 18 40;
+
+    --nav-cta-border: rgba(14, 20, 48, 0.1);
+    --nav-cta-shadow-alpha: 0.16;
   }
 
   #navbar::before,
@@ -123,8 +179,8 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       rgba(65, 171, 226, 0.05) 70%,
       rgba(255, 255, 255, 0) 100%
     );
-    opacity: 0;
-    transform: translateY(-16%);
+    opacity: calc(0.06 + var(--nav-scroll) * 0.58 + var(--nav-elevate) * 0.08);
+    transform: translateY(calc(-16% + var(--nav-scroll) * 16%));
   }
 
   #navbar::after {
@@ -139,7 +195,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
         rgba(65, 171, 226, 0.05),
         rgba(255, 255, 255, 0) 65%
       );
-    opacity: 0;
+    opacity: calc(0.04 + var(--nav-scroll) * 0.44 + var(--nav-elevate) * 0.06);
   }
 
   #navbar > * {
@@ -148,23 +204,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   }
 
   #navbar.scrolled {
-    background: linear-gradient(
-      180deg,
-      rgba(50, 59, 129, 0.68) 0%,
-      rgba(26, 31, 78, 0.82) 100%
-    );
-    backdrop-filter: blur(14px) saturate(125%);
-    -webkit-backdrop-filter: blur(14px) saturate(125%);
-    border-color: rgba(157, 212, 242, 0.22);
-    box-shadow:
-      0 18px 44px rgba(9, 12, 40, 0.3),
-      0 1px 0 rgba(255, 255, 255, 0.07) inset;
-  }
-
-  #navbar.scrolled::before,
-  #navbar.scrolled::after {
-    opacity: 1;
-    transform: translateY(0);
+    --nav-solid-boost: 0.15;
   }
 
   .header-logo-link {
@@ -194,7 +234,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   }
 
   nav ul li a {
-    color: rgba(255, 255, 255, 0.85);
+    color: var(--nav-link);
     text-decoration: none;
     font-family: "Barlow", sans-serif;
     font-weight: 600;
@@ -202,11 +242,11 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     text-transform: uppercase;
     letter-spacing: 1.5px;
     position: relative;
-    transition: color 0.28s ease;
+    transition: color 0.28s ease, opacity 0.28s ease;
   }
 
   nav ul li a:hover {
-    color: var(--color-white);
+    color: var(--nav-ink);
   }
 
   nav ul li a.active {
@@ -218,7 +258,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     left: 0;
     bottom: -1px;
     width: 0;
-    height: 2px;
+    height: calc(2px + var(--nav-scroll) * 0.6px);
     border-radius: 999px;
     opacity: 0;
     pointer-events: none;
@@ -231,10 +271,13 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     transform: translateX(0);
     transform-origin: center;
     transition:
-      transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
-      width 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.48s cubic-bezier(0.16, 1, 0.3, 1),
+      width 0.48s cubic-bezier(0.16, 1, 0.3, 1),
       opacity 0.22s ease;
     will-change: transform, width, opacity;
+    filter: drop-shadow(
+      0 10px 18px rgb(var(--nav-glow-rgb) / calc(0.12 + var(--nav-scroll) * 0.14))
+    );
   }
 
   .nav-indicator.is-visible {
@@ -242,11 +285,11 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   }
 
   .btn-whatsapp {
-    background: var(--color-accent);
-    color: var(--color-white);
+    background: var(--nav-cta-bg);
+    color: var(--nav-cta-ink);
     padding: 9px 20px;
     border-radius: 50px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--nav-cta-border);
     font-family: "Barlow", sans-serif;
     font-weight: 600;
     font-size: 0.82rem;
@@ -256,14 +299,38 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     display: flex;
     align-items: center;
     gap: 8px;
-    transition: all var(--transition);
-    box-shadow: 0 2px 10px rgba(65, 171, 226, 0.26);
+    transition:
+      transform 0.22s ease,
+      box-shadow 0.22s ease,
+      background 0.22s ease,
+      border-color 0.22s ease;
+    box-shadow:
+      0 10px 22px
+        rgb(var(--nav-glow-rgb) /
+            calc(var(--nav-cta-shadow-alpha) + var(--nav-scroll) * 0.08)),
+      0 1px 0 rgb(255 255 255 / 0.12) inset;
   }
 
   .btn-whatsapp:hover {
     background: #25d366;
-    box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5);
-    transform: translateY(-2px);
+    border-color: rgba(37, 211, 102, 0.5);
+    box-shadow:
+      0 18px 36px rgba(37, 211, 102, 0.42),
+      0 1px 0 rgba(255, 255, 255, 0.18) inset;
+    transform: translateY(-2px) scale(1.01);
+  }
+
+  .btn-whatsapp:active {
+    transform: translateY(0) scale(0.99);
+  }
+
+  .btn-whatsapp:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 4px rgba(157, 212, 242, 0.32),
+      0 10px 22px
+        rgb(var(--nav-glow-rgb) /
+            calc(var(--nav-cta-shadow-alpha) + var(--nav-scroll) * 0.08));
   }
 
   .btn-whatsapp svg {
@@ -286,7 +353,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     display: block;
     width: 25px;
     height: 2px;
-    background: var(--color-white);
+    background: var(--nav-ink);
     transition: all 0.35s ease;
     border-radius: 2px;
   }
@@ -357,25 +424,12 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       padding-right: clamp(12px, 3.2vw, 18px);
       min-height: 64px;
       gap: 10px;
-      background: linear-gradient(
-        180deg,
-        rgba(50, 59, 129, 0.08) 0%,
-        rgba(26, 31, 78, 0.05) 100%
-      );
-      border-color: rgba(157, 212, 242, 0.07);
-      box-shadow: 0 5px 14px rgba(9, 12, 40, 0.07);
-      backdrop-filter: blur(2px) saturate(103%);
-      -webkit-backdrop-filter: blur(2px) saturate(103%);
+      padding-top: 2px;
+      padding-bottom: 2px;
     }
 
     #navbar.scrolled {
-      backdrop-filter: blur(10px) saturate(112%);
-      -webkit-backdrop-filter: blur(10px) saturate(112%);
-    }
-
-    #navbar.scrolled::before,
-    #navbar.scrolled::after {
-      opacity: 0.6;
+      --nav-solid-boost: 0.16;
     }
 
     nav ul,
