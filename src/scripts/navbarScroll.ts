@@ -12,8 +12,10 @@ const smoothstep = (edge0: number, edge1: number, x: number): number => {
 const setActiveLinks = (id: string): void => {
   if (!id) return;
 
-  const desktopLinks = document.querySelectorAll<HTMLAnchorElement>(".nav-link");
-  const mobileLinks = document.querySelectorAll<HTMLAnchorElement>(".mobile-link");
+  const desktopLinks =
+    document.querySelectorAll<HTMLAnchorElement>(".nav-link");
+  const mobileLinks =
+    document.querySelectorAll<HTMLAnchorElement>(".mobile-link");
 
   for (const link of desktopLinks) {
     const shouldBeActive = link.getAttribute("href") === `#${id}`;
@@ -29,29 +31,51 @@ const setActiveLinks = (id: string): void => {
 const isThemeSectionChangeEvent = (
   event: Event,
 ): event is CustomEvent<ThemeSectionChangeDetail> => {
-  return event instanceof CustomEvent && typeof event.detail === "object" && event.detail !== null;
+  return (
+    event instanceof CustomEvent &&
+    typeof event.detail === "object" &&
+    event.detail !== null
+  );
 };
 
 export const initNavbarScroll = (): void => {
   const navbar = document.getElementById("navbar") as HTMLElement | null;
   const backTop = document.getElementById("back-top") as HTMLElement | null;
-  const whatsappFab = document.getElementById("whatsapp-fab") as HTMLElement | null;
+  const whatsappFab = document.getElementById(
+    "whatsapp-fab",
+  ) as HTMLElement | null;
 
   if (!navbar) return;
 
   // Used to apply "hero hold" for visual motion (do not mutate inside hero).
   let dominantId = "";
+  let currentModeBlend = 0; // 0 = dark, 1 = light
+  let targetModeBlend = 0;
+  let currentTextModeBlend = 0; // 0 = dark ink, 1 = light ink (tracks target slightly faster)
 
   const applyNavMode = (mode: "dark" | "light"): void => {
     navbar.dataset.navMode = mode;
     navbar.classList.toggle("nav--light", mode === "light");
     navbar.classList.toggle("nav--dark", mode === "dark");
+    targetModeBlend = mode === "light" ? 1 : 0;
   };
 
   const applyFromDetail = (detail: ThemeSectionChangeDetail): void => {
+    const wasUninitialized = dominantId === "";
     dominantId = detail.id;
     applyNavMode(detail.navMode);
     setActiveLinks(detail.navId || detail.id);
+
+    if (wasUninitialized) {
+      currentModeBlend = targetModeBlend;
+      currentTextModeBlend = targetModeBlend;
+      navbar.style.setProperty("--nav-mode-blend", currentModeBlend.toFixed(4));
+      navbar.style.setProperty(
+        "--nav-text-blend",
+        currentTextModeBlend.toFixed(4),
+      );
+    }
+
     scheduleVisualUpdate();
   };
 
@@ -82,16 +106,38 @@ export const initNavbarScroll = (): void => {
 
   const SCROLL_NORM_PX = 220;
   const HERO_SCROLL_CAP = 0.12;
-  const SURFACE_SOLID_ON = 0.34;
-  const SURFACE_GLASS_ON = 0.22;
+  const SURFACE_SOLID_ON = 0.07;
+  const SURFACE_GLASS_ON = 0.03;
+  const ELEVATE_ON = 0.86;
+  const ELEVATE_OFF = 0.74;
+
+  // Motion calibration:
+  // - scroll/background slightly slower (more "inertia")
+  // - mode blend slower (reduce perceptual snap on light<->dark)
+  // - solid boost smoother (avoid glass<->solid "hit")
+  // - elevation a touch more responsive (shadow can lead subtly)
+  const LERP_SCROLL = 0.085;
+  const LERP_MODE = 0.055;
+  // Text needs to solve contrast fast (legibility > cinematic for ink).
+  // Adaptive rate: aggressive catch-up when far, softer close when near.
+  const LERP_TEXT_MODE_MIN = 0.28;
+  const LERP_TEXT_MODE_MAX = 0.52;
+  const TEXT_SNAP_FAR_DELTA = 0.24;
+  const LERP_SOLID_BOOST = 0.065;
+  const LERP_ELEVATE = 0.18;
 
   let currentT = 0;
   let targetT = 0;
+  let currentSolidBoost = 0;
+  let currentElevate = 0;
   let rafId = 0;
 
   const applyVisualState = (scrollY: number): void => {
     const rawTarget = clamp01(scrollY / SCROLL_NORM_PX);
-    const cappedTarget = dominantId === "inicio" ? Math.min(rawTarget, HERO_SCROLL_CAP) : rawTarget;
+    const cappedTarget =
+      dominantId === "inicio"
+        ? Math.min(rawTarget, HERO_SCROLL_CAP)
+        : rawTarget;
     targetT = cappedTarget;
 
     if (rafId) return;
@@ -105,18 +151,71 @@ export const initNavbarScroll = (): void => {
     if (Math.abs(delta) < 0.0025) {
       currentT = targetT;
     } else {
-      currentT += delta * 0.11;
+      currentT += delta * LERP_SCROLL;
     }
 
     navbar.style.setProperty("--nav-scroll", currentT.toFixed(4));
 
+    const modeDelta = targetModeBlend - currentModeBlend;
+    if (Math.abs(modeDelta) < 0.0025) {
+      currentModeBlend = targetModeBlend;
+    } else {
+      currentModeBlend += modeDelta * LERP_MODE;
+    }
+
+    navbar.style.setProperty("--nav-mode-blend", currentModeBlend.toFixed(4));
+
+    // Text blend: much more responsive than material to avoid contrast "dip"
+    // when the material darkens/lightens before ink finishes adapting.
+    const textDelta = targetModeBlend - currentTextModeBlend;
+    const textDeltaAbs = Math.abs(textDelta);
+
+    // Perceptual snap (kills the low-contrast gray mid state)
+    if (textDeltaAbs >= TEXT_SNAP_FAR_DELTA) {
+      currentTextModeBlend = targetModeBlend;
+    } else if (textDeltaAbs < 0.03) {
+      currentTextModeBlend = targetModeBlend;
+    } else {
+      const urgency = clamp01(textDeltaAbs / 0.18);
+      const lerpText =
+        LERP_TEXT_MODE_MIN +
+        (LERP_TEXT_MODE_MAX - LERP_TEXT_MODE_MIN) * urgency;
+
+      currentTextModeBlend += textDelta * lerpText;
+    }
+
+    currentTextModeBlend = clamp01(currentTextModeBlend);
+    // Perceptual lead: bias the visible blend away from mid-gray to preserve contrast.
+    // This makes the text "commit" earlier without speeding up the material.
+    const perceptualTextBlend =
+      targetModeBlend === 0
+        ? currentTextModeBlend * currentTextModeBlend
+        : 1 - (1 - currentTextModeBlend) * (1 - currentTextModeBlend);
+
+    navbar.style.setProperty("--nav-text-blend", perceptualTextBlend.toFixed(4));
+
     // Smooth boosts (avoid snap between glass/solid/elevated).
     const isHero = dominantId === "inicio";
-    const solidBoost = isHero ? 0 : smoothstep(0.18, 0.72, currentT) * 0.16;
-    const elevate = smoothstep(0.52, 0.95, currentT);
+    const targetSolidBoost = isHero
+      ? 0
+      : smoothstep(0.2, 0.82, currentT) * 0.14;
+    const solidDelta = targetSolidBoost - currentSolidBoost;
+    if (Math.abs(solidDelta) < 0.0015) {
+      currentSolidBoost = targetSolidBoost;
+    } else {
+      currentSolidBoost += solidDelta * LERP_SOLID_BOOST;
+    }
 
-    navbar.style.setProperty("--nav-solid-boost", solidBoost.toFixed(4));
-    navbar.style.setProperty("--nav-elevate", elevate.toFixed(4));
+    const targetElevate = isHero ? 0 : smoothstep(0.46, 0.92, targetT);
+    const elevDelta = targetElevate - currentElevate;
+    if (Math.abs(elevDelta) < 0.0015) {
+      currentElevate = targetElevate;
+    } else {
+      currentElevate += elevDelta * LERP_ELEVATE;
+    }
+
+    navbar.style.setProperty("--nav-solid-boost", currentSolidBoost.toFixed(4));
+    navbar.style.setProperty("--nav-elevate", currentElevate.toFixed(4));
 
     navbar.dataset.navScrolled = currentT > 0.05 ? "true" : "false";
 
@@ -124,16 +223,27 @@ export const initNavbarScroll = (): void => {
       setNavSurface("glass");
       setNavElevated(false);
     } else {
-      if (navSurface === "glass" && currentT > SURFACE_SOLID_ON) setNavSurface("solid");
-      if (navSurface === "solid" && currentT < SURFACE_GLASS_ON) setNavSurface("glass");
-      setNavElevated(elevate > 0.82);
+      if (navSurface === "glass" && currentSolidBoost > SURFACE_SOLID_ON)
+        setNavSurface("solid");
+      if (navSurface === "solid" && currentSolidBoost < SURFACE_GLASS_ON)
+        setNavSurface("glass");
+
+      const isElevated = navbar.classList.contains("nav--elevated");
+      if (!isElevated && currentElevate > ELEVATE_ON) setNavElevated(true);
+      if (isElevated && currentElevate < ELEVATE_OFF) setNavElevated(false);
     }
 
     // Keep legacy class for any remaining CSS / future hooks.
     navbar.classList.toggle("scrolled", (window.scrollY || 0) > 60);
 
-    // Continue animating if needed.
-    if (currentT !== targetT) {
+    const needsMore =
+      Math.abs(targetT - currentT) > 0.0025 ||
+      Math.abs(targetModeBlend - currentModeBlend) > 0.0025 ||
+      Math.abs(targetModeBlend - currentTextModeBlend) > 0.0025 ||
+      Math.abs(targetSolidBoost - currentSolidBoost) > 0.0015 ||
+      Math.abs(targetElevate - currentElevate) > 0.0015;
+
+    if (needsMore) {
       rafId = window.requestAnimationFrame(tick);
     }
   };
