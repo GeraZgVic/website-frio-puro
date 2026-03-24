@@ -44,14 +44,14 @@ export const commercialContent = {
     quoteIceTube: "Hola, quiero cotizar hielo en tubo para mi negocio.",
   },
   ctas: {
-    header: "Pedir por WhatsApp",
+    header: "Solicitar cotización corporativa",
     heroPrimary: "Solicitar cotización",
-    productsPrimary: "Solicitar cotización por WhatsApp",
-    stepsPrimary: "Hacer mi Pedido Ahora",
-    finalPrimary: "Escribir por WhatsApp",
+    productsPrimary: "Solicitar plan de suministro",
+    stepsPrimary: "Solicitar plan de entregas",
+    finalPrimary: "Hablar con un asesor comercial",
   },
   badges: {
-    availability247: "Atención y pedidos 24/7",
+    availability247: "Atención y coordinación 24/7",
     service247: "Servicio disponible 24/7 los 365 días",
     whatsapp247: "WhatsApp 24/7",
     operation247: "24/7",
@@ -59,9 +59,9 @@ export const commercialContent = {
   microcopy: {
     productsCtaNote: "Respuesta directa para cotizaciones, volumen y entregas.",
     stepsContact:
-      "Escríbenos por WhatsApp o llámanos. Respondemos en minutos.",
+      "Comunícate por WhatsApp o llámanos. Respondemos en minutos.",
     finalCtaBody:
-      "Contáctanos ahora y recibe tu pedido hoy mismo. Atención personalizada para tu negocio los 365 días del año.",
+      "Atención corporativa y logística de entrega programadas para alta demanda.",
   },
   aria: {
     quoteIceTube: "Cotizar hielo en tubo por WhatsApp",
@@ -75,7 +75,7 @@ export const commercialContent = {
 export const buildWhatsAppUrl = (message?: string): string => {
   const text =
     message ??
-    "Hola, buen día. Me gustaría hacer un pedido de hielo en tubo. ¿Podrían compartirme precio, cantidad mínima y tiempo de entrega?";
+    "Hola, me interesa conocer sus planes de suministro de hielo para mi negocio.";
   return `${commercialContent.whatsappUrlBase}?phone=${whatsappNumberE164}&text=${encodeURIComponent(text)}`;
 };
 

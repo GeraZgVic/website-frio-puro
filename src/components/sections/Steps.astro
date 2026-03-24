@@ -15,11 +15,11 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
         Proceso comercial
       </p>
 
-      <h2 class="section-title">CONTACTA, COTIZA Y RECIBE</h2>
+      <h2 class="section-title">SOLICITA TU PLAN DE ABASTO</h2>
 
       <p class="section-subtitle">
-        Un proceso claro para cotizar tu pedido y coordinar la entrega de hielo
-        para tu negocio.
+        Un proceso claro para definir volumen, logística y entregas programadas
+        para tu operación.
       </p>
     </div>
 
@@ -54,8 +54,8 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
               </div>
             </div>
 
-            <h3>Contáctanos</h3>
-            <p>{commercialContent.microcopy.stepsContact}</p>
+            <h3>Solicitud de suministro</h3>
+            <p>Envía tus requerimientos de volumen y ubicación a través de nuestro formulario.</p>
           </div>
         </div>
       </article>
@@ -96,8 +96,10 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
               </div>
             </div>
 
-            <h3>Cotiza tu pedido</h3>
-            <p>Indica la cantidad de hielo requerido y el punto de entrega.</p>
+            <h3>Propuesta logística personalizada</h3>
+            <p>
+              Analizamos tu consumo semanal para diseñar una oferta con precios de mayoreo y rutas de entrega optimizadas.
+            </p>
           </div>
         </div>
       </article>
@@ -136,15 +138,18 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
               </div>
             </div>
 
-            <h3>Recibe tu hielo</h3>
+            <h3>Suministro programado</h3>
             <p>
-              Coordinamos la entrega según volumen y cobertura. Aplican
-              restricciones de zona y pedido mínimo.
+              Activamos tu cronograma de entregas y recibes tu stock puntualmente.
             </p>
           </div>
         </div>
       </article>
     </div>
+
+    <p class="steps-note fade-in fade-in-delay-2">
+      Servicio de entrega a domicilio exclusivo para volúmenes mayores a xxxx unidades/kg/tons. Ventas individuales disponibles únicamente en sucursal.
+    </p>
 
     <div class="cta-center fade-in fade-in-delay-2">
       <a
@@ -347,6 +352,16 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     line-height: 1.68;
     color: rgba(233, 244, 252, 0.74);
     text-wrap: balance;
+  }
+
+  .steps-note {
+    max-width: 820px;
+    margin: 18px auto 0;
+    padding: 0 18px;
+    text-align: center;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: rgba(233, 244, 252, 0.62);
   }
 
   .steps-stage {

@@ -1,0 +1,527 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/sections/Header.astro";
+import Footer from "../../components/sections/Footer.astro";
+import WhatsAppFloat from "../../components/ui/WhatsAppFloat.astro";
+import Cursor from "../../components/Cursor.astro";
+import SiteScripts from "../../components/SiteScripts.astro";
+---
+
+<BaseLayout
+  title="Solicitar cotización corporativa | Frío Puro"
+  description="Solicitud de cotización corporativa: stock permanente, entregas programadas y suministro de alto volumen para operación comercial."
+  ogTitle="Solicitar cotización corporativa | Frío Puro"
+  ogDescription="Stock permanente y planes de entrega de alto volumen para el sector comercial."
+>
+  <Cursor />
+  <Header />
+
+  <main>
+    <div id="inicio" aria-hidden="true"></div>
+    <section class="corp-quote">
+      <div class="container corp-quote__container">
+        <p class="section-label">Cotización corporativa</p>
+        <h1 class="section-title corp-quote__title">Solicitar cotización corporativa</h1>
+        <p class="section-subtitle corp-quote__subtitle">
+          Diseñamos planes de suministro para cadenas, restaurantes, bares, hoteles y operaciones con demanda constante.
+          Comparte tus requerimientos y te contactaremos con una propuesta logística alineada a tu operación.
+        </p>
+
+        <div
+          class="corp-quote__panel"
+          role="region"
+          aria-label="Formulario de cotización corporativa"
+        >
+          <form
+            id="corpQuoteForm"
+            class="corp-form"
+            method="post"
+            action="/api/cotizacion-corporativa"
+            novalidate
+          >
+            <div class="corp-form__grid">
+              <div class="corp-honeypot" aria-hidden="true">
+                <label class="corp-label" for="companyWebsite">Sitio web</label>
+                <input
+                  class="corp-input"
+                  id="companyWebsite"
+                  name="company_website"
+                  type="text"
+                  tabindex="-1"
+                  autocomplete="off"
+                />
+              </div>
+
+              <div class="corp-field corp-field--full">
+                <label class="corp-label" for="corpName">Nombre / Empresa</label>
+                <input
+                  class="corp-input"
+                  id="corpName"
+                  name="name_company"
+                  type="text"
+                  autocomplete="organization"
+                  required
+                  aria-describedby="corpNameError"
+                />
+                <p class="corp-error" id="corpNameError" role="alert" aria-hidden="true"></p>
+              </div>
+
+              <div class="corp-field">
+                <label class="corp-label" for="corpPhone">Teléfono</label>
+                <input
+                  class="corp-input"
+                  id="corpPhone"
+                  name="phone"
+                  type="tel"
+                  inputmode="tel"
+                  autocomplete="tel"
+                  required
+                  aria-describedby="corpPhoneError"
+                />
+                <p class="corp-error" id="corpPhoneError" role="alert" aria-hidden="true"></p>
+              </div>
+
+              <div class="corp-field">
+                <label class="corp-label" for="corpEmail">
+                  Correo electrónico <span class="corp-optional">(opcional)</span>
+                </label>
+                <input
+                  class="corp-input"
+                  id="corpEmail"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  aria-describedby="corpEmailHint corpEmailError"
+                />
+                <p class="corp-hint" id="corpEmailHint">
+                  Úsalo para recibir la propuesta por correo si lo prefieres.
+                </p>
+                <p class="corp-error" id="corpEmailError" role="alert" aria-hidden="true"></p>
+              </div>
+
+              <div class="corp-field corp-field--full">
+                <label class="corp-label" for="corpConsumption">Consumo estimado</label>
+                <select
+                  class="corp-select"
+                  id="corpConsumption"
+                  name="consumption"
+                  required
+                  aria-describedby="corpConsumptionError"
+                >
+                  <option value="" selected disabled>Selecciona tu consumo estimado</option>
+                  <option value="lt_50">Menos de 50 bolsas / semana</option>
+                  <option value="50_150">50 a 150 bolsas / semana</option>
+                  <option value="gt_150">Más de 150 bolsas / semana</option>
+                </select>
+                <p class="corp-error" id="corpConsumptionError" role="alert" aria-hidden="true"></p>
+              </div>
+            </div>
+
+            <div class="corp-form__actions">
+              <button class="corp-submit" type="submit">
+                Solicitar cotización corporativa
+              </button>
+
+              <p class="corp-note">
+                Te responderemos con una propuesta según volumen, frecuencia y zona de entrega.
+              </p>
+            </div>
+
+            <div
+              id="corpQuoteStatus"
+              class="corp-status"
+              role="status"
+              aria-live="polite"
+              hidden
+            ></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <Footer />
+  </main>
+
+  <WhatsAppFloat />
+  <a href="#inicio" id="back-top" aria-label="Volver arriba">&#8593;</a>
+  <SiteScripts />
+
+  <style>
+    :global(:root) {
+      --back-top-size: 48px;
+      --back-top-right: 36px;
+      --back-top-bottom: 36px;
+      --fab-gap: 14px;
+    }
+
+    .corp-quote {
+      padding-top: 140px;
+    }
+
+    .corp-quote__container {
+      padding: 0 60px;
+    }
+
+    .corp-quote__title::after {
+      width: 70px;
+    }
+
+    .corp-quote__panel {
+      margin-top: 34px;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(50, 59, 129, 0.16);
+      background:
+        radial-gradient(
+          circle at 20% 10%,
+          rgba(65, 171, 226, 0.08) 0%,
+          transparent 42%
+        ),
+        linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.9) 0%,
+          rgba(224, 239, 248, 0.75) 100%
+        );
+      box-shadow:
+        0 14px 48px rgba(13, 18, 64, 0.12),
+        0 1px 0 rgba(255, 255, 255, 0.65) inset;
+      padding: 30px;
+    }
+
+    .corp-form {
+      width: min(860px, 100%);
+      margin: 0 auto;
+    }
+
+    .corp-form__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .corp-honeypot {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    .corp-field--full {
+      grid-column: 1 / -1;
+    }
+
+    .corp-label {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 8px;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .corp-optional {
+      font-weight: 600;
+      color: rgba(26, 31, 78, 0.6);
+      font-size: 0.92em;
+    }
+
+    .corp-input,
+    .corp-select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(50, 59, 129, 0.18);
+      background: rgba(255, 255, 255, 0.82);
+      color: rgba(26, 31, 78, 0.92);
+      box-shadow:
+        0 10px 30px rgba(13, 18, 64, 0.06),
+        0 1px 0 rgba(255, 255, 255, 0.8) inset;
+      outline: none;
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .corp-select {
+      appearance: none;
+      background-image:
+        linear-gradient(45deg, transparent 50%, rgba(50, 59, 129, 0.7) 50%),
+        linear-gradient(135deg, rgba(50, 59, 129, 0.7) 50%, transparent 50%);
+      background-position:
+        calc(100% - 18px) calc(50% - 2px),
+        calc(100% - 13px) calc(50% - 2px);
+      background-size:
+        6px 6px,
+        6px 6px;
+      background-repeat: no-repeat;
+      padding-right: 42px;
+    }
+
+    .corp-input:focus-visible,
+    .corp-select:focus-visible {
+      border-color: rgba(65, 171, 226, 0.65);
+      box-shadow:
+        0 0 0 4px rgba(65, 171, 226, 0.18),
+        0 12px 36px rgba(13, 18, 64, 0.08);
+    }
+
+    .corp-field[data-invalid="true"] .corp-input,
+    .corp-field[data-invalid="true"] .corp-select {
+      border-color: rgba(209, 59, 59, 0.55);
+      box-shadow:
+        0 0 0 4px rgba(209, 59, 59, 0.12),
+        0 12px 36px rgba(13, 18, 64, 0.08);
+    }
+
+    .corp-hint {
+      margin-top: 8px;
+      color: rgba(26, 31, 78, 0.62);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .corp-error {
+      margin-top: 8px;
+      color: rgba(209, 59, 59, 0.9);
+      font-size: 0.92rem;
+      line-height: 1.5;
+      min-height: 1.5em;
+    }
+
+    .corp-form__actions {
+      margin-top: 18px;
+      display: grid;
+      gap: 10px;
+      justify-items: start;
+    }
+
+    .corp-submit {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 18px;
+      background: var(--color-primary);
+      color: var(--color-white);
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      box-shadow:
+        0 12px 34px rgba(13, 18, 64, 0.18),
+        0 1px 0 rgba(255, 255, 255, 0.12) inset;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .corp-submit:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 18px 44px rgba(13, 18, 64, 0.22),
+        0 1px 0 rgba(255, 255, 255, 0.12) inset;
+    }
+
+    .corp-submit:active {
+      transform: translateY(0);
+    }
+
+    .corp-note {
+      color: rgba(26, 31, 78, 0.72);
+      line-height: 1.6;
+      font-size: 0.98rem;
+      max-width: 60ch;
+    }
+
+    .corp-status {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(65, 171, 226, 0.22);
+      background: rgba(255, 255, 255, 0.7);
+      color: rgba(26, 31, 78, 0.82);
+      line-height: 1.6;
+      box-shadow:
+        0 12px 36px rgba(13, 18, 64, 0.08),
+        0 1px 0 rgba(255, 255, 255, 0.75) inset;
+    }
+
+    #back-top {
+      position: fixed;
+      bottom: var(--back-top-bottom);
+      right: var(--back-top-right);
+      width: var(--back-top-size);
+      height: var(--back-top-size);
+      background: var(--color-accent);
+      color: var(--color-white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      text-decoration: none;
+      z-index: 990;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all var(--transition);
+      box-shadow: 0 6px 25px rgba(65, 171, 226, 0.4);
+    }
+
+    #back-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #back-top:hover {
+      background: var(--color-primary);
+      transform: translateY(-4px);
+    }
+
+    @media (max-width: 768px) {
+      .corp-quote__container {
+        padding: 0 24px;
+      }
+
+      .corp-form__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .corp-form__actions {
+        justify-items: stretch;
+      }
+
+      .corp-submit {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+
+  <script is:inline>
+    (() => {
+      const form = document.getElementById("corpQuoteForm");
+      const status = document.getElementById("corpQuoteStatus");
+      if (!(form instanceof HTMLFormElement) || !(status instanceof HTMLElement)) return;
+
+      const fieldIds = ["corpName", "corpPhone", "corpEmail", "corpConsumption"];
+      const fields = fieldIds
+        .map((id) => document.getElementById(id))
+        .filter((el) => el instanceof HTMLElement);
+
+      const getFieldRoot = (el) => el.closest(".corp-field");
+      const setInvalid = (el, message) => {
+        const root = getFieldRoot(el);
+        const errorId = `${el.id}Error`;
+        const errorEl = document.getElementById(errorId);
+
+        if (root) root.dataset.invalid = "true";
+        el.setAttribute("aria-invalid", "true");
+        if (errorEl) {
+          errorEl.textContent = message || "";
+          errorEl.setAttribute("aria-hidden", message ? "false" : "true");
+        }
+      };
+
+      const clearInvalid = (el) => {
+        const root = getFieldRoot(el);
+        const errorId = `${el.id}Error`;
+        const errorEl = document.getElementById(errorId);
+
+        if (root) delete root.dataset.invalid;
+        el.removeAttribute("aria-invalid");
+        if (errorEl) {
+          errorEl.textContent = "";
+          errorEl.setAttribute("aria-hidden", "true");
+        }
+      };
+
+      const validate = () => {
+        let firstInvalid = null;
+
+        for (const el of fields) {
+          if (!(el instanceof HTMLInputElement || el instanceof HTMLSelectElement)) continue;
+          clearInvalid(el);
+        }
+
+        const nameEl = document.getElementById("corpName");
+        const phoneEl = document.getElementById("corpPhone");
+        const emailEl = document.getElementById("corpEmail");
+        const consumptionEl = document.getElementById("corpConsumption");
+
+        if (nameEl instanceof HTMLInputElement && !nameEl.value.trim()) {
+          setInvalid(nameEl, "Indica tu nombre o empresa.");
+          firstInvalid ??= nameEl;
+        }
+
+        if (phoneEl instanceof HTMLInputElement && !phoneEl.value.trim()) {
+          setInvalid(phoneEl, "Indica un teléfono de contacto.");
+          firstInvalid ??= phoneEl;
+        }
+
+        if (emailEl instanceof HTMLInputElement) {
+          const value = emailEl.value.trim();
+          if (value && !emailEl.checkValidity()) {
+            setInvalid(emailEl, "Revisa el formato del correo electrónico.");
+            firstInvalid ??= emailEl;
+          }
+        }
+
+        if (consumptionEl instanceof HTMLSelectElement && !consumptionEl.value) {
+          setInvalid(consumptionEl, "Selecciona tu consumo estimado.");
+          firstInvalid ??= consumptionEl;
+        }
+
+        if (firstInvalid) {
+          firstInvalid.focus();
+          return false;
+        }
+
+        return true;
+      };
+
+      for (const el of fields) {
+        if (!(el instanceof HTMLInputElement || el instanceof HTMLSelectElement)) continue;
+        el.addEventListener("input", () => clearInvalid(el), { passive: true });
+        el.addEventListener("change", () => clearInvalid(el), { passive: true });
+      }
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        status.hidden = true;
+        status.textContent = "";
+
+        const ok = validate();
+        if (!ok) return;
+
+        const submitButton = form.querySelector("button[type='submit']");
+        if (submitButton instanceof HTMLButtonElement) submitButton.disabled = true;
+        form.setAttribute("aria-busy", "true");
+
+        const data = new FormData(form);
+
+        fetch(form.action, { method: "POST", body: data })
+          .then(async (res) => {
+            const payload = await res.json().catch(() => null);
+            const message =
+              payload && typeof payload.message === "string"
+                ? payload.message
+                : res.ok
+                  ? "Gracias. Tu solicitud fue enviada correctamente. Nuestro equipo comercial dará seguimiento a la brevedad."
+                  : "No fue posible enviar tu solicitud en este momento. Intenta nuevamente en unos minutos.";
+
+            status.textContent = message;
+            status.hidden = false;
+
+            if (res.ok) form.reset();
+          })
+          .catch(() => {
+            status.textContent =
+              "No fue posible enviar tu solicitud en este momento. Intenta nuevamente en unos minutos.";
+            status.hidden = false;
+          })
+          .finally(() => {
+            form.removeAttribute("aria-busy");
+            if (submitButton instanceof HTMLButtonElement) submitButton.disabled = false;
+          });
+      });
+    })();
+  </script>
+</BaseLayout>
