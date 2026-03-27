@@ -32,4 +32,7 @@ export const initSiteScripts = (): void => {
   void import("./heroParticles").then(({ initHeroParticles }) => {
     initHeroParticles();
   });
+  void import("./hashNavigation").then(({ initHashNavigation }) => {
+    initHashNavigation();
+  });
 };

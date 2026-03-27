@@ -1,5 +1,19 @@
 ---
 import { commercialContent } from "../../config/commercial";
+
+const pathname = Astro.url.pathname;
+const isCorporateQuotePage =
+  pathname === "/cotizacion-corporativa" ||
+  pathname === "/cotizacion-corporativa/";
+
+const sectionHref = (id: string): string =>
+  isCorporateQuotePage ? `/#${id}` : `#${id}`;
+
+const logoHref = isCorporateQuotePage ? "/#inicio" : "#inicio";
+
+const ctaHref = isCorporateQuotePage
+  ? "#formulario-corporativo"
+  : "/cotizacion-corporativa#formulario-corporativo";
 ---
 
 <div
@@ -9,33 +23,33 @@ import { commercialContent } from "../../config/commercial";
   role="navigation"
   aria-label="Navegación móvil"
 >
-  <a href="#inicio" class="mobile-link">Inicio</a>
-  <a href="#clientes" class="mobile-link">Clientes</a>
-  <a href="#productos" class="mobile-link">Productos</a>
-  <a href="#proceso" class="mobile-link">Proceso de producción</a>
-  <a href="#contacto" class="mobile-link">Contacto</a>
+  <a href={sectionHref("inicio")} class="mobile-link">Inicio</a>
+  <a href={sectionHref("clientes")} class="mobile-link">Clientes</a>
+  <a href={sectionHref("productos")} class="mobile-link">Productos</a>
+  <a href={sectionHref("proceso")} class="mobile-link">Proceso de producción</a>
+  <a href={sectionHref("contacto")} class="mobile-link">Contacto</a>
 </div>
 
 <header id="navbar">
   <div class="max-w-xs">
-    <a href="#inicio" class="header-logo-link">
+    <a href={logoHref} class="header-logo-link">
       <img class="w-auto h-16" src="/images/FrioPuroLogo.png" alt="Frío Puro" />
     </a>
   </div>
 
   <nav aria-label="Navegación principal" class="nav-desktop">
     <ul class="nav-list" data-nav-list>
-      <li><a href="#inicio" class="nav-link">Inicio</a></li>
-      <li><a href="#clientes" class="nav-link">Clientes</a></li>
-      <li><a href="#productos" class="nav-link">Productos</a></li>
-      <li><a href="#proceso" class="nav-link">Proceso de producción</a></li>
-      <li><a href="#contacto" class="nav-link">Contacto</a></li>
+      <li><a href={sectionHref("inicio")} class="nav-link">Inicio</a></li>
+      <li><a href={sectionHref("clientes")} class="nav-link">Clientes</a></li>
+      <li><a href={sectionHref("productos")} class="nav-link">Productos</a></li>
+      <li><a href={sectionHref("proceso")} class="nav-link">Proceso de producción</a></li>
+      <li><a href={sectionHref("contacto")} class="nav-link">Contacto</a></li>
     </ul>
     <span class="nav-indicator" data-nav-indicator aria-hidden="true"></span>
   </nav>
 
   <a
-    href="/cotizacion-corporativa"
+    href={ctaHref}
     class="btn-whatsapp"
   >
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

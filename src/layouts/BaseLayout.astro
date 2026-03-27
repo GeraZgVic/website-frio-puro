@@ -67,6 +67,36 @@ const jsonLd = {
       href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@400;600&display=swap"
       rel="stylesheet"
     />
+    <script is:inline>
+      (() => {
+        const hash = window.location.hash;
+        if (!hash || hash === "#") return;
+
+        try {
+          if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+        } catch {
+          // ignore
+        }
+
+        try {
+          const payload = {
+            hash,
+            ts: Date.now(),
+            pathname: window.location.pathname,
+            search: window.location.search,
+          };
+          sessionStorage.setItem("__frioPuroPendingHash", JSON.stringify(payload));
+        } catch {
+          // ignore
+        }
+
+        history.replaceState(
+          history.state,
+          "",
+          window.location.pathname + window.location.search,
+        );
+      })();
+    </script>
     <script
       type="application/ld+json"
       is:inline
