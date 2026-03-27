@@ -44,7 +44,7 @@ export const commercialContent = {
     quoteIceTube: "Hola, quiero cotizar hielo en tubo para mi negocio.",
   },
   ctas: {
-    header: "Solicitar cotización corporativa",
+    header: "Cotizar",
     heroPrimary: "Solicitar cotización",
     productsPrimary: "Solicitar plan de suministro",
     stepsPrimary: "Solicitar plan de entregas",
@@ -58,8 +58,7 @@ export const commercialContent = {
   },
   microcopy: {
     productsCtaNote: "Respuesta directa para cotizaciones, volumen y entregas.",
-    stepsContact:
-      "Comunícate por WhatsApp o llámanos. Respondemos en minutos.",
+    stepsContact: "Comunícate por WhatsApp o llámanos. Respondemos en minutos.",
     finalCtaBody:
       "Atención corporativa y logística de entrega programadas para alta demanda.",
   },

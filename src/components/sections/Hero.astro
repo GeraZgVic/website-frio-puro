@@ -1,5 +1,8 @@
 ---
-import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
+import { commercialContent } from "../../config/commercial";
+import { getQuoteCtaHref } from "../../config/navigation";
+
+const quoteCtaHref = getQuoteCtaHref(Astro.url.pathname);
 ---
 
 <section id="inicio" class="hero-section">
@@ -79,10 +82,9 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
           <div class="hero-buttons fade-in fade-in-delay-3">
             <a
-              href={buildWhatsAppUrl()}
+              href={quoteCtaHref}
               class="btn-primary hero-cta-primary"
-              target="_blank"
-              rel="noopener noreferrer"
+              data-page-transition="hero-to-form"
             >
               {commercialContent.ctas.heroPrimary}
             </a>

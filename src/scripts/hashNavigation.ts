@@ -31,6 +31,12 @@ const setCssNavOffset = (offsetPx: number): void => {
   document.documentElement.style.setProperty("--nav-offset-px", `${offsetPx}px`);
 };
 
+const setNavProgrammaticScroll = (isScrolling: boolean): void => {
+  const navbar = document.getElementById("navbar");
+  if (!navbar) return;
+  navbar.dataset.navScrolling = isScrolling ? "true" : "false";
+};
+
 const findTargetForHash = (hash: string): HTMLElement | null => {
   if (!hash || hash === "#") return null;
   const raw = hash.startsWith("#") ? hash.slice(1) : hash;
@@ -168,7 +174,13 @@ export const scrollToHashTarget = async (
 
   if (!target) return false;
 
-  await scrollToElementWithOffset(target, { offsetPx: opts?.offsetPx });
+  setNavProgrammaticScroll(true);
+  try {
+    await scrollToElementWithOffset(target, { offsetPx: opts?.offsetPx });
+  } finally {
+    // Small delay gives the navbar scripts a stable frame to read final active state.
+    window.setTimeout(() => setNavProgrammaticScroll(false), 90);
+  }
 
   if (opts?.focus) {
     focusFirstField(target);

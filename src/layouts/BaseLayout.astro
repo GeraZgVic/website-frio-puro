@@ -69,6 +69,34 @@ const jsonLd = {
     />
     <script is:inline>
       (() => {
+        try {
+          const raw = sessionStorage.getItem("__frioPuroPageTransition");
+          if (!raw) return;
+          const parsed = JSON.parse(raw);
+          if (!parsed || typeof parsed.ts !== "number") return;
+          if (Date.now() - parsed.ts > 12000) {
+            sessionStorage.removeItem("__frioPuroPageTransition");
+            return;
+          }
+
+          const rawVariant = typeof parsed.variant === "string" ? parsed.variant : "";
+          const variant = rawVariant
+            .trim()
+            .toLowerCase()
+            .replace(/[^a-z0-9_-]+/g, "-")
+            .replace(/-+/g, "-")
+            .replace(/^-|-$/g, "");
+
+          document.documentElement.classList.add("pt-enter");
+          if (variant) document.documentElement.classList.add(`pt-variant-${variant}`);
+          sessionStorage.removeItem("__frioPuroPageTransition");
+        } catch {
+          // ignore
+        }
+      })();
+    </script>
+    <script is:inline>
+      (() => {
         const hash = window.location.hash;
         if (!hash || hash === "#") return;
 
@@ -104,6 +132,52 @@ const jsonLd = {
     />
   </head>
   <body>
+    <div id="pageTransitionLayer" aria-hidden="true"></div>
     <slot />
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        if (!root.classList.contains("pt-enter")) return;
+
+        try {
+          if ("matchMedia" in window) {
+            const reduce = window.matchMedia(
+              "(prefers-reduced-motion: reduce)",
+            ).matches;
+            if (reduce) {
+              root.classList.remove("pt-enter");
+              root.classList.remove("pt-leave");
+              root.classList.forEach((c) => {
+                if (c.startsWith("pt-variant-")) {
+                  root.classList.remove(c);
+                }
+              });
+              return;
+            }
+          }
+        } catch {
+          // ignore
+        }
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            root.classList.remove("pt-enter");
+
+            // Failsafe: always clear transition state.
+            setTimeout(() => {
+              root.classList.remove("pt-enter");
+              root.classList.remove("pt-leave");
+
+              // Clear variants too.
+              root.classList.forEach((c) => {
+                if (c.startsWith("pt-variant-")) {
+                  root.classList.remove(c);
+                }
+              });
+            }, 200);
+          });
+        });
+      })();
+    </script>
   </body>
 </html>

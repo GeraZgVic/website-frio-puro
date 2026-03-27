@@ -33,6 +33,152 @@ html {
   scroll-padding-top: var(--nav-offset-px, 96px);
 }
 
+#pageTransitionLayer {
+  --pt-duration: 150ms;
+  --pt-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --pt-glow-a: rgba(157, 212, 242, 0.08);
+  --pt-glow-b: rgba(65, 171, 226, 0.05);
+  --pt-top: rgba(13, 18, 64, 0.16);
+  --pt-bottom: rgba(13, 18, 64, 0.22);
+
+  position: fixed;
+  inset: 0;
+  /* Keep the floating navbar visually persistent (navbar is z-index: 1000). */
+  z-index: 950;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(
+      140% 120% at 18% 12%,
+      var(--pt-glow-a),
+      rgba(13, 18, 64, 0) 55%
+    ),
+    radial-gradient(
+      120% 120% at 86% 28%,
+      var(--pt-glow-b),
+      rgba(13, 18, 64, 0) 58%
+    ),
+    linear-gradient(
+      180deg,
+      var(--pt-top),
+      var(--pt-bottom)
+    );
+  backdrop-filter: blur(1.5px) saturate(103%);
+  -webkit-backdrop-filter: blur(1.5px) saturate(103%);
+  transition: opacity var(--pt-duration) var(--pt-ease);
+}
+
+/* Atmospheric grain + sheen (very subtle, avoids flat fade). */
+#pageTransitionLayer::before,
+#pageTransitionLayer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+#pageTransitionLayer::before {
+  opacity: 0.015;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size:
+    3px 3px,
+    3px 3px;
+  mix-blend-mode: overlay;
+}
+
+#pageTransitionLayer::after {
+  opacity: 0.16;
+  background:
+    radial-gradient(
+      120% 90% at 50% -15%,
+      rgba(255, 255, 255, 0.18),
+      rgba(255, 255, 255, 0) 62%
+    ),
+    radial-gradient(
+      140% 110% at 50% 120%,
+      rgba(65, 171, 226, 0.07),
+      rgba(255, 255, 255, 0) 58%
+    );
+}
+
+html.pt-enter #pageTransitionLayer,
+html.pt-leave #pageTransitionLayer {
+  opacity: 0.28;
+}
+
+html:not(.pt-enter):not(.pt-leave) #pageTransitionLayer {
+  opacity: 0 !important;
+}
+
+/* Variant: hero -> corporate form (more deepening, colder highlights). */
+html.pt-variant-hero-to-form #pageTransitionLayer,
+html.pt-variant-home-to-corporate #pageTransitionLayer,
+html.pt-variant-nav-to-form #pageTransitionLayer {
+  --pt-glow-a: rgba(157, 212, 242, 0.1);
+  --pt-glow-b: rgba(65, 171, 226, 0.07);
+  --pt-top: rgba(13, 18, 64, 0.15);
+  --pt-bottom: rgba(13, 18, 64, 0.22);
+}
+
+/* Variant: corporate -> home (slightly calmer, less spotlight). */
+html.pt-variant-corporate-to-home #pageTransitionLayer {
+  --pt-glow-a: rgba(157, 212, 242, 0.075);
+  --pt-glow-b: rgba(65, 171, 226, 0.045);
+  --pt-top: rgba(13, 18, 64, 0.14);
+  --pt-bottom: rgba(13, 18, 64, 0.2);
+}
+
+/* Subtle content motion (keeps fixed navbar stable by animating main only). */
+main {
+  transition:
+    opacity 160ms var(--pt-ease, cubic-bezier(0.22, 1, 0.36, 1)),
+    transform 160ms var(--pt-ease, cubic-bezier(0.22, 1, 0.36, 1));
+  transform-origin: 50% 16%;
+}
+
+html.pt-enter main {
+  opacity: 0.94;
+  transform: translateY(1px) scale(0.999);
+}
+
+html.pt-leave main {
+  opacity: 0.96;
+  transform: translateY(-1px) scale(0.999);
+}
+
+/* Slight directional difference for the reverse flow. */
+html.pt-variant-corporate-to-home.pt-leave main {
+  opacity: 0.96;
+  transform: translateY(1px) scale(0.999);
+}
+
+html.pt-variant-corporate-to-home.pt-enter main {
+  opacity: 0.94;
+  transform: translateY(-1px) scale(0.999);
+}
+
+/* Freeze micro-animations that can flicker during route changes. */
+html.pt-enter #navbar,
+html.pt-leave #navbar,
+html.pt-enter #navbar *,
+html.pt-leave #navbar * {
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #pageTransitionLayer {
+    transition: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  main {
+    transition: none;
+  }
+}
+
 html,
 body {
   min-height: 100%;

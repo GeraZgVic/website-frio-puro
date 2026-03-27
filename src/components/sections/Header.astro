@@ -1,19 +1,15 @@
 ---
 import { commercialContent } from "../../config/commercial";
+import {
+  getHomeSectionHref,
+  getLogoHref,
+  getQuoteCtaHref,
+} from "../../config/navigation";
 
 const pathname = Astro.url.pathname;
-const isCorporateQuotePage =
-  pathname === "/cotizacion-corporativa" ||
-  pathname === "/cotizacion-corporativa/";
-
-const sectionHref = (id: string): string =>
-  isCorporateQuotePage ? `/#${id}` : `#${id}`;
-
-const logoHref = isCorporateQuotePage ? "/#inicio" : "#inicio";
-
-const ctaHref = isCorporateQuotePage
-  ? "#formulario-corporativo"
-  : "/cotizacion-corporativa#formulario-corporativo";
+const sectionHref = (id: string): string => getHomeSectionHref(pathname, id);
+const logoHref = getLogoHref(pathname);
+const ctaHref = getQuoteCtaHref(pathname);
 ---
 
 <div
@@ -28,6 +24,13 @@ const ctaHref = isCorporateQuotePage
   <a href={sectionHref("productos")} class="mobile-link">Productos</a>
   <a href={sectionHref("proceso")} class="mobile-link">Proceso de producción</a>
   <a href={sectionHref("contacto")} class="mobile-link">Contacto</a>
+  <a
+    href={ctaHref}
+    class="mobile-link mobile-cta cta-pill"
+    data-page-transition="nav-to-form"
+  >
+    {commercialContent.ctas.header}
+  </a>
 </div>
 
 <header id="navbar">
@@ -50,7 +53,8 @@ const ctaHref = isCorporateQuotePage
 
   <a
     href={ctaHref}
-    class="btn-whatsapp"
+    class="btn-whatsapp cta-pill"
+    data-page-transition="nav-to-form"
   >
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -416,63 +420,159 @@ const ctaHref = isCorporateQuotePage
     );
   }
 
+  #navbar[data-nav-scrolling="true"] .nav-indicator {
+    transition: none !important;
+  }
+
   .nav-indicator.is-visible {
     opacity: 1;
   }
 
   .btn-whatsapp {
-    background: var(--nav-cta-bg);
-    color: var(--nav-cta-ink);
-    padding: 9px 20px;
-    border-radius: 50px;
-    border: 1px solid var(--nav-cta-border);
+    display: flex;
+  }
+
+  .cta-pill {
+    position: relative;
+    isolation: isolate;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.16),
+      rgba(255, 255, 255, 0.09)
+    );
+    color: var(--nav-ink);
+    padding: 9px 18px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
     font-family: "Barlow", sans-serif;
     font-weight: 600;
     font-size: 0.82rem;
     text-transform: uppercase;
     letter-spacing: 1px;
     text-decoration: none;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    gap: 9px;
+    box-shadow:
+      0 10px 24px rgba(8, 11, 34, 0.14),
+      0 1px 0 rgba(255, 255, 255, 0.14) inset;
+    backdrop-filter: blur(14px) saturate(145%);
+    -webkit-backdrop-filter: blur(14px) saturate(145%);
     transition:
-      transform 0.22s ease,
-      box-shadow 0.22s ease,
-      background 0.22s ease,
-      border-color 0.22s ease;
-    box-shadow:
-      0 10px 22px
-        rgb(var(--nav-glow-rgb) /
-            calc(var(--nav-cta-shadow-alpha) + var(--nav-scroll) * 0.08)),
-      0 1px 0 rgb(255 255 255 / 0.12) inset;
+      transform 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+      background 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+      color 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
   }
 
-  .btn-whatsapp:hover {
-    background: #25d366;
-    border-color: rgba(37, 211, 102, 0.5);
-    box-shadow:
-      0 18px 36px rgba(37, 211, 102, 0.42),
-      0 1px 0 rgba(255, 255, 255, 0.18) inset;
-    transform: translateY(-2px) scale(1.01);
+  @supports (background: color-mix(in srgb, white, black)) {
+    .cta-pill {
+      --cta-surface-top: color-mix(
+        in srgb,
+        rgba(255 255 255 / 0.18) calc((1 - var(--nav-mode-blend)) * 100%),
+        rgba(18 26 56 / 0.06) calc(var(--nav-mode-blend) * 100%)
+      );
+      --cta-surface-bottom: color-mix(
+        in srgb,
+        rgba(255 255 255 / 0.1) calc((1 - var(--nav-mode-blend)) * 100%),
+        rgba(18 26 56 / 0.04) calc(var(--nav-mode-blend) * 100%)
+      );
+      --cta-border: color-mix(
+        in srgb,
+        rgba(255 255 255 / 0.22) calc((1 - var(--nav-mode-blend)) * 100%),
+        rgba(18 26 56 / 0.12) calc(var(--nav-mode-blend) * 100%)
+      );
+
+      background: linear-gradient(
+        180deg,
+        var(--cta-surface-top),
+        var(--cta-surface-bottom)
+      );
+      border-color: var(--cta-border);
+    }
   }
 
-  .btn-whatsapp:active {
+  .cta-pill::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.16) 32%,
+      rgba(255, 255, 255, 0) 62%
+    );
+    opacity: 0;
+    transform: translateY(-6%) scale(1.02);
+    transition:
+      opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .cta-pill::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+      0 -12px 22px rgba(157, 212, 242, 0.06) inset;
+    opacity: 1;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .cta-pill > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-pill:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.11)
+    );
+    box-shadow:
+      0 14px 30px rgba(8, 11, 34, 0.16),
+      0 0 0 1px rgba(157, 212, 242, 0.14),
+      0 1px 0 rgba(255, 255, 255, 0.16) inset;
+    transform: translateY(-1px) scale(1.005);
+  }
+
+  .cta-pill:hover::before {
+    opacity: 1;
+    transform: translateY(0) scale(1.02);
+  }
+
+  .cta-pill:active {
     transform: translateY(0) scale(0.99);
-  }
-
-  .btn-whatsapp:focus-visible {
-    outline: none;
     box-shadow:
-      0 0 0 4px rgba(157, 212, 242, 0.32),
-      0 10px 22px
-        rgb(var(--nav-glow-rgb) /
-            calc(var(--nav-cta-shadow-alpha) + var(--nav-scroll) * 0.08));
+      0 10px 24px rgba(8, 11, 34, 0.14),
+      0 1px 0 rgba(255, 255, 255, 0.14) inset;
   }
 
-  .btn-whatsapp svg {
+  .cta-pill:focus-visible {
+    outline: none;
+    border-color: rgba(157, 212, 242, 0.42);
+    box-shadow:
+      0 0 0 4px rgba(157, 212, 242, 0.18),
+      0 12px 26px rgba(8, 11, 34, 0.14),
+      0 1px 0 rgba(255, 255, 255, 0.16) inset;
+  }
+
+  .cta-pill svg {
     width: 16px;
     height: 16px;
     fill: currentColor;
+    opacity: 0.9;
   }
 
   .hamburger {
@@ -553,6 +653,29 @@ const ctaHref = isCorporateQuotePage
 
   .mobile-menu a:hover {
     color: var(--color-accent);
+  }
+
+  .mobile-menu .mobile-cta {
+    width: min(86vw, 360px);
+    margin-top: clamp(12px, 3vw, 20px);
+    padding: 14px 18px;
+    font-size: 0.95rem;
+    letter-spacing: 0.14em;
+    font-family: "Barlow", sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+    transition:
+      transform 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+      background 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+      color 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .mobile-menu .mobile-cta:hover {
+    color: var(--cta-ink-soft);
   }
 
   @media (max-width: 768px) {

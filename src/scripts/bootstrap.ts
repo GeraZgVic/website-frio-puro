@@ -1,4 +1,7 @@
 export const initSiteScripts = (): void => {
+  void import("./pageTransitions").then(({ initPageTransitions }) => {
+    initPageTransitions();
+  });
   void import("./testimonialsSlider").then(({ initTestimonialsSlider }) => {
     initTestimonialsSlider();
   });
