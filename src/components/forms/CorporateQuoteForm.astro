@@ -1,0 +1,562 @@
+---
+type Props = {
+  /** Optional anchor id to support deep-linking (e.g. #formulario-corporativo). */
+  anchorId?: string;
+  /** Optional title displayed above the form. */
+  title?: string;
+  /** Optional subtitle displayed below the title. */
+  subtitle?: string;
+};
+
+const {
+  anchorId = "formulario-corporativo",
+  title = "Cotización corporativa",
+  subtitle = "Respuesta en menos de 24 horas.",
+} = Astro.props;
+---
+
+<div class="corpFormCard" id={anchorId} data-corp-quote-card>
+  <div class="corpFormHead">
+    <p class="corpFormEyebrow">SOLICITUD</p>
+    <h3 class="corpFormTitle">{title}</h3>
+    <p class="corpFormSubtitle">{subtitle}</p>
+  </div>
+
+  <form
+    class="corpForm"
+    method="post"
+    action="/api/cotizacion-corporativa"
+    novalidate
+    data-corp-quote-form
+  >
+    <div class="corpHoneypot" aria-hidden="true">
+      <label for={`${anchorId}-companyWebsite`}>Sitio web</label>
+      <input
+        id={`${anchorId}-companyWebsite`}
+        name="company_website"
+        type="text"
+        tabindex="-1"
+        autocomplete="off"
+      />
+    </div>
+
+    <div class="corpField corpFieldFull">
+      <label class="corpLabel" for={`${anchorId}-name`}>Nombre o empresa</label>
+      <input
+        class="corpInput"
+        id={`${anchorId}-name`}
+        name="name_company"
+        type="text"
+        autocomplete="organization"
+        placeholder="Hotel Vista Mar"
+        required
+        aria-describedby={`${anchorId}-nameError`}
+      />
+      <p class="corpError" id={`${anchorId}-nameError`} role="alert" aria-hidden="true"></p>
+    </div>
+
+    <div class="corpField">
+      <label class="corpLabel" for={`${anchorId}-phone`}>Teléfono</label>
+      <input
+        class="corpInput"
+        id={`${anchorId}-phone`}
+        name="phone"
+        type="tel"
+        inputmode="tel"
+        autocomplete="tel"
+        placeholder="993 123 4567"
+        required
+        aria-describedby={`${anchorId}-phoneError`}
+      />
+      <p class="corpError" id={`${anchorId}-phoneError`} role="alert" aria-hidden="true"></p>
+    </div>
+
+    <div class="corpField">
+      <label class="corpLabel" for={`${anchorId}-email`}>
+        Correo <span class="corpBadge">opcional</span>
+      </label>
+      <input
+        class="corpInput"
+        id={`${anchorId}-email`}
+        name="email"
+        type="email"
+        autocomplete="email"
+        placeholder="contacto@empresa.com"
+        aria-describedby={`${anchorId}-emailError`}
+      />
+      <p class="corpError" id={`${anchorId}-emailError`} role="alert" aria-hidden="true"></p>
+    </div>
+
+    <div class="corpField corpFieldFull">
+      <label class="corpLabel" for={`${anchorId}-consumption`}>Consumo estimado</label>
+      <select
+        class="corpSelect"
+        id={`${anchorId}-consumption`}
+        name="consumption"
+        required
+        aria-describedby={`${anchorId}-consumptionError`}
+      >
+        <option value="" selected>Selecciona una opción</option>
+        <option value="lt_50">Menos de 50 bolsas / semana</option>
+        <option value="50_150">50 – 150 bolsas / semana</option>
+        <option value="gt_150">Más de 150 bolsas / semana</option>
+      </select>
+      <p
+        class="corpError"
+        id={`${anchorId}-consumptionError`}
+        role="alert"
+        aria-hidden="true"
+      ></p>
+    </div>
+
+    <button class="corpSubmit" type="submit">
+      <span>Solicitar propuesta</span>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path
+          d="M6.2 3.2L10.8 8L6.2 12.8"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+      </svg>
+    </button>
+
+    <p class="corpStatus" role="status" aria-live="polite" aria-atomic="true"></p>
+  </form>
+</div>
+
+<script is:inline>
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const getValue = (el) => (el && "value" in el ? String(el.value || "").trim() : "");
+
+  const setError = (root, key, message) => {
+    const input = root.querySelector(`[data-field="${key}"]`) ?? null;
+    const errorEl = root.querySelector(`[data-error="${key}"]`) ?? null;
+    if (errorEl instanceof HTMLElement) {
+      errorEl.textContent = message || "";
+      errorEl.setAttribute("aria-hidden", message ? "false" : "true");
+    }
+    if (input instanceof HTMLElement) {
+      input.toggleAttribute("aria-invalid", Boolean(message));
+    }
+  };
+
+  const clearErrors = (form) => {
+    form.querySelectorAll("[data-error]").forEach((el) => {
+      if (!(el instanceof HTMLElement)) return;
+      el.textContent = "";
+      el.setAttribute("aria-hidden", "true");
+    });
+    form
+      .querySelectorAll('input, select, textarea')
+      .forEach((el) => el.removeAttribute("aria-invalid"));
+  };
+
+  const focusFirstInvalid = (elements) => {
+    const target = elements.find((el) => el && el.getAttribute("aria-invalid") === "true");
+    if (!(target instanceof HTMLElement)) return;
+    try {
+      target.focus({ preventScroll: true });
+    } catch {
+      target.focus();
+    }
+  };
+
+  const init = (form) => {
+    const statusEl = form.querySelector(".corpStatus");
+    const submitBtn = form.querySelector(".corpSubmit");
+
+    const nameEl = form.querySelector('input[name="name_company"]');
+    const phoneEl = form.querySelector('input[name="phone"]');
+    const emailEl = form.querySelector('input[name="email"]');
+    const consumptionEl = form.querySelector('select[name="consumption"]');
+
+    // Data hooks for generic helpers.
+    if (nameEl) nameEl.dataset.field = "name";
+    if (phoneEl) phoneEl.dataset.field = "phone";
+    if (emailEl) emailEl.dataset.field = "email";
+    if (consumptionEl) consumptionEl.dataset.field = "consumption";
+
+    const nameErr = form.querySelector('[id$="-nameError"]');
+    const phoneErr = form.querySelector('[id$="-phoneError"]');
+    const emailErr = form.querySelector('[id$="-emailError"]');
+    const consumptionErr = form.querySelector('[id$="-consumptionError"]');
+    if (nameErr) nameErr.dataset.error = "name";
+    if (phoneErr) phoneErr.dataset.error = "phone";
+    if (emailErr) emailErr.dataset.error = "email";
+    if (consumptionErr) consumptionErr.dataset.error = "consumption";
+
+    const setStatus = (kind, message) => {
+      if (!(statusEl instanceof HTMLElement)) return;
+      statusEl.textContent = message || "";
+      statusEl.dataset.kind = kind || "";
+    };
+
+    const validate = () => {
+      clearErrors(form);
+      setStatus("", "");
+
+      const name = getValue(nameEl);
+      const phone = getValue(phoneEl);
+      const email = getValue(emailEl);
+      const consumption = getValue(consumptionEl);
+
+      if (!name) setError(form, "name", "Indica tu nombre o empresa.");
+      else if (name.length > 140) setError(form, "name", "El nombre o empresa es demasiado largo.");
+
+      if (!phone) setError(form, "phone", "Indica un teléfono de contacto.");
+      else if (phone.length > 40) setError(form, "phone", "El teléfono es demasiado largo.");
+
+      if (email && (email.length > 254 || !emailRegex.test(email))) {
+        setError(form, "email", "Revisa el formato del correo electrónico.");
+      }
+
+      if (!consumption) setError(form, "consumption", "Selecciona tu consumo estimado.");
+
+      focusFirstInvalid([nameEl, phoneEl, emailEl, consumptionEl]);
+
+      const hasInvalid = form.querySelector('[aria-invalid="true"]');
+      return !hasInvalid;
+    };
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (!validate()) return;
+
+      if (submitBtn instanceof HTMLButtonElement) submitBtn.disabled = true;
+      form.setAttribute("aria-busy", "true");
+      setStatus("", "Enviando…");
+
+      try {
+        const response = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { Accept: "application/json" },
+        });
+
+        const payload = await response.json().catch(() => null);
+        const ok = Boolean(payload?.ok);
+        const message =
+          typeof payload?.message === "string" && payload.message
+            ? payload.message
+            : ok
+              ? "Gracias. Tu solicitud fue enviada correctamente."
+              : "No fue posible enviar tu solicitud. Intenta nuevamente.";
+
+        if (!response.ok || !ok) {
+          setStatus("error", message);
+          return;
+        }
+
+        setStatus("ok", message);
+        form.reset();
+
+        const firstInput = form.querySelector('input[name="name_company"]');
+        if (firstInput instanceof HTMLInputElement) {
+          try {
+            firstInput.focus({ preventScroll: true });
+          } catch {
+            firstInput.focus();
+          }
+        }
+      } catch {
+        setStatus(
+          "error",
+          "No fue posible enviar tu solicitud en este momento. Intenta nuevamente en unos minutos.",
+        );
+      } finally {
+        form.removeAttribute("aria-busy");
+        if (submitBtn instanceof HTMLButtonElement) submitBtn.disabled = false;
+      }
+    });
+  };
+
+  document.querySelectorAll('form[data-corp-quote-form]').forEach((form) => {
+    if (!(form instanceof HTMLFormElement)) return;
+    if (form.dataset.initialized === "true") return;
+    form.dataset.initialized = "true";
+    init(form);
+  });
+</script>
+
+<style>
+  .corpFormCard {
+    position: relative;
+    border-radius: 26px;
+    padding: 22px 20px 18px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow:
+      0 26px 64px rgba(2, 10, 30, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .corpFormCard::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: radial-gradient(
+        circle at 20% 10%,
+        rgba(255, 255, 255, 0.28) 0%,
+        transparent 38%
+      ),
+      radial-gradient(
+        circle at 70% 30%,
+        rgba(210, 236, 255, 0.18) 0%,
+        transparent 55%
+      );
+    opacity: 0.55;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .corpFormHead {
+    position: relative;
+    z-index: 1;
+    padding: 4px 6px 14px;
+  }
+
+  .corpFormEyebrow {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.78);
+    font-family: "Barlow", sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .corpFormTitle {
+    margin: 10px 0 0;
+    color: rgba(255, 255, 255, 0.98);
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    line-height: 1.05;
+  }
+
+  .corpFormSubtitle {
+    margin: 6px 0 0;
+    color: rgba(240, 248, 255, 0.74);
+    font-family: "Barlow", sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .corpForm {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 12px;
+    margin: 0;
+    padding: 0 6px 8px;
+  }
+
+  .corpHoneypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .corpField {
+    display: grid;
+    gap: 8px;
+  }
+
+  .corpFieldFull {
+    grid-column: 1 / -1;
+  }
+
+  .corpLabel {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.82);
+    font-family: "Barlow", sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .corpBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 6px;
+    padding: 3px 8px 4px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+    vertical-align: middle;
+  }
+
+  .corpInput,
+  .corpSelect {
+    width: 100%;
+    min-height: 48px;
+    border-radius: 14px;
+    padding: 12px 14px;
+    background: rgba(6, 12, 28, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: rgba(255, 255, 255, 0.95);
+    font-family: "Barlow", sans-serif;
+    font-size: 0.95rem;
+    box-shadow:
+      0 12px 28px rgba(2, 7, 18, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    outline: none;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .corpSelect {
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, rgba(255, 255, 255, 0.8) 50%),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.8) 50%, transparent 50%);
+    background-position:
+      calc(100% - 20px) calc(50% - 3px),
+      calc(100% - 14px) calc(50% - 3px);
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+    padding-right: 44px;
+  }
+
+  .corpInput::placeholder {
+    color: rgba(255, 255, 255, 0.48);
+  }
+
+  .corpInput:focus,
+  .corpSelect:focus {
+    border-color: rgba(210, 236, 255, 0.52);
+    box-shadow:
+      0 18px 46px rgba(2, 8, 24, 0.42),
+      0 0 0 3px rgba(210, 236, 255, 0.14),
+      inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    background: rgba(6, 12, 28, 0.62);
+  }
+
+  .corpInput[aria-invalid="true"],
+  .corpSelect[aria-invalid="true"] {
+    border-color: rgba(255, 125, 125, 0.62);
+    box-shadow:
+      0 16px 40px rgba(255, 68, 68, 0.08),
+      0 0 0 3px rgba(255, 112, 112, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+
+  .corpError {
+    margin: -2px 2px 0;
+    min-height: 16px;
+    color: rgba(255, 168, 168, 0.95);
+    font-family: "Barlow", sans-serif;
+    font-size: 0.78rem;
+    line-height: 1.2;
+  }
+
+  .corpSubmit {
+    grid-column: 1 / -1;
+    margin-top: 6px;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 54px;
+    padding: 14px 18px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.96);
+    font-family: "Barlow", sans-serif;
+    font-size: 0.86rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow:
+      0 18px 42px rgba(2, 10, 28, 0.42),
+      inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease,
+      background 0.25s ease,
+      border-color 0.25s ease;
+  }
+
+  .corpSubmit:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(210, 236, 255, 0.34);
+    box-shadow:
+      0 22px 54px rgba(2, 10, 28, 0.52),
+      inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  }
+
+  .corpSubmit:active {
+    transform: translateY(0) scale(0.99);
+  }
+
+  .corpSubmit:focus-visible {
+    outline: none;
+    box-shadow:
+      0 22px 54px rgba(2, 10, 28, 0.52),
+      0 0 0 4px rgba(210, 236, 255, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  }
+
+  .corpSubmit[disabled] {
+    opacity: 0.72;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .corpStatus {
+    grid-column: 1 / -1;
+    margin: 10px 2px 0;
+    color: rgba(240, 248, 255, 0.78);
+    font-family: "Barlow", sans-serif;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    min-height: 20px;
+  }
+
+  .corpStatus[data-kind="ok"] {
+    color: rgba(196, 255, 224, 0.92);
+  }
+
+  .corpStatus[data-kind="error"] {
+    color: rgba(255, 190, 190, 0.92);
+  }
+
+  @media (max-width: 520px) {
+    .corpForm {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .corpSubmit {
+      transition: none !important;
+    }
+  }
+</style>
+
