@@ -117,7 +117,11 @@ export const initNavbarScroll = (): void => {
   // - solid boost smoother (avoid glass<->solid "hit")
   // - elevation a touch more responsive (shadow can lead subtly)
   const LERP_SCROLL = 0.085;
-  const LERP_MODE = 0.055;
+  // Mode blend: cuando cambia de seccion (dark <-> light) el delta es grande y el
+  // estado hibrido puede sentirse "fuera de fase" con el fondo real detras del navbar.
+  // Hacemos el blend adaptativo: rapido cuando esta lejos, suave al acercarse.
+  const LERP_MODE_MIN = 0.08;
+  const LERP_MODE_MAX = 0.18;
   // Text needs to solve contrast fast (legibility > cinematic for ink).
   // Adaptive rate: aggressive catch-up when far, softer close when near.
   const LERP_TEXT_MODE_MIN = 0.28;
@@ -157,12 +161,17 @@ export const initNavbarScroll = (): void => {
     navbar.style.setProperty("--nav-scroll", currentT.toFixed(4));
 
     const modeDelta = targetModeBlend - currentModeBlend;
-    if (Math.abs(modeDelta) < 0.0025) {
+    const modeDeltaAbs = Math.abs(modeDelta);
+    if (modeDeltaAbs < 0.0025) {
       currentModeBlend = targetModeBlend;
     } else {
-      currentModeBlend += modeDelta * LERP_MODE;
+      const urgency = clamp01(modeDeltaAbs / 0.5);
+      const lerpMode =
+        LERP_MODE_MIN + (LERP_MODE_MAX - LERP_MODE_MIN) * urgency;
+      currentModeBlend += modeDelta * lerpMode;
     }
 
+    currentModeBlend = clamp01(currentModeBlend);
     navbar.style.setProperty("--nav-mode-blend", currentModeBlend.toFixed(4));
 
     // Text blend: much more responsive than material to avoid contrast "dip"

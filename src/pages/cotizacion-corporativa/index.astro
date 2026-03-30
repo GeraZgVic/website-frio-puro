@@ -36,7 +36,7 @@ import SiteScripts from "../../components/SiteScripts.astro";
 
       <div class="hero__overlay" aria-hidden="true"></div>
 
-      <div class="container hero__inner">
+      <div id="formulario-corporativo" class="container hero__inner">
         <div class="hero__copy">
           <p class="hero__eyebrow">FRÍO PURO · CORPORATIVO</p>
 
@@ -486,6 +486,10 @@ import SiteScripts from "../../components/SiteScripts.astro";
       padding-bottom: 54px;
     }
 
+    #formulario-corporativo {
+      scroll-margin-top: 120px;
+    }
+
     .hero__copy {
       position: relative;
       max-width: 610px;
@@ -634,6 +638,12 @@ import SiteScripts from "../../components/SiteScripts.astro";
     .field {
       display: flex;
       flex-direction: column;
+      position: relative;
+      z-index: 0;
+    }
+
+    .field[data-dropdown-open="true"] {
+      z-index: 120;
     }
 
     .field--full {
@@ -700,6 +710,11 @@ import SiteScripts from "../../components/SiteScripts.astro";
 
     .dropdown {
       position: relative;
+      z-index: 0;
+    }
+
+    .dropdown[data-open="true"] {
+      z-index: 60;
     }
 
     .dropdown__trigger {
@@ -789,7 +804,7 @@ import SiteScripts from "../../components/SiteScripts.astro";
       transform: translateY(4px);
       opacity: 0;
       pointer-events: none;
-      z-index: 20;
+      z-index: 80;
       transition:
         opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1),
         transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -1433,7 +1448,9 @@ import SiteScripts from "../../components/SiteScripts.astro";
 
       if (canUsePointerDepth && MAX_MOUSE_PX > 0) {
         hero.addEventListener("pointermove", onPointerMove, { passive: true });
-        hero.addEventListener("pointerleave", onPointerLeave, { passive: true });
+        hero.addEventListener("pointerleave", onPointerLeave, {
+          passive: true,
+        });
       }
 
       const load = () => {
@@ -1482,6 +1499,7 @@ import SiteScripts from "../../components/SiteScripts.astro";
       );
 
       const dropdownRoot = consumptionTrigger?.closest(".dropdown");
+      const dropdownField = consumptionTrigger?.closest(".field");
       const dropdownOptions = Array.from(
         consumptionListbox?.querySelectorAll("[role='option']") ?? [],
       );
@@ -1590,6 +1608,9 @@ import SiteScripts from "../../components/SiteScripts.astro";
       const closeDropdown = ({ focusTrigger } = {}) => {
         if (!(dropdownRoot instanceof HTMLElement)) return;
         dropdownRoot.dataset.open = "false";
+        if (dropdownField instanceof HTMLElement) {
+          delete dropdownField.dataset.dropdownOpen;
+        }
         if (dropdownCloseTimer) window.clearTimeout(dropdownCloseTimer);
         if (consumptionListbox instanceof HTMLElement) {
           dropdownCloseTimer = window.setTimeout(
@@ -1613,6 +1634,9 @@ import SiteScripts from "../../components/SiteScripts.astro";
           consumptionListbox.hidden = false;
         if (consumptionTrigger instanceof HTMLElement)
           consumptionTrigger.setAttribute("aria-expanded", "true");
+        if (dropdownField instanceof HTMLElement) {
+          dropdownField.dataset.dropdownOpen = "true";
+        }
         window.requestAnimationFrame(() => {
           if (dropdownRoot instanceof HTMLElement) {
             dropdownRoot.dataset.open = "true";

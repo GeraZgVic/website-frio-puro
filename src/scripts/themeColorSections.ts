@@ -100,17 +100,23 @@ export const initThemeColorSections = (): void => {
   let currentTargetId = '';
   let rafId = 0;
   let lastSwitchAt = 0;
+  let lastScrollY = window.scrollY || 0;
+  let scrollDir: -1 | 1 = 1;
 
   const SWITCH_COOLDOWN_MS = 110;
   const MIN_VIEWPORT_COVERAGE = 0.08;
   const SWITCH_MARGIN = 0.08;
   const HERO_LOCK_EXIT_GAP_PX = 8;
 
-  // "Premium feel": usamos el centro como referencia principal, pero anadimos una
-  // linea de activacion un poco mas arriba para que el cambio ocurra antes en transiciones
-  // (especialmente al salir del hero).
+  // "Premium feel": el navbar vive en la parte superior, asi que priorizamos una
+  // linea de activacion cercana al area del navbar (no el centro completo del viewport).
+  // Esto reduce la sensacion de "desfase" entre el fondo real detras del navbar y
+  // el modo/material que adopta al cambiar de seccion.
   const CENTER_LINE_RATIO = 0.5;
-  const LEAD_LINE_RATIO = 0.38;
+  const LEAD_LINE_RATIO = 0.32;
+  const NAV_LEAD_LINE_DOWN_PX = 110;
+  const NAV_LEAD_LINE_UP_PX = 64;
+  const NAV_LEAD_LINE_MIN_PX = 44;
 
   const setThemeColorIfChanged = (color: string, el: Element): void => {
     if (!color || color === currentColor) return;
@@ -179,13 +185,13 @@ export const initThemeColorSections = (): void => {
     // - cercania a la linea de activacion (para transiciones mas naturales)
     // - IO ratio como senal secundaria (suaviza decisiones cuando hay empates)
     let score =
-      viewportCoverage * 0.56 +
-      centerCloseness * 0.24 +
-      leadCloseness * 0.18 +
+      viewportCoverage * 0.5 +
+      leadCloseness * 0.3 +
+      centerCloseness * 0.18 +
       clamp01(ioRatio) * 0.02;
 
     // Boost claro cuando una seccion ya "toma" la zona de lectura principal.
-    if (containsLeadLine) score += 0.24;
+    if (containsLeadLine) score += 0.32;
 
     return { target, score, viewportCoverage, containsLeadLine, containsCenterLine };
   };
@@ -194,8 +200,18 @@ export const initThemeColorSections = (): void => {
     const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
     if (viewportHeight <= 0) return;
 
+    const scrollY = window.scrollY || 0;
+    const scrollDelta = scrollY - lastScrollY;
+    // Deadzone avoids jitter when the scroll position oscillates by sub-pixel.
+    if (Math.abs(scrollDelta) >= 2) scrollDir = scrollDelta > 0 ? 1 : -1;
+    lastScrollY = scrollY;
+
     const centerLineY = viewportHeight * CENTER_LINE_RATIO;
-    const leadLineY = viewportHeight * LEAD_LINE_RATIO;
+    const leadLinePxCap = scrollDir < 0 ? NAV_LEAD_LINE_UP_PX : NAV_LEAD_LINE_DOWN_PX;
+    const leadLineY = Math.max(
+      NAV_LEAD_LINE_MIN_PX,
+      Math.min(viewportHeight * LEAD_LINE_RATIO, leadLinePxCap),
+    );
 
     // Hero lock: mientras el lead line siga dentro del hero, no dejamos que el navbar/theme
     // mute por secciones que "asoman". El cambio ocurre cuando el hero realmente termina.
