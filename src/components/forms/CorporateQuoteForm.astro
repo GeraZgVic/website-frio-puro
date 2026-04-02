@@ -13,7 +13,13 @@ const {
   title = "Cotización corporativa",
   subtitle = "Respuesta en menos de 24 horas.",
 } = Astro.props;
+const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
+const recaptchaAction = "corporate_quote_submit";
 ---
+
+{recaptchaSiteKey && (
+  <script src={`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`} async defer></script>
+)}
 
 <div class="corpFormCard" id={anchorId} data-corp-quote-card>
   <div class="corpFormHead">
@@ -28,6 +34,8 @@ const {
     action="/api/cotizacion-corporativa"
     novalidate
     data-corp-quote-form
+    data-recaptcha-site-key={recaptchaSiteKey ?? undefined}
+    data-recaptcha-action={recaptchaAction}
   >
     <div class="corpHoneypot" aria-hidden="true">
       <label for={`${anchorId}-companyWebsite`}>Sitio web</label>
@@ -109,6 +117,13 @@ const {
       ></p>
     </div>
 
+    {recaptchaSiteKey && (
+      <div class="corpField corpFieldFull">
+        <input type="hidden" name="g-recaptcha-response" value="" data-corp-recaptcha-token />
+        <p class="corpError" data-error="recaptcha" role="alert" aria-hidden="true"></p>
+      </div>
+    )}
+
     <button class="corpSubmit" type="submit">
       <span>Solicitar propuesta</span>
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -167,11 +182,14 @@ const {
   const init = (form) => {
     const statusEl = form.querySelector(".corpStatus");
     const submitBtn = form.querySelector(".corpSubmit");
+    const recaptchaSiteKey = form.dataset.recaptchaSiteKey || "";
+    const recaptchaAction = form.dataset.recaptchaAction || "corporate_quote_submit";
 
     const nameEl = form.querySelector('input[name="name_company"]');
     const phoneEl = form.querySelector('input[name="phone"]');
     const emailEl = form.querySelector('input[name="email"]');
     const consumptionEl = form.querySelector('select[name="consumption"]');
+    const recaptchaTokenEl = form.querySelector("[data-corp-recaptcha-token]");
 
     // Data hooks for generic helpers.
     if (nameEl) nameEl.dataset.field = "name";
@@ -226,6 +244,34 @@ const {
 
       if (!validate()) return;
 
+      if (recaptchaTokenEl instanceof HTMLInputElement) {
+        if (!globalThis.grecaptcha || !globalThis.grecaptcha.execute) {
+          setError(form, "recaptcha", "No fue posible cargar reCAPTCHA. Intenta nuevamente.");
+          return;
+        }
+
+        try {
+          const token = await new Promise((resolve, reject) => {
+            globalThis.grecaptcha.ready(() => {
+              globalThis.grecaptcha
+                .execute(recaptchaSiteKey, { action: recaptchaAction })
+                .then(resolve)
+                .catch(reject);
+            });
+          });
+
+          recaptchaTokenEl.value = token || "";
+        } catch {
+          setError(form, "recaptcha", "No fue posible validar reCAPTCHA. Intenta nuevamente.");
+          return;
+        }
+
+        if (!recaptchaTokenEl.value) {
+          setError(form, "recaptcha", "No fue posible validar reCAPTCHA. Intenta nuevamente.");
+          return;
+        }
+      }
+
       if (submitBtn instanceof HTMLButtonElement) submitBtn.disabled = true;
       form.setAttribute("aria-busy", "true");
       setStatus("", "Enviando…");
@@ -253,6 +299,9 @@ const {
 
         setStatus("ok", message);
         form.reset();
+        if (recaptchaTokenEl instanceof HTMLInputElement) {
+          recaptchaTokenEl.value = "";
+        }
 
         const firstInput = form.querySelector('input[name="name_company"]');
         if (firstInput instanceof HTMLInputElement) {

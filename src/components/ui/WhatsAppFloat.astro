@@ -42,7 +42,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
     /* ===== Tamaño botón ===== */
     --wa-size: 56px;
-    --wa-expand-width: 152px;
+    --wa-expand-width: 188px;
 
     position: fixed;
     right: var(--wa-right);
@@ -53,11 +53,12 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
     display: inline-flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 0;
     text-decoration: none;
     color: #fff;
     cursor: pointer;
+    padding-inline: 15px;
 
     border-radius: 999px;
     overflow: visible;
@@ -159,8 +160,8 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     position: relative;
     z-index: 2;
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
-    transition: margin-left 0.44s cubic-bezier(0.34, 1.4, 0.64, 1);
-    margin-left: 0;
+    transition: transform 0.44s cubic-bezier(0.34, 1.4, 0.64, 1);
+    transform: translateX(-1px);
   }
 
   .wa-label {
@@ -192,7 +193,6 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   .wa-fab:hover,
   .wa-fab:focus-visible {
     width: var(--wa-expand-width);
-    transform: translateY(-3px);
     box-shadow:
       0 0 24px 6px rgba(18, 178, 76, 0.3),
       0 18px 34px -4px rgba(0, 0, 0, 0.36),
@@ -203,14 +203,14 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
   .wa-fab:hover .wa-icon,
   .wa-fab:focus-visible .wa-icon {
-    margin-left: 14px;
+    transform: translateX(0);
   }
 
   .wa-fab:hover .wa-label,
   .wa-fab:focus-visible .wa-label {
-    max-width: 100px;
+    max-width: 128px;
     opacity: 1;
-    margin-left: 9px;
+    margin-left: 10px;
   }
 
   .wa-fab:hover::after,
@@ -220,7 +220,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   }
 
   .wa-fab:active {
-    transform: translateY(-1px) scale(0.96);
+    transform: scale(0.96);
   }
 
   .wa-fab:focus-visible {
@@ -287,6 +287,8 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
       width: var(--wa-size);
       height: var(--wa-size);
+      padding-inline: 0;
+      justify-content: center;
     }
 
     .wa-fab:hover,
@@ -297,7 +299,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
     .wa-fab:hover .wa-icon,
     .wa-fab:focus-visible .wa-icon {
-      margin-left: 0;
+      transform: translateX(-1px);
     }
 
     .wa-fab:hover .wa-label,

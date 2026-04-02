@@ -1,5 +1,4 @@
 <div class="cursor" id="cursor" aria-hidden="true"></div>
-<div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
 
 <style>
   @media (hover: hover) and (pointer: fine) {
@@ -62,43 +61,7 @@
     opacity: 0.82;
   }
 
-  .cursor-ring {
-    width: 34px;
-    height: 34px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: 99998;
-    border-radius: 999px;
-    transform: translate3d(-50%, -50%, 0);
-    transition:
-      transform 0.2s ease,
-      width 0.2s ease,
-      height 0.2s ease,
-      border-color 0.2s ease,
-      box-shadow 0.2s ease,
-      background 0.2s ease,
-      opacity 0.2s ease;
-    opacity: 0;
-
-    border: 1px solid rgba(65, 171, 226, 0.35);
-    background: linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.14),
-      rgba(157, 212, 242, 0.08)
-    );
-
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.35),
-      0 0 12px rgba(65, 171, 226, 0.08);
-  }
-
-  .cursor.is-visible,
-  .cursor-ring.is-visible {
+  .cursor.is-visible {
     opacity: 1;
   }
 
@@ -126,31 +89,14 @@
     );
   }
 
-  .cursor-ring.hover {
-    width: 48px;
-    height: 48px;
-    border-color: rgba(65, 171, 226, 0.58);
-    background: linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.18),
-      rgba(157, 212, 242, 0.1)
-    );
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.4),
-      0 0 0 1px rgba(255, 255, 255, 0.12),
-      0 0 22px rgba(65, 171, 226, 0.18);
-  }
-
   @media (max-width: 768px), (hover: none), (pointer: coarse) {
-    .cursor,
-    .cursor-ring {
+    .cursor {
       display: none !important;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .cursor,
-    .cursor-ring,
     .cursor::after {
       transition: none !important;
     }

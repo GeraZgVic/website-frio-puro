@@ -1,10 +1,14 @@
 ---
+import { Image } from "astro:assets";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Header from "../../components/sections/Header.astro";
 import Footer from "../../components/sections/Footer.astro";
 import WhatsAppFloat from "../../components/ui/WhatsAppFloat.astro";
 import Cursor from "../../components/Cursor.astro";
 import SiteScripts from "../../components/SiteScripts.astro";
+import formHeroImage from "../../assets/forms/ImaForm.png";
+const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
+const recaptchaAction = "corporate_quote_submit";
 ---
 
 <BaseLayout
@@ -15,6 +19,9 @@ import SiteScripts from "../../components/SiteScripts.astro";
 >
   <Cursor />
   <Header />
+  {recaptchaSiteKey && (
+    <script src={`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`} async defer></script>
+  )}
   <script is:inline>
     document.documentElement.classList.add("js");
   </script>
@@ -22,12 +29,14 @@ import SiteScripts from "../../components/SiteScripts.astro";
   <main class="page">
     <section id="inicio" class="hero" aria-labelledby="quoteTitle">
       <div class="hero__bg" aria-hidden="true">
-        <img
-          src="/images/ImaForm.png"
+        <Image
+          src={formHeroImage}
           alt=""
           class="hero__image"
-          width="1600"
-          height="900"
+          widths={[960, 1280, 1600, 1920, 2400]}
+          sizes="100vw"
+          format="webp"
+          quality={92}
           loading="eager"
           decoding="async"
           fetchpriority="high"
@@ -97,6 +106,8 @@ import SiteScripts from "../../components/SiteScripts.astro";
             method="post"
             action="/api/cotizacion-corporativa"
             novalidate
+            data-recaptcha-site-key={recaptchaSiteKey ?? undefined}
+            data-recaptcha-action={recaptchaAction}
           >
             <div class="form__honeypot" aria-hidden="true">
               <label for="companyWebsite">Sitio web</label>
@@ -270,6 +281,14 @@ import SiteScripts from "../../components/SiteScripts.astro";
               >
               </p>
             </div>
+
+            {recaptchaSiteKey && (
+              <div class="field field--full">
+                <input type="hidden" name="g-recaptcha-response" value="" data-corp-recaptcha-token />
+                <p class="field__error" id="corpRecaptchaError" role="alert" aria-hidden="true">
+                </p>
+              </div>
+            )}
 
             <button class="btn-submit" type="submit">
               <span>Solicitar cotización</span>
@@ -1922,6 +1941,8 @@ import SiteScripts from "../../components/SiteScripts.astro";
       const nameEl = document.getElementById("corpName");
       const phoneEl = document.getElementById("corpPhone");
       const emailEl = document.getElementById("corpEmail");
+      const recaptchaSiteKey = form?.dataset.recaptchaSiteKey || "";
+      const recaptchaAction = form?.dataset.recaptchaAction || "corporate_quote_submit";
       const consumptionEl = document.getElementById("corpConsumption");
       const consumptionTrigger = document.getElementById(
         "corpConsumptionTrigger",
@@ -1930,6 +1951,8 @@ import SiteScripts from "../../components/SiteScripts.astro";
       const consumptionListbox = document.getElementById(
         "corpConsumptionListbox",
       );
+      const recaptchaTokenEl = form.querySelector("[data-corp-recaptcha-token]");
+      const recaptchaError = document.getElementById("corpRecaptchaError");
 
       const dropdownRoot = consumptionTrigger?.closest(".dropdown");
       const dropdownField = consumptionTrigger?.closest(".field");
@@ -1974,6 +1997,24 @@ import SiteScripts from "../../components/SiteScripts.astro";
         }
       };
 
+      const setRecaptchaInvalid = (message) => {
+        if (!(recaptchaError instanceof HTMLElement)) {
+          return;
+        }
+
+        recaptchaError.textContent = message || "";
+        recaptchaError.setAttribute("aria-hidden", message ? "false" : "true");
+      };
+
+      const clearRecaptchaInvalid = () => {
+        if (!(recaptchaError instanceof HTMLElement)) {
+          return;
+        }
+
+        recaptchaError.textContent = "";
+        recaptchaError.setAttribute("aria-hidden", "true");
+      };
+
       const validate = () => {
         let firstInvalid = null;
 
@@ -1985,6 +2026,7 @@ import SiteScripts from "../../components/SiteScripts.astro";
             clearInvalid(el);
           }
         });
+        clearRecaptchaInvalid();
 
         if (nameEl instanceof HTMLInputElement && !nameEl.value.trim()) {
           setInvalid(nameEl, "Indica tu nombre o empresa.");
@@ -2288,6 +2330,34 @@ import SiteScripts from "../../components/SiteScripts.astro";
 
         if (!validate()) return;
 
+        if (recaptchaTokenEl instanceof HTMLInputElement) {
+          if (!globalThis.grecaptcha || !globalThis.grecaptcha.execute) {
+            setRecaptchaInvalid("No fue posible cargar reCAPTCHA. Intenta nuevamente.");
+            return;
+          }
+
+          try {
+            const token = await new Promise((resolve, reject) => {
+              globalThis.grecaptcha.ready(() => {
+                globalThis.grecaptcha
+                  .execute(recaptchaSiteKey, { action: recaptchaAction })
+                  .then(resolve)
+                  .catch(reject);
+              });
+            });
+
+            recaptchaTokenEl.value = token || "";
+          } catch {
+            setRecaptchaInvalid("No fue posible validar reCAPTCHA. Intenta nuevamente.");
+            return;
+          }
+
+          if (!recaptchaTokenEl.value) {
+            setRecaptchaInvalid("No fue posible validar reCAPTCHA. Intenta nuevamente.");
+            return;
+          }
+        }
+
         submitBtn.disabled = true;
         form.setAttribute("aria-busy", "true");
 
@@ -2311,6 +2381,10 @@ import SiteScripts from "../../components/SiteScripts.astro";
 
           if (response.ok) {
             form.reset();
+            clearRecaptchaInvalid();
+            if (recaptchaTokenEl instanceof HTMLInputElement) {
+              recaptchaTokenEl.value = "";
+            }
           }
         } catch {
           status.textContent =

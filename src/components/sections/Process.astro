@@ -1,4 +1,15 @@
 ---
+import { Image } from "astro:assets";
+import aguaCrudaImage from "../../assets/process/agua-cruda.png";
+import filtrosImage from "../../assets/process/filtros.png";
+import osmosisInversaImage from "../../assets/process/osmosis-inversa.png";
+import aguaTratadaImage from "../../assets/process/agua-tratada.png";
+import maquinaHieloImage from "../../assets/process/maquina-hielo.png";
+import dispensadorHieloImage from "../../assets/process/dispensador-hielo.png";
+import hieloBolsaImage from "../../assets/process/hielo-bolsa.png";
+import camaraFriaImage from "../../assets/process/camara-fria.png";
+import logisticaImage from "../../assets/process/logistica.png";
+
 const processFlow = [
   {
     step: "01",
@@ -7,7 +18,7 @@ const processFlow = [
     text: "Recepción y análisis inicial.",
     detail:
       "Punto de entrada del proceso, donde se verifica la calidad del agua antes de avanzar a las siguientes etapas.",
-    image: "/images/process/agua-cruda.png",
+    image: aguaCrudaImage,
     alt: "Tanque de agua cruda para recepción y análisis inicial",
   },
   {
@@ -17,7 +28,7 @@ const processFlow = [
     text: "Remoción de partículas.",
     detail:
       "Sistema de filtrado diseñado para reducir sedimentos e impurezas visibles, estabilizando el flujo de tratamiento.",
-    image: "/images/process/filtros.png",
+    image: filtrosImage,
     alt: "Sistema de filtros para remoción de partículas",
   },
   {
@@ -27,7 +38,7 @@ const processFlow = [
     text: "Alta pureza.",
     detail:
       "Etapa clave de purificación que mejora la calidad del agua para garantizar consistencia en la producción.",
-    image: "/images/process/osmosis-inversa.png",
+    image: osmosisInversaImage,
     alt: "Sistema de ósmosis inversa para purificación",
   },
   {
@@ -37,7 +48,7 @@ const processFlow = [
     text: "Lista para producción.",
     detail:
       "Agua acondicionada y lista para ingresar al proceso de fabricación, bajo parámetros controlados.",
-    image: "/images/process/agua-tratada.png",
+    image: aguaTratadaImage,
     alt: "Agua tratada lista para producción",
   },
   {
@@ -47,7 +58,7 @@ const processFlow = [
     text: "Producción continua.",
     detail:
       "Sistema principal de fabricación, donde se transforma el agua tratada en hielo con operación continua.",
-    image: "/images/process/maquina-hielo.png",
+    image: maquinaHieloImage,
     alt: "Máquina de hielo en operación",
   },
   {
@@ -57,7 +68,7 @@ const processFlow = [
     text: "Salida controlada.",
     detail:
       "Etapa de transferencia que canaliza el producto con control de flujo hacia el siguiente punto del proceso.",
-    image: "/images/process/dispensador-hielo.png",
+    image: dispensadorHieloImage,
     alt: "Dispensador de hielo para salida controlada",
   },
   {
@@ -67,7 +78,7 @@ const processFlow = [
     text: "Sellado seguro.",
     detail:
       "Proceso de embolsado y sellado diseñado para conservar limpieza, presentación y seguridad del producto.",
-    image: "/images/process/hielo-bolsa.png",
+    image: hieloBolsaImage,
     alt: "Hielo en bolsa con sellado seguro",
   },
   {
@@ -77,7 +88,7 @@ const processFlow = [
     text: "Control térmico.",
     detail:
       "Área de resguardo refrigerado para mantener la integridad del producto antes de su despacho.",
-    image: "/images/process/camara-fria.png",
+    image: camaraFriaImage,
     alt: "Cámara fría para control térmico",
   },
   {
@@ -87,7 +98,7 @@ const processFlow = [
     text: "Entrega continua.",
     detail:
       "Fase final orientada a asegurar disponibilidad, continuidad operativa y entrega eficiente al cliente.",
-    image: "/images/process/logistica.png",
+    image: logisticaImage,
     alt: "Logística de distribución y entrega continua",
   },
 ];
@@ -147,9 +158,13 @@ const processFlow = [
 
                   <div class="process-media">
                     <div class="process-media-shimmer" aria-hidden="true" />
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.alt}
+                      widths={[480, 720, 960]}
+                      sizes="(min-width: 1200px) 320px, (min-width: 768px) 38vw, 92vw"
+                      format="webp"
+                      quality={90}
                       loading="lazy"
                       decoding="async"
                     />
