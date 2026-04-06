@@ -51,7 +51,23 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
                 ></path>
               </svg>
 
-              <span class="btn-wapp-label">{commercialContent.ctas.finalPrimary}</span>
+              <span class="btn-wapp-label">WhatsApp</span>
+            </span>
+          </a>
+
+          <a
+            href="/cotizacion-corporativa/#formulario-corporativo"
+            class="btn-quote-secondary"
+            aria-label="Ir al formulario de cotización corporativa"
+          >
+            <span class="btn-quote-secondary__shine"></span>
+            <span class="btn-quote-secondary__content">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path
+                  d="M9 2a2 2 0 0 0-2 2H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1a2 2 0 0 0-2-2H9zm0 2h6v2H9V4zm1 7h8v2h-8v-2zm0 4h8v2h-8v-2z"
+                ></path>
+              </svg>
+              <span class="btn-quote-secondary__label">Cotizar ahora</span>
             </span>
           </a>
         </div>
@@ -303,6 +319,9 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     margin-top: 28px;
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
   }
 
   .btn-wapp-big {
@@ -310,10 +329,11 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 13px;
-    width: auto;
+    gap: 0;
+    width: 280px;
+    flex: 0 0 280px;
     min-height: 60px;
-    padding: 17px 28px;
+    padding: 17px 24px;
     border-radius: 999px;
     background: linear-gradient(180deg, #6cf7a8 0%, #3fe081 52%, #23bf66 100%);
     color: #f7fffb;
@@ -323,6 +343,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.11em;
+    line-height: 1;
     overflow: hidden;
     transform: translateZ(0);
     border: 1px solid rgba(255, 255, 255, 0.24);
@@ -405,12 +426,14 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 10px;
+    width: 100%;
+    line-height: 1;
   }
 
   .btn-wapp-content svg {
-    width: 21px;
-    height: 21px;
+    width: 19px;
+    height: 19px;
     fill: currentColor;
     flex: 0 0 auto;
     display: block;
@@ -433,6 +456,124 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   }
 
   .btn-wapp-big:active {
+    transform: translateY(0) scale(0.995);
+  }
+
+  .btn-quote-secondary {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    width: 280px;
+    flex: 0 0 280px;
+    min-height: 60px;
+    padding: 17px 24px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(247, 255, 251, 0.98);
+    text-decoration: none;
+    font-family: "Barlow", sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.11em;
+    line-height: 1;
+    overflow: hidden;
+    transform: translateZ(0);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+      0 24px 54px rgba(8, 22, 34, 0.24),
+      0 12px 26px rgba(210, 236, 255, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.26);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition:
+      transform 0.35s ease,
+      box-shadow 0.35s ease,
+      background 0.35s ease,
+      border-color 0.35s ease;
+  }
+
+  .btn-quote-secondary::after {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.22) 0%,
+      rgba(255, 255, 255, 0.08) 54%,
+      rgba(255, 255, 255, 0.03) 100%
+    );
+    pointer-events: none;
+  }
+
+  .btn-quote-secondary__shine {
+    position: absolute;
+    top: 0;
+    left: -32%;
+    width: 26%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.22) 50%,
+      transparent 100%
+    );
+    transform: skewX(-22deg);
+    opacity: 0;
+    transition:
+      transform 0.55s ease,
+      opacity 0.35s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .btn-quote-secondary__label {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+  }
+
+  .btn-quote-secondary__content {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    line-height: 1;
+  }
+
+  .btn-quote-secondary__content svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+    opacity: 0.92;
+    flex: 0 0 auto;
+    display: block;
+  }
+
+  .btn-quote-secondary:hover {
+    transform: translateY(-2px) scale(1.008);
+    background: rgba(255, 255, 255, 0.13);
+    border-color: rgba(255, 255, 255, 0.38);
+    box-shadow:
+      0 30px 64px rgba(8, 22, 34, 0.3),
+      0 16px 34px rgba(210, 236, 255, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  .btn-quote-secondary:hover .btn-quote-secondary__shine {
+    transform: translateX(420%) skewX(-22deg);
+    opacity: 1;
+  }
+
+  .btn-quote-secondary:active {
     transform: translateY(0) scale(0.995);
   }
 
@@ -528,21 +669,36 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     .cta-actions {
       margin-top: 24px;
       padding-inline: 0;
+      flex-direction: column;
+      align-items: stretch;
     }
 
     .btn-wapp-big {
       width: min(100%, 340px);
-      max-width: 100%;
+      flex: 0 0 auto;
       min-height: 58px;
       padding: 16px 20px;
-      gap: 12px;
+      font-size: 0.86rem;
+      letter-spacing: 0.09em;
+    }
+
+    .btn-quote-secondary {
+      width: min(100%, 340px);
+      flex: 0 0 auto;
+      min-height: 58px;
+      padding: 16px 20px;
       font-size: 0.86rem;
       letter-spacing: 0.09em;
     }
 
     .btn-wapp-big svg {
-      width: 20px;
-      height: 20px;
+      width: 19px;
+      height: 19px;
+    }
+
+    .btn-quote-secondary__content svg {
+      width: 17px;
+      height: 17px;
     }
 
     .cta-meta {
@@ -576,12 +732,22 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       font-size: 0.82rem;
       letter-spacing: 0.08em;
     }
+
+    .btn-quote-secondary {
+      width: min(100%, 320px);
+      min-height: 56px;
+      padding: 15px 18px;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .btn-wapp-big,
     .btn-wapp-big::before,
-    .btn-wapp-shine {
+    .btn-wapp-shine,
+    .btn-quote-secondary,
+    .btn-quote-secondary__shine {
       animation: none !important;
       transition: none !important;
     }
