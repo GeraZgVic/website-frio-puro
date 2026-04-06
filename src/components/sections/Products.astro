@@ -10,7 +10,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
   <div class="container products-container">
     <div class="products-head">
-      <div class="products-heading fade-in">
+      <div class="products-heading">
         <h2
           class="section-title products-title"
           style="color: var(--color-primary);"
@@ -23,9 +23,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     </div>
 
     <div class="products-showcase">
-      <article
-        class="featured-product-card fade-in fade-in-delay-1 js-featured-product"
-      >
+      <article class="featured-product-card js-featured-product">
         <div class="featured-product-shell">
           <div class="featured-product-layout">
             <!-- MEDIA -->
@@ -604,6 +602,18 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.18);
   }
 
+  .js-featured-product .featured-product-shell {
+    opacity: 0;
+    transform: translateY(28px) scale(0.985);
+    will-change: transform, opacity;
+  }
+
+  .js-featured-product .featured-product-panel-inner > * {
+    opacity: 0;
+    transform: translateY(18px);
+    will-change: transform, opacity;
+  }
+
   .js-featured-product.is-visible .featured-product-shell {
     animation: productLiftIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
@@ -1034,6 +1044,12 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       animation: none !important;
     }
 
+    .js-featured-product .featured-product-shell,
+    .js-featured-product .featured-product-panel-inner > * {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
     .featured-product-image,
     .featured-product-cta,
     .featured-product-cta::after {
@@ -1113,9 +1129,15 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
         if (!image) return;
 
         let frame = null;
+        let isHovering = false;
 
-        const reset = () => {
+        const applyBaseTransform = () => {
+          if (isHovering) return;
           image.style.transform = "";
+        };
+
+        const handleEnter = () => {
+          isHovering = true;
         };
 
         const handleMove = (event) => {
@@ -1130,8 +1152,14 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
           });
         };
 
+        const handleLeave = () => {
+          isHovering = false;
+          applyBaseTransform();
+        };
+
+        card.addEventListener("mouseenter", handleEnter);
         card.addEventListener("mousemove", handleMove);
-        card.addEventListener("mouseleave", reset);
+        card.addEventListener("mouseleave", handleLeave);
       });
     };
 

@@ -29,6 +29,9 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       <article class="step-card" data-step="1">
         <div class="step-shell">
           <div class="step-body">
+            <div class="step-body-glow"></div>
+            <div class="step-body-sheen"></div>
+
             <div class="step-meta">Paso 1</div>
 
             <div class="step-top">
@@ -55,7 +58,10 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
             </div>
 
             <h3>SOLICITUD DE SUMINISTRO</h3>
-            <p>Envía tus requerimientos de volumen y ubicación a través de nuestro formulario.</p>
+            <p>
+              Envía tus requerimientos de volumen y ubicación a través de
+              nuestro formulario.
+            </p>
           </div>
         </div>
       </article>
@@ -68,6 +74,9 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       <article class="step-card" data-step="2">
         <div class="step-shell">
           <div class="step-body">
+            <div class="step-body-glow"></div>
+            <div class="step-body-sheen"></div>
+
             <div class="step-meta">Paso 2</div>
 
             <div class="step-top">
@@ -98,7 +107,8 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
             <h3>PROPUESTA LOGÍSTICA PERSONALIZADA</h3>
             <p>
-              Analizamos tu consumo semanal para diseñar una oferta con precios de mayoreo y rutas de entrega optimizadas.
+              Analizamos tu consumo semanal para diseñar una oferta con precios
+              de mayoreo y rutas de entrega optimizadas.
             </p>
           </div>
         </div>
@@ -112,6 +122,9 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       <article class="step-card" data-step="3">
         <div class="step-shell">
           <div class="step-body">
+            <div class="step-body-glow"></div>
+            <div class="step-body-sheen"></div>
+
             <div class="step-meta">Paso 3</div>
 
             <div class="step-top">
@@ -140,7 +153,8 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
             <h3>SUMINISTRO PROGRAMADO</h3>
             <p>
-              Activamos tu cronograma de entregas y recibes tu stock puntualmente.
+              Activamos tu cronograma de entregas y recibes tu stock
+              puntualmente.
             </p>
           </div>
         </div>
@@ -148,7 +162,8 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     </div>
 
     <p class="steps-note fade-in fade-in-delay-2">
-      Servicio de entrega a domicilio exclusivo para pedidos mayores a xxxx unidades/kg/tons. Ventas individuales disponibles únicamente en sucursal.
+      Servicio de entrega a domicilio exclusivo para pedidos mayores a xxxx
+      unidades/kg/tons. Ventas individuales disponibles únicamente en sucursal.
     </p>
 
     <div class="cta-center fade-in fade-in-delay-2">
@@ -189,11 +204,9 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     --bg-2: #10273d;
     --bg-3: #14314b;
     --ink: rgba(255, 255, 255, 0.98);
-    --text: rgba(232, 242, 249, 0.8);
     --text-soft: rgba(220, 233, 243, 0.68);
     --blue: #41abe2;
     --blue-2: #8bdcff;
-    --line: rgba(255, 255, 255, 0.08);
 
     position: relative;
     overflow: hidden;
@@ -202,17 +215,17 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     background:
       radial-gradient(
         circle at 50% 0%,
-        rgba(139, 220, 255, 0.1),
+        rgba(139, 220, 255, 0.08),
         transparent 26%
       ),
       radial-gradient(
         circle at 12% 18%,
-        rgba(134, 219, 255, 0.05),
+        rgba(134, 219, 255, 0.04),
         transparent 24%
       ),
       radial-gradient(
         circle at 88% 80%,
-        rgba(90, 180, 240, 0.05),
+        rgba(90, 180, 240, 0.04),
         transparent 28%
       ),
       linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 46%, var(--bg-3) 100%);
@@ -225,8 +238,8 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     z-index: 0;
     pointer-events: none;
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 18%),
-      radial-gradient(circle at 50% 40%, rgba(0, 0, 0, 0.16), transparent 58%);
+      linear-gradient(180deg, rgba(255, 255, 255, 0.025) 0%, transparent 18%),
+      radial-gradient(circle at 50% 40%, rgba(0, 0, 0, 0.14), transparent 58%);
   }
 
   .steps-ambient,
@@ -239,7 +252,8 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   .steps-ambient {
     border-radius: 999px;
     filter: blur(110px);
-    opacity: 0.9;
+    opacity: 0.8;
+    transform: translateZ(0);
   }
 
   .steps-ambient-1 {
@@ -249,7 +263,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     top: -13rem;
     background: radial-gradient(
       circle,
-      rgba(145, 225, 255, 0.12) 0%,
+      rgba(145, 225, 255, 0.11) 0%,
       transparent 72%
     );
     animation: ambientFloatOne 18s ease-in-out infinite alternate;
@@ -262,7 +276,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     bottom: -8rem;
     background: radial-gradient(
       circle,
-      rgba(65, 171, 226, 0.12) 0%,
+      rgba(65, 171, 226, 0.1) 0%,
       transparent 72%
     );
     animation: ambientFloatTwo 20s ease-in-out infinite alternate;
@@ -270,12 +284,17 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
   .steps-grid {
     inset: 0;
-    opacity: 0.08;
+    opacity: 0.07;
     background-image:
       linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
       linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
     background-size: 72px 72px;
     mask-image: radial-gradient(circle at 50% 42%, black, transparent 80%);
+    -webkit-mask-image: radial-gradient(
+      circle at 50% 42%,
+      black,
+      transparent 80%
+    );
   }
 
   #como-pedir .container {
@@ -384,14 +403,15 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     background:
       linear-gradient(
         180deg,
-        rgba(255, 255, 255, 0.03),
-        rgba(255, 255, 255, 0.015)
+        rgba(255, 255, 255, 0.026),
+        rgba(255, 255, 255, 0.012)
       ),
       rgba(8, 22, 34, 0.14);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.045);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.04),
-      0 24px 60px rgba(0, 0, 0, 0.12);
+      inset 0 1px 0 rgba(255, 255, 255, 0.035),
+      0 24px 60px rgba(0, 0, 0, 0.1);
+    transform: translateZ(0);
   }
 
   .step-card {
@@ -403,20 +423,25 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     min-height: 270px;
     border-radius: 24px;
     overflow: hidden;
+    transform: translate3d(0, 0, 0);
+    transform-style: preserve-3d;
+    will-change: transform;
     transition:
       transform 0.32s ease,
       box-shadow 0.32s ease,
       border-color 0.32s ease;
     box-shadow:
-      0 16px 42px rgba(0, 0, 0, 0.2),
-      0 8px 18px rgba(65, 171, 226, 0.05);
+      0 16px 42px rgba(0, 0, 0, 0.18),
+      0 8px 18px rgba(65, 171, 226, 0.04);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
   }
 
   .step-card:hover .step-shell {
-    transform: translateY(-6px);
+    transform: translate3d(0, -6px, 0);
     box-shadow:
-      0 24px 54px rgba(0, 0, 0, 0.26),
-      0 10px 24px rgba(65, 171, 226, 0.08);
+      0 24px 54px rgba(0, 0, 0, 0.24),
+      0 10px 24px rgba(65, 171, 226, 0.06);
   }
 
   .step-body {
@@ -433,13 +458,63 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     background:
       linear-gradient(
         180deg,
-        rgba(255, 255, 255, 0.1) 0%,
-        rgba(255, 255, 255, 0.035) 100%
+        rgba(255, 255, 255, 0.065) 0%,
+        rgba(255, 255, 255, 0.02) 100%
       ),
-      rgba(8, 23, 37, 0.46);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(18px) saturate(135%);
-    -webkit-backdrop-filter: blur(18px) saturate(135%);
+      linear-gradient(
+        180deg,
+        rgba(15, 42, 65, 0.88) 0%,
+        rgba(11, 31, 49, 0.9) 100%
+      );
+    border: 1px solid rgba(255, 255, 255, 0.075);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.05),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.02);
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .step-body-glow,
+  .step-body-sheen {
+    position: absolute;
+    pointer-events: none;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  .step-body-glow {
+    background:
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(110, 205, 255, 0.08),
+        transparent 42%
+      ),
+      radial-gradient(
+        circle at 50% 100%,
+        rgba(40, 128, 196, 0.05),
+        transparent 48%
+      );
+    opacity: 1;
+  }
+
+  .step-body-sheen {
+    inset: 1px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.055) 0%,
+      rgba(255, 255, 255, 0.012) 16%,
+      transparent 42%
+    );
+    opacity: 1;
+  }
+
+  .step-meta,
+  .step-top,
+  .step-body h3,
+  .step-body p {
+    position: relative;
+    z-index: 2;
   }
 
   .step-meta {
@@ -477,7 +552,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    border: 1px solid rgba(134, 219, 255, 0.24);
+    border: 1px solid rgba(134, 219, 255, 0.22);
     animation: ringPulse 3s ease-in-out infinite;
   }
 
@@ -495,12 +570,13 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     color: #fff;
     background: linear-gradient(135deg, #57c7fb 0%, #2e95d6 58%, #1a638f 100%);
     box-shadow:
-      0 10px 24px rgba(65, 171, 226, 0.34),
+      0 10px 24px rgba(65, 171, 226, 0.28),
       inset 0 1px 0 rgba(255, 255, 255, 0.22),
       inset 0 -2px 5px rgba(0, 0, 0, 0.16);
     transition:
       transform 0.28s ease,
       box-shadow 0.28s ease;
+    transform: translateZ(0);
   }
 
   .step-card:hover .step-badge {
@@ -515,16 +591,17 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     background:
       linear-gradient(
         180deg,
-        rgba(255, 255, 255, 0.14),
-        rgba(255, 255, 255, 0.04)
+        rgba(255, 255, 255, 0.12),
+        rgba(255, 255, 255, 0.035)
       ),
-      rgba(12, 39, 59, 0.34);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+      rgba(12, 39, 59, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.09);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      0 10px 22px rgba(0, 0, 0, 0.12);
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 10px 22px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     flex: 0 0 auto;
+    transform: translateZ(0);
   }
 
   .step-icon-orb::before {
@@ -533,7 +610,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     inset: 0;
     background: radial-gradient(
       circle at 30% 25%,
-      rgba(255, 255, 255, 0.16),
+      rgba(255, 255, 255, 0.14),
       transparent 42%
     );
     pointer-events: none;
@@ -585,9 +662,10 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     background: linear-gradient(
       90deg,
       rgba(134, 219, 255, 0.04) 0%,
-      rgba(134, 219, 255, 0.34) 50%,
+      rgba(134, 219, 255, 0.3) 50%,
       rgba(134, 219, 255, 0.04) 100%
     );
+    transform: translateZ(0);
   }
 
   .connector-line::after {
@@ -600,7 +678,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     background: linear-gradient(
       90deg,
       transparent,
-      rgba(235, 249, 255, 0.85),
+      rgba(235, 249, 255, 0.8),
       transparent
     );
     animation: connectorFlow 2.3s ease-in-out infinite;
@@ -611,9 +689,10 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: rgba(134, 219, 255, 0.85);
-    box-shadow: 0 0 16px rgba(134, 219, 255, 0.54);
+    background: rgba(134, 219, 255, 0.82);
+    box-shadow: 0 0 14px rgba(134, 219, 255, 0.45);
     animation: pulseSoft 2.2s ease-in-out infinite;
+    transform: translateZ(0);
   }
 
   .cta-center {
@@ -637,6 +716,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     box-shadow:
       0 18px 42px rgba(24, 108, 168, 0.24),
       0 0 0 1px rgba(255, 255, 255, 0.05);
+    transform: translateZ(0);
   }
 
   .btn-liquid:hover,
@@ -718,11 +798,11 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   @keyframes ringPulse {
     0%,
     100% {
-      opacity: 0.36;
+      opacity: 0.34;
       transform: scale(1);
     }
     50% {
-      opacity: 0.72;
+      opacity: 0.68;
       transform: scale(1.08);
     }
   }
@@ -735,7 +815,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     }
     50% {
       opacity: 1;
-      transform: scale(1.18);
+      transform: scale(1.16);
     }
   }
 
@@ -780,7 +860,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       background: linear-gradient(
         180deg,
         rgba(134, 219, 255, 0.04) 0%,
-        rgba(134, 219, 255, 0.34) 50%,
+        rgba(134, 219, 255, 0.3) 50%,
         rgba(134, 219, 255, 0.04) 100%
       );
     }
@@ -793,7 +873,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
       background: linear-gradient(
         180deg,
         transparent,
-        rgba(235, 249, 255, 0.85),
+        rgba(235, 249, 255, 0.8),
         transparent
       );
       animation: connectorFlowVertical 2.3s ease-in-out infinite;
@@ -888,7 +968,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
     .steps-ambient {
       filter: blur(90px);
-      opacity: 0.7;
+      opacity: 0.66;
     }
   }
 
@@ -921,7 +1001,6 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-
     const isTouch =
       window.matchMedia("(hover: none)").matches ||
       window.matchMedia("(pointer: coarse)").matches;
@@ -939,11 +1018,11 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
         const rotateY = (px - 0.5) * 4;
         const rotateX = (0.5 - py) * 4;
 
-        card.style.transform = `translateY(-6px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        card.style.transform = `translate3d(0, -6px, 0) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
       });
 
       card.addEventListener("mouseleave", () => {
-        card.style.transform = "";
+        card.style.transform = "translate3d(0, 0, 0)";
       });
     });
   })();

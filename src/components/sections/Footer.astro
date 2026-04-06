@@ -141,11 +141,19 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
     <p class="footer-recaptcha-note">
       Este sitio está protegido por reCAPTCHA y aplican la
-      <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
+      <a
+        href="https://policies.google.com/privacy"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         Política de Privacidad
       </a>
       y los
-      <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">
+      <a
+        href="https://policies.google.com/terms"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         Términos del Servicio
       </a>
       de Google.
@@ -215,18 +223,28 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     z-index: 1;
   }
 
-  .footer-grid {
+  footer .container {
     position: relative;
     z-index: 2;
+    width: min(1120px, 100%);
+    margin-inline: auto;
+  }
+
+  .footer-grid {
     display: grid;
-    grid-template-columns: minmax(330px, 1.45fr) minmax(320px, 1fr) 0.82fr;
-    gap: 34px;
+    grid-template-columns: minmax(300px, 0.98fr) minmax(320px, 1.06fr) minmax(
+        180px,
+        0.62fr
+      );
+    gap: 22px;
     margin-bottom: 38px;
     align-items: start;
   }
 
   .footer-brand {
-    max-width: 420px;
+    max-width: none;
+    width: 100%;
+    padding-right: 0;
   }
 
   .footer-logo-link {
@@ -257,7 +275,8 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
   .footer-address-block {
     margin-top: 16px;
-    padding: 16px 16px;
+    width: min(100%, 460px);
+    padding: 18px 18px;
     display: grid;
     border-radius: 18px;
     border: 1px solid rgba(184, 226, 255, 0.1);
@@ -274,8 +293,8 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   .footer-address-text {
     display: inline-block;
     margin: 0;
-    font-size: 0.88rem;
-    line-height: 1.6;
+    font-size: 0.89rem;
+    line-height: 1.68;
     color: rgba(231, 239, 255, 0.62);
     text-decoration: none;
     transition:
@@ -307,9 +326,12 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
   .footer-links-wrap {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 28px;
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    gap: 20px;
     min-width: 0;
+    align-items: start;
+    padding-inline: 0;
+    align-self: start;
   }
 
   .footer-col {
@@ -402,6 +424,8 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
   .footer-social-col {
     min-width: 0;
+    justify-self: start;
+    padding-left: 4px;
   }
 
   .social-icons {
@@ -410,6 +434,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     flex-wrap: wrap;
     align-items: center;
     margin-top: 8px;
+    justify-content: flex-start;
   }
 
   .social-icon {
@@ -540,20 +565,24 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
     .footer-grid {
       grid-template-columns: 1fr;
-      gap: 30px;
+      gap: 26px;
     }
 
     .footer-brand {
       max-width: 100%;
+      padding-right: 0;
     }
 
     .footer-links-wrap {
       grid-template-columns: 1fr 1fr;
-      gap: 28px;
+      gap: 24px;
+      padding-inline: 0;
     }
 
     .footer-social-col {
       text-align: center;
+      justify-self: stretch;
+      padding-left: 0;
     }
 
     .social-icons {
@@ -593,6 +622,8 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
     .footer-address-block {
       margin-top: 18px;
+      width: min(100%, 560px);
+      margin-inline: auto;
       text-align: center;
     }
 
@@ -672,13 +703,14 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     }
 
     .footer-address-block {
-      padding: 14px 14px;
+      width: 100%;
+      padding: 16px 16px;
       border-radius: 16px;
     }
 
     .footer-address-text {
       font-size: 0.84rem;
-      line-height: 1.56;
+      line-height: 1.62;
     }
 
     .footer-links-wrap {
