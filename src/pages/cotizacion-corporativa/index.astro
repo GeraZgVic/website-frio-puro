@@ -290,22 +290,57 @@ const recaptchaAction = "corporate_quote_submit";
               </div>
             )}
 
-            <button class="btn-submit" type="submit">
-              <span>Solicitar cotización</span>
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M3 8H13M13 8L9 4M13 8L9 12"
-                  stroke="currentColor"
-                  stroke-width="1.7"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"></path>
-              </svg>
+            <button class="btn-submit" type="submit" data-state="idle">
+              <span class="btn-submit__text" data-submit-text>Solicitar propuesta</span>
+
+              <span class="btn-submit__glyph" aria-hidden="true">
+                <span class="btn-submit__spinner"></span>
+
+                <svg
+                  class="btn-submit__icon btn-submit__icon--arrow"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                >
+                  <path
+                    d="M3 8H13M13 8L9 4M13 8L9 12"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
+
+                <svg
+                  class="btn-submit__icon btn-submit__icon--success"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                  fill="none"
+                >
+                  <path
+                    d="M4 9.4L7.3 12.6L14 5.8"
+                    stroke="currentColor"
+                    stroke-width="2.1"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
+
+                <svg
+                  class="btn-submit__icon btn-submit__icon--error"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                  fill="none"
+                >
+                  <path
+                    d="M5.4 5.4L12.6 12.6M12.6 5.4L5.4 12.6"
+                    stroke="currentColor"
+                    stroke-width="2.1"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
+              </span>
             </button>
 
             <p class="form__legal">
@@ -321,6 +356,73 @@ const recaptchaAction = "corporate_quote_submit";
             >
             </div>
           </form>
+
+          <div class="corpModal" data-corp-result-modal hidden>
+            <div class="corpModal__overlay" data-corp-modal-close></div>
+            <div
+              class="corpModal__panel"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="corpModalTitle"
+              aria-describedby="corpModalMessage"
+              tabindex="-1"
+            >
+              <div class="corpModal__icon" aria-hidden="true">
+                <svg
+                  class="corpModal__iconSvg corpModal__iconSvg--success"
+                  width="44"
+                  height="44"
+                  viewBox="0 0 44 44"
+                  fill="none"
+                >
+                  <circle
+                    cx="22"
+                    cy="22"
+                    r="18"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    opacity="0.5"></circle>
+                  <path
+                    d="M14.5 22.6L19.6 27.6L30 17.2"
+                    stroke="currentColor"
+                    stroke-width="2.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
+
+                <svg
+                  class="corpModal__iconSvg corpModal__iconSvg--error"
+                  width="44"
+                  height="44"
+                  viewBox="0 0 44 44"
+                  fill="none"
+                >
+                  <circle
+                    cx="22"
+                    cy="22"
+                    r="18"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    opacity="0.5"></circle>
+                  <path
+                    d="M16 16L28 28M28 16L16 28"
+                    stroke="currentColor"
+                    stroke-width="2.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
+              </div>
+
+              <h3 class="corpModal__title" id="corpModalTitle">Solicitud enviada</h3>
+              <p class="corpModal__message" id="corpModalMessage">
+                Recibimos tu solicitud correctamente. Nuestro equipo se pondrá en contacto contigo pronto.
+              </p>
+
+              <button type="button" class="corpModal__btn" data-corp-modal-close>
+                Aceptar
+              </button>
+            </div>
+          </div>
         </aside>
       </div>
     </section>
@@ -1243,6 +1345,246 @@ const recaptchaAction = "corporate_quote_submit";
       opacity: 0.6;
       cursor: wait;
       transform: none;
+    }
+
+    .btn-submit__glyph {
+      position: relative;
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+      display: inline-grid;
+      place-items: center;
+    }
+
+    .btn-submit__spinner {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      opacity: 0;
+      transform: scale(0.92);
+      transition:
+        opacity 0.22s var(--out),
+        transform 0.22s var(--out);
+    }
+
+    .btn-submit__spinner::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      border: 2px solid rgba(3, 16, 25, 0.24);
+      border-top-color: rgba(3, 16, 25, 0.92);
+      animation: btnSpin 0.85s cubic-bezier(.55,.15,.45,.85) infinite;
+    }
+
+    .btn-submit__text {
+      transition: opacity 0.22s var(--out);
+    }
+
+    .btn-submit__icon {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      display: block;
+      transition:
+        opacity 0.22s var(--out),
+        transform 0.22s var(--spring);
+    }
+
+    .btn-submit__icon--success,
+    .btn-submit__icon--error {
+      opacity: 0;
+      transform: scale(0.86);
+    }
+
+    .btn-submit[data-state="loading"] .btn-submit__spinner {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .btn-submit[data-state="loading"] .btn-submit__icon--arrow {
+      opacity: 0;
+      transform: translateX(4px) scale(0.96);
+    }
+
+    .btn-submit[data-state="success"] {
+      box-shadow:
+        0 20px 50px rgba(47, 164, 255, 0.25),
+        0 18px 46px rgba(79, 219, 140, 0.26),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    }
+
+    .btn-submit[data-state="error"] {
+      box-shadow:
+        0 20px 50px rgba(47, 164, 255, 0.2),
+        0 18px 46px rgba(255, 120, 120, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    }
+
+    .btn-submit[data-state="success"] .btn-submit__icon--arrow,
+    .btn-submit[data-state="error"] .btn-submit__icon--arrow,
+    .btn-submit[data-state="success"] .btn-submit__spinner,
+    .btn-submit[data-state="error"] .btn-submit__spinner {
+      opacity: 0;
+      transform: translateX(4px) scale(0.96);
+    }
+
+    .btn-submit[data-state="success"] .btn-submit__icon--success {
+      opacity: 1;
+      transform: scale(1);
+      color: #18a957;
+    }
+
+    .btn-submit[data-state="error"] .btn-submit__icon--error {
+      opacity: 1;
+      transform: scale(1);
+      color: #d33b3b;
+    }
+
+    @keyframes btnSpin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .corpModal {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: grid;
+      place-items: center;
+      padding: 28px 18px;
+    }
+
+    .corpModal__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(2, 6, 18, 0.46);
+      backdrop-filter: blur(10px);
+    }
+
+    .corpModal__panel {
+      position: relative;
+      width: min(520px, 100%);
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.14),
+        rgba(255, 255, 255, 0.08)
+      );
+      box-shadow:
+        0 46px 120px rgba(2, 6, 18, 0.55),
+        0 22px 60px rgba(2, 6, 18, 0.35);
+      padding: 22px 20px 18px;
+      color: rgba(255, 255, 255, 0.92);
+      transform: translateY(10px) scale(0.98);
+      opacity: 0;
+      transition:
+        transform 0.28s var(--spring),
+        opacity 0.22s var(--out);
+    }
+
+    .corpModal[data-open="true"] .corpModal__panel {
+      transform: none;
+      opacity: 1;
+    }
+
+    .corpModal__icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.16),
+        0 18px 40px rgba(2, 6, 18, 0.28);
+      margin-bottom: 14px;
+    }
+
+    .corpModal__iconSvg {
+      display: none;
+      transform: scale(0.92);
+      opacity: 0.95;
+    }
+
+    .corpModal[data-kind="success"] .corpModal__iconSvg--success,
+    .corpModal[data-kind="error"] .corpModal__iconSvg--error {
+      display: block;
+    }
+
+    .corpModal[data-kind="success"] .corpModal__icon {
+      color: rgba(79, 219, 140, 0.95);
+      background: rgba(79, 219, 140, 0.1);
+      border-color: rgba(79, 219, 140, 0.22);
+    }
+
+    .corpModal[data-kind="error"] .corpModal__icon {
+      color: rgba(255, 154, 154, 0.95);
+      background: rgba(255, 154, 154, 0.1);
+      border-color: rgba(255, 154, 154, 0.22);
+    }
+
+    .corpModal__title {
+      margin: 0;
+      font-size: 1.1rem;
+      letter-spacing: -0.01em;
+    }
+
+    .corpModal__message {
+      margin: 10px 0 18px;
+      color: rgba(255, 255, 255, 0.78);
+      line-height: 1.6;
+      font-size: 0.92rem;
+    }
+
+    .corpModal__btn {
+      width: 100%;
+      height: 46px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.92);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      transition:
+        transform 0.22s var(--out),
+        background 0.22s var(--out),
+        border-color 0.22s var(--out);
+    }
+
+    .corpModal__btn:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.24);
+    }
+
+    .corpModal__btn:active {
+      transform: translateY(0);
+    }
+
+    .corpModal__btn:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(143, 216, 255, 0.16);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .btn-submit__spinner::before {
+        animation: none;
+      }
+
+      .corpModal__panel {
+        transition: none;
+      }
     }
 
     .form__legal {
@@ -2321,8 +2663,154 @@ const recaptchaAction = "corporate_quote_submit";
         );
       }
 
+      let inFlight = false;
+      let modalOpen = false;
+
+      const submitText = submitBtn.querySelector("[data-submit-text]");
+      const modalRoot = document.querySelector("[data-corp-result-modal]");
+      const modalPanel = modalRoot?.querySelector(".corpModal__panel") ?? null;
+      const modalTitle = document.getElementById("corpModalTitle");
+      const modalMessage = document.getElementById("corpModalMessage");
+      const modalCloseEls = Array.from(
+        modalRoot?.querySelectorAll("[data-corp-modal-close]") ?? [],
+      );
+
+      const SUBMIT_LABELS = {
+        idle: "Solicitar propuesta",
+        loading: "Enviando…",
+        success: "Enviado",
+        error: "Falló",
+      };
+
+      const setSubmitState = (nextState) => {
+        submitBtn.dataset.state = nextState;
+        if (submitText instanceof HTMLElement) {
+          submitText.textContent = SUBMIT_LABELS[nextState] ?? SUBMIT_LABELS.idle;
+        }
+      };
+
+      const showResultModal = (kind) => {
+        if (
+          !(modalRoot instanceof HTMLElement) ||
+          !(modalPanel instanceof HTMLElement) ||
+          !(modalTitle instanceof HTMLElement) ||
+          !(modalMessage instanceof HTMLElement)
+        ) {
+          return false;
+        }
+
+        modalRoot.dataset.kind = kind;
+        modalRoot.dataset.open = "true";
+        modalRoot.hidden = false;
+        modalOpen = true;
+
+        modalTitle.textContent =
+          kind === "success" ? "Solicitud enviada" : "No se pudo enviar";
+        modalMessage.textContent =
+          kind === "success"
+            ? "Recibimos tu solicitud correctamente. Nuestro equipo se pondrá en contacto contigo pronto."
+            : "Ocurrió un problema al enviar tu solicitud. Intenta nuevamente en un momento.";
+
+        const acceptBtn =
+          modalRoot.querySelector(".corpModal__btn") ??
+          modalRoot.querySelector("[data-corp-modal-close]") ??
+          null;
+
+        window.requestAnimationFrame(() => {
+          const target = acceptBtn instanceof HTMLElement ? acceptBtn : modalPanel;
+          try {
+            target.focus({ preventScroll: true });
+          } catch {
+            // ignore
+          }
+        });
+
+        return true;
+      };
+
+      const closeResultModal = ({ resetForm } = {}) => {
+        if (!(modalRoot instanceof HTMLElement)) return;
+
+        modalRoot.hidden = true;
+        delete modalRoot.dataset.open;
+        delete modalRoot.dataset.kind;
+        modalOpen = false;
+
+        if (resetForm) {
+          form.reset();
+          clearRecaptchaInvalid();
+          if (recaptchaTokenEl instanceof HTMLInputElement) {
+            recaptchaTokenEl.value = "";
+          }
+          [nameEl, phoneEl, emailEl, consumptionEl].forEach((el) => {
+            if (
+              el instanceof HTMLInputElement ||
+              el instanceof HTMLSelectElement
+            ) {
+              clearInvalid(el);
+            }
+          });
+        }
+
+        form.removeAttribute("aria-busy");
+        submitBtn.disabled = false;
+        setSubmitState("idle");
+
+        const firstInput = form.querySelector("input, button, select, textarea");
+        if (firstInput instanceof HTMLElement) {
+          try {
+            firstInput.focus({ preventScroll: true });
+          } catch {
+            // ignore
+          }
+        }
+      };
+
+      const closeResultModalFromUi = () =>
+        closeResultModal({ resetForm: modalRoot?.dataset.kind === "success" });
+
+      if (modalCloseEls.length) {
+        modalCloseEls.forEach((el) => {
+          if (!(el instanceof HTMLElement)) return;
+          el.addEventListener("click", closeResultModalFromUi, { passive: true });
+        });
+      }
+
+      window.addEventListener("keydown", (event) => {
+        if (!modalOpen) return;
+        if (event.key !== "Escape") return;
+        event.preventDefault();
+        closeResultModalFromUi();
+      });
+
+      const makeEventId = () => {
+        try {
+          if (globalThis.crypto && "randomUUID" in globalThis.crypto) {
+            // @ts-ignore - runtime feature check
+            return globalThis.crypto.randomUUID();
+          }
+        } catch {
+          // ignore
+        }
+        return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      };
+
+      const trackEvent = (name, params) => {
+        try {
+          if (typeof window === "undefined") return;
+          if (typeof window.frioPuroTrackEvent !== "function") return;
+          window.frioPuroTrackEvent(name, params);
+        } catch {
+          // ignore
+        }
+      };
+
+      setSubmitState("idle");
+
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
+
+        if (inFlight) return;
 
         status.hidden = true;
         status.textContent = "";
@@ -2330,11 +2818,36 @@ const recaptchaAction = "corporate_quote_submit";
 
         if (!validate()) return;
 
+        inFlight = true;
+        const eventId = makeEventId();
+
+        setSubmitState("loading");
+        submitBtn.disabled = true;
+        form.setAttribute("aria-busy", "true");
+
         if (recaptchaTokenEl instanceof HTMLInputElement) {
           if (!globalThis.grecaptcha || !globalThis.grecaptcha.execute) {
             setRecaptchaInvalid("No fue posible cargar reCAPTCHA. Intenta nuevamente.");
-            return;
+            trackEvent("form_submit_error", {
+              event_id: eventId,
+              page_path: window.location?.pathname,
+              form_id: "corpQuoteForm",
+              error_kind: "recaptcha_unavailable",
+            });
+            setSubmitState("error");
+            form.removeAttribute("aria-busy");
+            await new Promise((r) => setTimeout(r, 400));
+            if (!showResultModal("error")) {
+              status.textContent =
+                "Ocurrió un problema al enviar tu solicitud. Intenta nuevamente en un momento.";
+              status.dataset.state = "error";
+              status.hidden = false;
+            submitBtn.disabled = false;
+            setSubmitState("idle");
           }
+          inFlight = false;
+          return;
+        }
 
           try {
             const token = await new Promise((resolve, reject) => {
@@ -2349,17 +2862,56 @@ const recaptchaAction = "corporate_quote_submit";
             recaptchaTokenEl.value = token || "";
           } catch {
             setRecaptchaInvalid("No fue posible validar reCAPTCHA. Intenta nuevamente.");
-            return;
+            trackEvent("form_submit_error", {
+              event_id: eventId,
+              page_path: window.location?.pathname,
+              form_id: "corpQuoteForm",
+              error_kind: "recaptcha_execute_failed",
+            });
+            setSubmitState("error");
+            form.removeAttribute("aria-busy");
+            await new Promise((r) => setTimeout(r, 400));
+            if (!showResultModal("error")) {
+              status.textContent =
+                "Ocurrió un problema al enviar tu solicitud. Intenta nuevamente en un momento.";
+              status.dataset.state = "error";
+              status.hidden = false;
+            submitBtn.disabled = false;
+            setSubmitState("idle");
           }
+          inFlight = false;
+          return;
+        }
 
           if (!recaptchaTokenEl.value) {
             setRecaptchaInvalid("No fue posible validar reCAPTCHA. Intenta nuevamente.");
-            return;
+            trackEvent("form_submit_error", {
+              event_id: eventId,
+              page_path: window.location?.pathname,
+              form_id: "corpQuoteForm",
+              error_kind: "recaptcha_empty_token",
+            });
+            setSubmitState("error");
+            form.removeAttribute("aria-busy");
+            await new Promise((r) => setTimeout(r, 400));
+            if (!showResultModal("error")) {
+              status.textContent =
+                "Ocurrió un problema al enviar tu solicitud. Intenta nuevamente en un momento.";
+              status.dataset.state = "error";
+              status.hidden = false;
+            submitBtn.disabled = false;
+            setSubmitState("idle");
           }
+          inFlight = false;
+          return;
+        }
         }
 
-        submitBtn.disabled = true;
-        form.setAttribute("aria-busy", "true");
+        trackEvent("form_submit_attempt", {
+          event_id: eventId,
+          page_path: window.location?.pathname,
+          form_id: "corpQuoteForm",
+        });
 
         try {
           const response = await fetch(form.action, {
@@ -2368,6 +2920,7 @@ const recaptchaAction = "corporate_quote_submit";
           });
 
           const payload = await response.json().catch(() => null);
+          const success = Boolean(response.ok && payload && payload.ok === true);
 
           const message =
             payload?.message ??
@@ -2375,25 +2928,65 @@ const recaptchaAction = "corporate_quote_submit";
               ? "Gracias. Hemos recibido tu solicitud y un asesor te contactará en breve."
               : "No fue posible enviar tu solicitud. Intenta nuevamente en unos momentos.");
 
-          status.textContent = message;
-          status.dataset.state = response.ok ? "success" : "error";
-          status.hidden = false;
+          if (success) {
+            trackEvent("form_submit_success", {
+              event_id: eventId,
+              page_path: window.location?.pathname,
+              form_id: "corpQuoteForm",
+            });
+          } else {
+            trackEvent("form_submit_error", {
+              event_id: eventId,
+              page_path: window.location?.pathname,
+              form_id: "corpQuoteForm",
+              http_status: response.status,
+              error_kind: response.ok ? "payload_not_ok" : "http_error",
+            });
+          }
 
-          if (response.ok) {
-            form.reset();
-            clearRecaptchaInvalid();
-            if (recaptchaTokenEl instanceof HTMLInputElement) {
-              recaptchaTokenEl.value = "";
+          status.textContent = message;
+          status.dataset.state = success ? "success" : "error";
+          status.hidden = true;
+
+          form.removeAttribute("aria-busy");
+          if (success) {
+            setSubmitState("success");
+            await new Promise((r) => setTimeout(r, 400));
+            if (!showResultModal("success")) {
+              status.hidden = false;
+            }
+          } else {
+            setSubmitState("error");
+            await new Promise((r) => setTimeout(r, 400));
+            if (!showResultModal("error")) {
+              status.hidden = false;
             }
           }
         } catch {
+          trackEvent("form_submit_error", {
+            event_id: eventId,
+            page_path: window.location?.pathname,
+            form_id: "corpQuoteForm",
+            error_kind: "network_error",
+          });
           status.textContent =
             "No fue posible enviar tu solicitud. Intenta nuevamente en unos momentos.";
           status.dataset.state = "error";
-          status.hidden = false;
-        } finally {
+          status.hidden = true;
+
+          setSubmitState("error");
           form.removeAttribute("aria-busy");
-          submitBtn.disabled = false;
+          await new Promise((r) => setTimeout(r, 400));
+          if (!showResultModal("error")) {
+            status.hidden = false;
+          }
+        } finally {
+          inFlight = false;
+          form.removeAttribute("aria-busy");
+          if (!modalOpen) {
+            submitBtn.disabled = false;
+            setSubmitState("idle");
+          }
         }
       });
     })();

@@ -32,6 +32,9 @@ const jsonLd = {
   description,
   areaServed: "Villahermosa, Tabasco, MX",
 };
+
+const GA4_ID = ((import.meta.env.PUBLIC_GA4_ID as string | undefined) ?? "").trim();
+const META_PIXEL_ID = ((import.meta.env.PUBLIC_META_PIXEL_ID as string | undefined) ?? "").trim();
 ---
 
 <!doctype html>
@@ -67,6 +70,145 @@ const jsonLd = {
       href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@400;600&display=swap"
       rel="stylesheet"
     />
+    <script is:inline>
+      (() => {
+        if (typeof window === "undefined") return;
+
+        const GA4_ID = {JSON.stringify(GA4_ID)};
+        const META_PIXEL_ID = {JSON.stringify(META_PIXEL_ID)};
+
+        const safe = (value, pattern) => {
+          if (typeof value !== "string") return "";
+          const trimmed = value.trim();
+          return pattern.test(trimmed) ? trimmed : "";
+        };
+
+        const ga4Id = safe(GA4_ID, /^G-[A-Z0-9]+$/);
+        const metaId = safe(META_PIXEL_ID, /^\d{5,}$/);
+
+        const w = window;
+        if (!w.__frioPuroTracking) {
+          w.__frioPuroTracking = {
+            initializedAt: Date.now(),
+            pageviewSent: false,
+            dedupe: new Set(),
+          };
+        } else if (w.__frioPuroTracking.initializedAt) {
+          return;
+        }
+
+        const ensureGtag = () => {
+          if (!ga4Id) return;
+
+          w.dataLayer = w.dataLayer || [];
+
+          if (!w.gtag) {
+            w.gtag = function gtag() {
+              // eslint-disable-next-line prefer-rest-params
+              w.dataLayer.push(arguments);
+            };
+          }
+
+          if (!w.__frioPuroGtagLoaded) {
+            const script = document.createElement("script");
+            script.async = true;
+            script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(ga4Id)}`;
+            script.onload = () => {
+              w.__frioPuroGtagLoaded = true;
+            };
+            document.head.appendChild(script);
+          }
+
+          try {
+            w.gtag("js", new Date());
+            if (ga4Id) w.gtag("config", ga4Id, { send_page_view: false });
+          } catch {
+            // ignore
+          }
+        };
+
+        const ensureMetaPixel = () => {
+          if (!metaId) return;
+          if (w.fbq && w.fbq.loaded) return;
+          if (w.__frioPuroMetaLoaded) return;
+          w.__frioPuroMetaLoaded = true;
+
+          /* eslint-disable */
+          !(function (f, b, e, v, n, t, s) {
+            if (f.fbq) return;
+            n = (f.fbq = function () {
+              // eslint-disable-next-line prefer-rest-params
+              n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+            });
+            if (!f._fbq) f._fbq = n;
+            n.push = n;
+            n.loaded = true;
+            n.version = "2.0";
+            n.queue = [];
+            t = b.createElement(e);
+            t.async = true;
+            t.src = v;
+            s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s);
+          })(w, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+          /* eslint-enable */
+
+          try {
+            w.fbq("init", metaId);
+          } catch {
+            // ignore
+          }
+        };
+
+        const dedupeOnce = (name, eventId) => {
+          if (!eventId) return false;
+          const key = `${name}|${eventId}`;
+          if (w.__frioPuroTracking.dedupe.has(key)) return true;
+          w.__frioPuroTracking.dedupe.add(key);
+          return false;
+        };
+
+        w.frioPuroTrackEvent = (name, params) => {
+          try {
+            const eventId = params && typeof params.event_id === "string" ? params.event_id : "";
+            if (dedupeOnce(name, eventId)) return;
+
+            if (typeof w.gtag === "function" && ga4Id) {
+              w.gtag("event", name, params || {});
+            }
+
+            if (typeof w.fbq === "function" && metaId) {
+              w.fbq("trackCustom", name, params || {});
+            }
+          } catch {
+            // ignore
+          }
+        };
+
+        w.frioPuroTrackPageView = () => {
+          try {
+            if (w.__frioPuroTracking.pageviewSent) return;
+            w.__frioPuroTracking.pageviewSent = true;
+            w.frioPuroTrackEvent("page_view", {
+              page_location: location.href,
+              page_path: location.pathname,
+              page_title: document.title,
+            });
+          } catch {
+            // ignore
+          }
+        };
+
+        ensureGtag();
+        ensureMetaPixel();
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", () => w.frioPuroTrackPageView(), { once: true });
+        } else {
+          w.frioPuroTrackPageView();
+        }
+      })();
+    </script>
     <script is:inline>
       (() => {
         try {
