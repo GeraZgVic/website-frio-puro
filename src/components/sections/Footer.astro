@@ -1,5 +1,10 @@
 ﻿---
 import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
+import { getHomeSectionHref, getLogoHref } from "../../config/navigation";
+
+const pathname = Astro.url.pathname;
+const sectionHref = (id: string): string => getHomeSectionHref(pathname, id);
+const logoHref = getLogoHref(pathname);
 ---
 
 <!-- FOOTER -->
@@ -10,7 +15,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="#inicio" class="footer-logo-link" aria-label="Frío Puro">
+        <a href={logoHref} class="footer-logo-link" aria-label="Frío Puro">
           <img
             class="footer-logo-image"
             src="/images/FrioPuroLogo.png"
@@ -46,11 +51,11 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
         <div class="footer-col footer-nav-col">
           <h4>Navegación</h4>
           <ul class="footer-links">
-            <li><a href="#inicio">Inicio</a></li>
-            <li><a href="#clientes">Clientes</a></li>
-            <li><a href="#productos">Productos</a></li>
-            <li><a href="#proceso">Proceso de producción</a></li>
-            <li><a href="#contacto">Contacto</a></li>
+            <li><a href={sectionHref("inicio")}>Inicio</a></li>
+            <li><a href={sectionHref("clientes")}>Clientes</a></li>
+            <li><a href={sectionHref("productos")}>Productos</a></li>
+            <li><a href={sectionHref("proceso")}>Proceso de producción</a></li>
+            <li><a href={sectionHref("contacto")}>Contacto</a></li>
           </ul>
         </div>
 

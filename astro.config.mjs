@@ -8,7 +8,7 @@ export default defineConfig({
   output: "server",
   adapter: node({ mode: "standalone" }),
   security: {
-    checkOrigin: false,
+    checkOrigin: true,
   },
   vite: {
     plugins: [tailwindcss()]

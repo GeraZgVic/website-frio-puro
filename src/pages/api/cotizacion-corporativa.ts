@@ -1,13 +1,198 @@
 import type { APIRoute } from "astro";
 import nodemailer from "nodemailer";
 import { commercialContent } from "../../config/commercial";
+import { createHash, randomUUID } from "node:crypto";
 
-const DEFAULT_LEAD_DESTINATION_EMAIL = "soporte@importacionesamexico.com.mx" as const;
+const DEFAULT_LEAD_DESTINATION_EMAIL =
+  "soporte@importacionesamexico.com.mx" as const;
 const BRAND_SITE_URL = "https://friopuro.com.mx" as const;
 const BRAND_LOGO_URL = `${BRAND_SITE_URL}/images/FrioPuroLogo.png` as const;
 const CUSTOMER_WHATSAPP_URL = "https://wa.link/38bbke" as const;
 const RECAPTCHA_ACTION = "corporate_quote_submit" as const;
 const DEFAULT_RECAPTCHA_MIN_SCORE = 0.5;
+
+const RATE_LIMIT_PER_MINUTE = 5;
+const RATE_LIMIT_PER_HOUR = 30;
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_HOUR_MS = 60 * 60_000;
+
+const MAX_CONCURRENT_REQUESTS = 5;
+const MAX_BODY_BYTES = 64 * 1024;
+
+type ApiPayload = {
+  ok: boolean;
+  code: string;
+  message: string;
+};
+
+type RateLimitState = {
+  minuteStart: number;
+  minuteCount: number;
+  hourStart: number;
+  hourCount: number;
+};
+
+const rateLimitByKey = new Map<string, RateLimitState>();
+let activeRequests = 0;
+let lastRateLimitCleanupAt = 0;
+
+const json = (status: number, payload: ApiPayload): Response =>
+  new Response(JSON.stringify(payload), {
+    status,
+    headers: { "Content-Type": "application/json" },
+  });
+
+const createRequestId = (): string => {
+  try {
+    return randomUUID();
+  } catch {
+    return `${Date.now().toString(16)}-${Math.random().toString(16).slice(2, 10)}`;
+  }
+};
+
+const hashClientKey = (key: string): string => {
+  try {
+    return createHash("sha256").update(key).digest("hex").slice(0, 12);
+  } catch {
+    return "";
+  }
+};
+
+const logSecurityEvent = (event: {
+  request_id: string;
+  code: string;
+  client_ref?: string;
+  detail?: string;
+}) => {
+  try {
+    const payload = {
+      ts: new Date().toISOString(),
+      ...event,
+    };
+    console.info(JSON.stringify(payload));
+  } catch {
+    // ignore
+  }
+};
+
+const isPrivateIp = (ip: string): boolean => {
+  const v = ip.trim();
+  if (!v) return false;
+  if (v === "::1") return true;
+  if (v.startsWith("127.")) return true;
+  if (v.startsWith("10.")) return true;
+  if (v.startsWith("192.168.")) return true;
+  if (v.startsWith("172.")) {
+    const second = Number.parseInt(v.split(".")[1] || "", 10);
+    return Number.isFinite(second) && second >= 16 && second <= 31;
+  }
+  return false;
+};
+
+const isValidIpToken = (token: string): boolean => {
+  const value = token.trim();
+  if (!value) return false;
+  // Basic allowlist (IPv4/IPv6-ish). Purpose: avoid letting arbitrary strings become keys.
+  return /^[0-9a-fA-F:.]+$/.test(value);
+};
+
+const getTrustedClientIp = (
+  request: Request,
+  clientAddress?: string,
+): string => {
+  const ctxIp = (clientAddress || "").trim();
+  const cfIp = (request.headers.get("cf-connecting-ip") || "").trim();
+  const realIp = (request.headers.get("x-real-ip") || "").trim();
+  const xForwardedFor = (request.headers.get("x-forwarded-for") || "").trim();
+
+  // Source of truth: runtime-provided clientAddress when available.
+  if (ctxIp && isValidIpToken(ctxIp)) {
+    // Trust proxy-provided headers only when the immediate peer is a private/loopback address
+    // (i.e., a local trusted reverse proxy). Otherwise, do not trust user-supplied headers.
+    if (isPrivateIp(ctxIp)) {
+      if (cfIp && isValidIpToken(cfIp)) return cfIp;
+      if (realIp && isValidIpToken(realIp)) return realIp;
+
+      const firstForwarded = (xForwardedFor.split(",")[0] || "").trim();
+      if (firstForwarded && isValidIpToken(firstForwarded))
+        return firstForwarded;
+    }
+    return ctxIp;
+  }
+
+  // No reliable runtime address: do not trust forwarded headers.
+  return "";
+};
+
+const getClientKey = (request: Request, clientAddress?: string): string => {
+  const ip = getTrustedClientIp(request, clientAddress);
+  if (ip) return `ip:${ip}`;
+
+  const ua = (request.headers.get("user-agent") || "").trim();
+  const acceptLanguage = (request.headers.get("accept-language") || "").trim();
+  const secChUa = (request.headers.get("sec-ch-ua") || "").trim();
+  const origin = (request.headers.get("origin") || "").trim();
+
+  const fingerprint = [
+    ua.slice(0, 120),
+    acceptLanguage.slice(0, 80),
+    secChUa.slice(0, 80),
+    origin.slice(0, 120),
+  ]
+    .filter(Boolean)
+    .join("|");
+
+  return fingerprint ? `fp:${fingerprint}` : "unknown";
+};
+
+const isRateLimited = (key: string): boolean => {
+  const now = Date.now();
+  const existing = rateLimitByKey.get(key);
+
+  // Conservative cleanup: occasionally sweep entries that are well past both windows.
+  if (now - lastRateLimitCleanupAt > 10 * 60_000 && rateLimitByKey.size > 250) {
+    lastRateLimitCleanupAt = now;
+    const expireBeforeMinute = now - RATE_LIMIT_WINDOW_MS * 2;
+    const expireBeforeHour = now - RATE_LIMIT_HOUR_MS * 2;
+
+    for (const [storedKey, state] of rateLimitByKey.entries()) {
+      if (
+        state.minuteStart < expireBeforeMinute &&
+        state.hourStart < expireBeforeHour
+      ) {
+        rateLimitByKey.delete(storedKey);
+      }
+    }
+  }
+
+  const state: RateLimitState =
+    existing ??
+    ({
+      minuteStart: now,
+      minuteCount: 0,
+      hourStart: now,
+      hourCount: 0,
+    } satisfies RateLimitState);
+
+  if (now - state.minuteStart >= RATE_LIMIT_WINDOW_MS) {
+    state.minuteStart = now;
+    state.minuteCount = 0;
+  }
+
+  if (now - state.hourStart >= RATE_LIMIT_HOUR_MS) {
+    state.hourStart = now;
+    state.hourCount = 0;
+  }
+
+  state.minuteCount += 1;
+  state.hourCount += 1;
+  rateLimitByKey.set(key, state);
+
+  return (
+    state.minuteCount > RATE_LIMIT_PER_MINUTE ||
+    state.hourCount > RATE_LIMIT_PER_HOUR
+  );
+};
 
 const CONSUMPTION_LABELS: Record<string, string> = {
   lt_50: "Menos de 50 bolsas / semana",
@@ -32,41 +217,87 @@ const isValidEmail = (email: string): boolean => {
 
 const verifyRecaptchaToken = async (
   token: string,
-): Promise<{ ok: boolean; score: number | null }> => {
-  const secretKey = (import.meta.env.RECAPTCHA_SECRET_KEY as string | undefined)?.trim();
-  const minScoreRaw = (import.meta.env.RECAPTCHA_MIN_SCORE as string | undefined)?.trim();
-  const minScore = Number(minScoreRaw ?? DEFAULT_RECAPTCHA_MIN_SCORE);
+  secretKey: string,
+): Promise<{ ok: true } | { ok: false; unavailable: boolean }> => {
+  const minScoreRaw = (
+    import.meta.env.RECAPTCHA_MIN_SCORE as string | undefined
+  )?.trim();
+  const parsedMinScore = Number(minScoreRaw ?? DEFAULT_RECAPTCHA_MIN_SCORE);
+  const minScore =
+    Number.isFinite(parsedMinScore) &&
+    parsedMinScore >= 0 &&
+    parsedMinScore <= 1
+      ? parsedMinScore
+      : DEFAULT_RECAPTCHA_MIN_SCORE;
 
-  if (!secretKey) {
-    throw new Error("Missing RECAPTCHA_SECRET_KEY");
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+  try {
+    const response = await fetch(
+      "https://www.google.com/recaptcha/api/siteverify",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          secret: secretKey,
+          response: token,
+        }),
+        signal: controller.signal,
+      },
+    );
+
+    if (!response.ok) return { ok: false, unavailable: false };
+
+    const payload = (await response.json().catch(() => null)) as {
+      success?: boolean;
+      action?: string;
+      score?: number;
+    } | null;
+
+    const score = typeof payload?.score === "number" ? payload.score : null;
+    const scorePassed = score === null ? false : score >= minScore;
+
+    const passed =
+      Boolean(payload?.success) &&
+      payload?.action === RECAPTCHA_ACTION &&
+      scorePassed;
+
+    return passed ? { ok: true } : { ok: false, unavailable: false };
+  } catch {
+    return { ok: false, unavailable: true };
+  } finally {
+    clearTimeout(timeoutId);
   }
+};
 
-  const response = await fetch("https://www.google.com/recaptcha/api/siteverify", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: new URLSearchParams({
-      secret: secretKey,
-      response: token,
-    }),
-  });
+const isAllowedHost = (host: string): boolean => {
+  const value = host.trim().toLowerCase();
+  if (!value) return false;
+  const hostname = value.split(":")[0] || "";
+  return (
+    hostname === "friopuro.com.mx" ||
+    hostname === "www.friopuro.com.mx" ||
+    hostname === "localhost" ||
+    hostname.endsWith(".localhost")
+  );
+};
 
-  if (!response.ok) return { ok: false, score: null };
+const isAllowedOrigin = (origin: string): boolean => {
+  const value = origin.trim().toLowerCase();
+  if (!value) return false;
 
-  const payload = (await response.json().catch(() => null)) as {
-    success?: boolean;
-    action?: string;
-    score?: number;
-  } | null;
+  // Allow browser "null" origins only if explicitly needed (we do not allow them here).
+  if (value === "null") return false;
 
-  const score = typeof payload?.score === "number" ? payload.score : null;
-  const scorePassed = score === null ? false : score >= minScore;
-
-  return {
-    ok: Boolean(payload?.success) && payload?.action === RECAPTCHA_ACTION && scorePassed,
-    score,
-  };
+  return (
+    value === "https://friopuro.com.mx" ||
+    value === "https://www.friopuro.com.mx" ||
+    value === "http://localhost:4321" ||
+    value === "http://127.0.0.1:4321"
+  );
 };
 
 const escapeHtml = (value: string): string => {
@@ -95,16 +326,18 @@ const formatLeadTimestamp = (isoDate: string): string => {
 };
 
 const getMailerConfig = () => {
-  const user = (import.meta.env.GMAIL_USER as string | undefined)?.trim();
-  const pass = (import.meta.env.GMAIL_APP_PASSWORD as string | undefined)?.trim();
+  const user = (
+    (import.meta.env.GMAIL_USER as string | undefined) ?? ""
+  ).trim();
+  const pass = (
+    (import.meta.env.GMAIL_APP_PASSWORD as string | undefined) ?? ""
+  ).trim();
   const leadDestination =
-    (import.meta.env.LEAD_DESTINATION_EMAIL as string | undefined)?.trim() ||
+    (
+      (import.meta.env.LEAD_DESTINATION_EMAIL as string | undefined) ?? ""
+    ).trim() ||
     user ||
     DEFAULT_LEAD_DESTINATION_EMAIL;
-
-  if (!user || !pass) {
-    throw new Error("Missing GMAIL_USER or GMAIL_APP_PASSWORD");
-  }
 
   return { user, pass, leadDestination };
 };
@@ -115,8 +348,16 @@ const sendEmailWithGmail = async (options: {
   text: string;
   html?: string;
   replyTo?: string;
+  gmailUser?: string;
+  gmailPass?: string;
 }): Promise<void> => {
-  const { user, pass } = getMailerConfig();
+  const cfg = getMailerConfig();
+  const user = (options.gmailUser ?? cfg.user).trim();
+  const pass = (options.gmailPass ?? cfg.pass).trim();
+
+  if (!user || !pass) {
+    throw new Error("Mailer is not configured");
+  }
   const to = Array.isArray(options.to) ? options.to : [options.to];
 
   const transporter = nodemailer.createTransport({
@@ -139,155 +380,281 @@ const sendEmailWithGmail = async (options: {
   });
 };
 
-export const POST: APIRoute = async ({ request }) => {
-  let formData: FormData;
+export const POST: APIRoute = async ({ request, clientAddress }) => {
+  const requestId = createRequestId();
+  let clientKey = "";
+  let clientRef = "";
   try {
-    formData = await request.formData();
-  } catch {
-    return new Response(
-      JSON.stringify({
-        ok: false,
-        message: "No fue posible procesar tu solicitud. Verifica los datos.",
-      }),
-      { status: 400, headers: { "Content-Type": "application/json" } },
-    );
-  }
+    const hostHeader = (request.headers.get("host") || "").trim();
+    const originHeader = (request.headers.get("origin") || "").trim();
 
-  const honeypot = getString(formData.get("company_website"));
-  if (honeypot) {
-    return new Response(
-      JSON.stringify({
-        ok: true,
-        message:
-          "Gracias. Tu solicitud fue enviada correctamente. Nuestro equipo comercial dará seguimiento a la brevedad.",
-      }),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    );
-  }
-
-  const nameCompany = getString(formData.get("name_company"));
-  const phone = getString(formData.get("phone"));
-  const email = getString(formData.get("email"));
-  const consumption = getString(formData.get("consumption"));
-  const recaptchaToken = getString(formData.get("g-recaptcha-response"));
-
-  const consumptionLabel = CONSUMPTION_LABELS[consumption] ?? "";
-  const safeNameCompany = sanitizeLine(nameCompany);
-  const safePhone = sanitizeLine(phone);
-
-  if (!safeNameCompany) {
-    return new Response(
-      JSON.stringify({ ok: false, message: "Indica tu nombre o empresa." }),
-      { status: 400, headers: { "Content-Type": "application/json" } },
-    );
-  }
-
-  if (safeNameCompany.length > 140) {
-    return new Response(
-      JSON.stringify({
-        ok: false,
-        message: "El nombre o empresa es demasiado largo.",
-      }),
-      { status: 400, headers: { "Content-Type": "application/json" } },
-    );
-  }
-
-  if (!safePhone) {
-    return new Response(
-      JSON.stringify({ ok: false, message: "Indica un teléfono de contacto." }),
-      { status: 400, headers: { "Content-Type": "application/json" } },
-    );
-  }
-
-  if (safePhone.length > 40) {
-    return new Response(
-      JSON.stringify({
-        ok: false,
-        message: "El teléfono es demasiado largo.",
-      }),
-      { status: 400, headers: { "Content-Type": "application/json" } },
-    );
-  }
-
-  if (!isValidEmail(email)) {
-    return new Response(
-      JSON.stringify({
-        ok: false,
-        message: "Revisa el formato del correo electrónico.",
-      }),
-      { status: 400, headers: { "Content-Type": "application/json" } },
-    );
-  }
-
-  if (!consumptionLabel) {
-    return new Response(
-      JSON.stringify({
-        ok: false,
-        message: "Selecciona tu consumo estimado.",
-      }),
-      { status: 400, headers: { "Content-Type": "application/json" } },
-    );
-  }
-
-  if (!recaptchaToken) {
-    return new Response(
-      JSON.stringify({
-        ok: false,
-        message: "Confirma que no eres un robot.",
-      }),
-      { status: 400, headers: { "Content-Type": "application/json" } },
-    );
-  }
-
-  try {
-    const recaptchaResult = await verifyRecaptchaToken(recaptchaToken);
-
-    if (!recaptchaResult.ok) {
-      return new Response(
-        JSON.stringify({
+    // If Origin is present (browser fetch/forms), enforce it strictly.
+    if (originHeader) {
+      if (!isAllowedOrigin(originHeader)) {
+        logSecurityEvent({
+          request_id: requestId,
+          code: "invalid_origin",
+          detail: "origin_not_allowed",
+        });
+        return json(403, {
           ok: false,
-          message: "No fue posible validar reCAPTCHA. Intenta nuevamente.",
-        }),
-        { status: 400, headers: { "Content-Type": "application/json" } },
-      );
+          code: "invalid_origin",
+          message: "Solicitud no permitida.",
+        });
+      }
+    } else {
+      // If Origin is absent, fall back to validating Host (prevents obvious cross-site misuse and misrouting).
+      if (!isAllowedHost(hostHeader)) {
+        logSecurityEvent({
+          request_id: requestId,
+          code: "invalid_origin",
+          detail: "host_not_allowed",
+        });
+        return json(403, {
+          ok: false,
+          code: "invalid_origin",
+          message: "Solicitud no permitida.",
+        });
+      }
     }
-  } catch {
-    return new Response(
-      JSON.stringify({
+
+    clientKey = getClientKey(request, clientAddress);
+    clientRef = hashClientKey(clientKey);
+
+    if (isRateLimited(clientKey)) {
+      logSecurityEvent({
+        request_id: requestId,
+        code: "rate_limited",
+        client_ref: clientRef,
+      });
+      return json(429, {
         ok: false,
-        message: "No fue posible validar reCAPTCHA en este momento. Intenta nuevamente.",
-      }),
-      { status: 500, headers: { "Content-Type": "application/json" } },
-    );
-  }
+        code: "rate_limited",
+        message: "Demasiadas solicitudes, intenta más tarde",
+      });
+    }
 
-  const { leadDestination } = getMailerConfig();
-  const receivedAt = new Date().toISOString();
-  const receivedAtFormatted = formatLeadTimestamp(receivedAt);
-  const origin = "/cotizacion-corporativa";
-  const originLabel = "Formulario corporativo web";
-  const whatsappHref = CUSTOMER_WHATSAPP_URL;
-  const safeEmail = email || "No proporcionado";
-  const consumptionColor = formatConsumptionBadgeColor(consumptionLabel);
-  const leadWhatsAppHref = `https://wa.me/${safePhone.replace(/\D/g, "")}`;
-  const leadMailtoHref = email ? `mailto:${encodeURIComponent(email)}` : "";
+    if (activeRequests >= MAX_CONCURRENT_REQUESTS) {
+      logSecurityEvent({
+        request_id: requestId,
+        code: "server_busy",
+        client_ref: clientRef,
+      });
+      return json(503, {
+        ok: false,
+        code: "server_busy",
+        message: "Servicio temporalmente no disponible",
+      });
+    }
 
-  const internalSubject = `Nueva solicitud de cotización: ${safeNameCompany} | Frío Puro`;
-  const internalText = [
-    "Nueva solicitud de cotización recibida desde el formulario web.",
-    "",
-    `Nombre / Empresa: ${safeNameCompany}`,
-    `Teléfono: ${safePhone}`,
-    `Correo electrónico: ${safeEmail}`,
-    `Consumo estimado: ${consumptionLabel}`,
-    `Fecha/hora: ${receivedAtFormatted} (México)`,
-    `Origen: ${originLabel} (${origin})`,
-    "",
-    "Acciones sugeridas:",
-    `- Responder por correo a: ${safeEmail}`,
-    `- Contactar por teléfono o WhatsApp: ${safePhone}`,
-  ].join("\n");
-  const internalHtml = `
+    const secretKey =
+      (import.meta.env.RECAPTCHA_SECRET_KEY as string | undefined)?.trim() ||
+      "";
+    const gmailUser =
+      (import.meta.env.GMAIL_USER as string | undefined)?.trim() || "";
+    const gmailPass =
+      (import.meta.env.GMAIL_APP_PASSWORD as string | undefined)?.trim() || "";
+    const leadDestination =
+      (import.meta.env.LEAD_DESTINATION_EMAIL as string | undefined)?.trim() ||
+      gmailUser ||
+      DEFAULT_LEAD_DESTINATION_EMAIL;
+
+    if (!secretKey || !gmailUser || !gmailPass) {
+      logSecurityEvent({
+        request_id: requestId,
+        code: "service_misconfigured",
+        client_ref: clientRef,
+      });
+      return json(503, {
+        ok: false,
+        code: "service_misconfigured",
+        message: "Servicio temporalmente no disponible",
+      });
+    }
+
+    const contentLengthRaw = (
+      request.headers.get("content-length") || ""
+    ).trim();
+    if (contentLengthRaw) {
+      const contentLength = Number.parseInt(contentLengthRaw, 10);
+      if (Number.isFinite(contentLength) && contentLength > MAX_BODY_BYTES) {
+        logSecurityEvent({
+          request_id: requestId,
+          code: "invalid_input",
+          client_ref: clientRef,
+          detail: "content_length_exceeded",
+        });
+        return json(400, {
+          ok: false,
+          code: "invalid_input",
+          message: "Verifica los datos e intenta nuevamente.",
+        });
+      }
+    }
+
+    activeRequests += 1;
+
+    try {
+      let formData: FormData;
+      try {
+        formData = await request.formData();
+      } catch {
+        return json(400, {
+          ok: false,
+          code: "invalid_request",
+          message: "No fue posible procesar tu solicitud. Verifica los datos.",
+        });
+      }
+
+      const honeypot = getString(formData.get("company_website"));
+      if (honeypot) {
+        return json(200, {
+          ok: true,
+          code: "ok",
+          message:
+            "Gracias. Tu solicitud fue enviada correctamente. Nuestro equipo comercial dará seguimiento a la brevedad.",
+        });
+      }
+
+      const nameCompany = getString(formData.get("name_company"));
+      const phone = getString(formData.get("phone"));
+      const email = getString(formData.get("email"));
+      const consumption = getString(formData.get("consumption"));
+      const recaptchaToken = getString(formData.get("g-recaptcha-response"));
+      const messageField = getString(formData.get("message"));
+
+      if (
+        nameCompany.length > 300 ||
+        phone.length > 120 ||
+        email.length > 320 ||
+        messageField.length > 2000 ||
+        honeypot.length > 400
+      ) {
+        logSecurityEvent({
+          request_id: requestId,
+          code: "invalid_input",
+          client_ref: clientRef,
+          detail: "field_length_exceeded",
+        });
+        return json(400, {
+          ok: false,
+          code: "invalid_input",
+          message: "Verifica los datos e intenta nuevamente.",
+        });
+      }
+
+      const consumptionLabel = CONSUMPTION_LABELS[consumption] ?? "";
+      const safeNameCompany = sanitizeLine(nameCompany);
+      const safePhone = sanitizeLine(phone);
+
+      if (!safeNameCompany) {
+        return json(400, {
+          ok: false,
+          code: "validation_error",
+          message: "Indica tu nombre o empresa.",
+        });
+      }
+
+      if (safeNameCompany.length > 140) {
+        return json(400, {
+          ok: false,
+          code: "validation_error",
+          message: "El nombre o empresa es demasiado largo.",
+        });
+      }
+
+      if (!safePhone) {
+        return json(400, {
+          ok: false,
+          code: "validation_error",
+          message: "Indica un teléfono de contacto.",
+        });
+      }
+
+      if (safePhone.length > 40) {
+        return json(400, {
+          ok: false,
+          code: "validation_error",
+          message: "El teléfono es demasiado largo.",
+        });
+      }
+
+      if (!isValidEmail(email)) {
+        return json(400, {
+          ok: false,
+          code: "validation_error",
+          message: "Revisa el formato del correo electrónico.",
+        });
+      }
+
+      if (!consumptionLabel) {
+        return json(400, {
+          ok: false,
+          code: "validation_error",
+          message: "Selecciona tu consumo estimado.",
+        });
+      }
+
+      if (!recaptchaToken) {
+        return json(400, {
+          ok: false,
+          code: "recaptcha_failed",
+          message: "Confirma que no eres un robot.",
+        });
+      }
+
+      const recaptchaResult = await verifyRecaptchaToken(
+        recaptchaToken,
+        secretKey,
+      );
+
+      if (!recaptchaResult.ok) {
+        if (recaptchaResult.unavailable) {
+          logSecurityEvent({
+            request_id: requestId,
+            code: "recaptcha_unavailable",
+            client_ref: clientRef,
+          });
+          return json(503, {
+            ok: false,
+            code: "recaptcha_unavailable",
+            message: "Servicio temporalmente no disponible",
+          });
+        }
+
+        return json(400, {
+          ok: false,
+          code: "recaptcha_failed",
+          message: "No fue posible validar reCAPTCHA. Intenta nuevamente.",
+        });
+      }
+
+      const receivedAt = new Date().toISOString();
+      const receivedAtFormatted = formatLeadTimestamp(receivedAt);
+      const origin = "/cotizacion-corporativa";
+      const originLabel = "Formulario corporativo web";
+      const whatsappHref = CUSTOMER_WHATSAPP_URL;
+      const safeEmail = email || "No proporcionado";
+      const consumptionColor = formatConsumptionBadgeColor(consumptionLabel);
+      const leadWhatsAppHref = `https://wa.me/${safePhone.replace(/\D/g, "")}`;
+      const leadMailtoHref = email ? `mailto:${encodeURIComponent(email)}` : "";
+
+      const internalSubject = `Nueva solicitud de cotización: ${safeNameCompany} | Frío Puro`;
+      const internalText = [
+        "Nueva solicitud de cotización recibida desde el formulario web.",
+        "",
+        `Nombre / Empresa: ${safeNameCompany}`,
+        `Teléfono: ${safePhone}`,
+        `Correo electrónico: ${safeEmail}`,
+        `Consumo estimado: ${consumptionLabel}`,
+        `Fecha/hora: ${receivedAtFormatted} (México)`,
+        `Origen: ${originLabel} (${origin})`,
+        "",
+        "Acciones sugeridas:",
+        `- Responder por correo a: ${safeEmail}`,
+        `- Contactar por teléfono o WhatsApp: ${safePhone}`,
+      ].join("\n");
+      const internalHtml = `
     <div style="background:#f3f7fb;padding:32px 16px;font-family:Arial,sans-serif;color:#0f172a;">
       <div style="max-width:720px;margin:0 auto;background:#ffffff;border:1px solid #dbe7f3;border-radius:18px;overflow:hidden;">
         <div style="padding:24px 28px;background:linear-gradient(135deg,#05203d 0%,#0b4f7c 100%);color:#ffffff;">
@@ -342,49 +709,54 @@ export const POST: APIRoute = async ({ request }) => {
     </div>
   `;
 
-  try {
-    await sendEmailWithGmail({
-      to: leadDestination,
-      subject: internalSubject,
-      text: internalText,
-      html: internalHtml,
-      replyTo: email || undefined,
-    });
-  } catch {
-    return new Response(
-      JSON.stringify({
-        ok: false,
-        message:
-          "No fue posible enviar tu solicitud en este momento. Intenta nuevamente en unos minutos.",
-      }),
-      { status: 500, headers: { "Content-Type": "application/json" } },
-    );
-  }
+      try {
+        await sendEmailWithGmail({
+          to: leadDestination,
+          subject: internalSubject,
+          text: internalText,
+          html: internalHtml,
+          replyTo: email || undefined,
+          gmailUser,
+          gmailPass,
+        });
+      } catch {
+        logSecurityEvent({
+          request_id: requestId,
+          code: "smtp_unavailable",
+          client_ref: clientRef,
+        });
+        return json(503, {
+          ok: false,
+          code: "smtp_unavailable",
+          message: "Servicio temporalmente no disponible",
+        });
+      }
 
-  let userConfirmationSent = false;
-  if (email) {
-    const userSubject = "Recibimos tu solicitud y ya estamos preparando tu cotización | Frío Puro";
-    const userText = [
-      "Hola,",
-      "",
-      "Gracias por contactar a Frío Puro.",
-      "",
-      "Ya recibimos tu solicitud de cotización corporativa y nuestro equipo comercial la revisará para prepararte una propuesta acorde a tu operación.",
-      "",
-      "Resumen enviado:",
-      `- Nombre / Empresa: ${safeNameCompany}`,
-      `- Teléfono: ${safePhone}`,
-      `- Correo electrónico: ${email}`,
-      `- Consumo estimado: ${consumptionLabel}`,
-      "",
-      "Tiempo estimado de respuesta: menos de 24 horas.",
-      `Si necesitas atención inmediata, también puedes escribirnos por WhatsApp al ${commercialContent.whatsappNumberRaw}.`,
-      "",
-      "Atentamente,",
-      "Equipo comercial de Frío Puro",
-      "ventas@friopuro.com.mx",
-    ].join("\n");
-    const userHtml = `
+      let userConfirmationSent = false;
+      if (email) {
+        const userSubject =
+          "Recibimos tu solicitud y ya estamos preparando tu cotización | Frío Puro";
+        const userText = [
+          "Hola,",
+          "",
+          "Gracias por contactar a Frío Puro.",
+          "",
+          "Ya recibimos tu solicitud de cotización corporativa y nuestro equipo comercial la revisará para prepararte una propuesta acorde a tu operación.",
+          "",
+          "Resumen enviado:",
+          `- Nombre / Empresa: ${safeNameCompany}`,
+          `- Teléfono: ${safePhone}`,
+          `- Correo electrónico: ${email}`,
+          `- Consumo estimado: ${consumptionLabel}`,
+          "",
+          "Tiempo estimado de respuesta: menos de 24 horas.",
+          `Si necesitas atención inmediata, también puedes escribirnos por WhatsApp al ${commercialContent.whatsappNumberRaw}.`,
+          "",
+          "Atentamente,",
+          "Equipo comercial de Frío Puro",
+          "ventas@friopuro.com.mx",
+        ].join("\n");
+        const userHtml = `
       <div style="background:#edf4f9;padding:32px 16px;font-family:Arial,sans-serif;color:#0f172a;">
         <div style="max-width:680px;margin:0 auto;background:#ffffff;border:1px solid #dbe7f3;border-radius:20px;overflow:hidden;">
           <div style="padding:28px 28px 24px;background:linear-gradient(135deg,#062b4f 0%,#0a6ba8 100%);color:#ffffff;">
@@ -428,27 +800,42 @@ export const POST: APIRoute = async ({ request }) => {
       </div>
     `;
 
-    try {
-      await sendEmailWithGmail({
-        to: email,
-        subject: userSubject,
-        text: userText,
-        html: userHtml,
-      });
-      userConfirmationSent = true;
-    } catch {
-      // Complementario: no romper el flujo principal si el lead interno ya salió.
-    }
-  }
+        try {
+          await sendEmailWithGmail({
+            to: email,
+            subject: userSubject,
+            text: userText,
+            html: userHtml,
+            gmailUser,
+            gmailPass,
+          });
+          userConfirmationSent = true;
+        } catch {
+          // Complementario: no romper el flujo principal si el lead interno ya salió.
+        }
+      }
 
-  return new Response(
-    JSON.stringify({
-      ok: true,
-      message:
-        email && userConfirmationSent
-          ? "Gracias. Tu solicitud fue enviada correctamente. Nuestro equipo comercial dará seguimiento a la brevedad y te enviaremos confirmación por correo."
-          : "Gracias. Tu solicitud fue enviada correctamente. Nuestro equipo comercial dará seguimiento a la brevedad.",
-    }),
-    { status: 200, headers: { "Content-Type": "application/json" } },
-  );
+      return json(200, {
+        ok: true,
+        code: "ok",
+        message:
+          email && userConfirmationSent
+            ? "Gracias. Tu solicitud fue enviada correctamente. Nuestro equipo comercial dará seguimiento a la brevedad y te enviaremos confirmación por correo."
+            : "Gracias. Tu solicitud fue enviada correctamente. Nuestro equipo comercial dará seguimiento a la brevedad.",
+      });
+    } finally {
+      activeRequests = Math.max(0, activeRequests - 1);
+    }
+  } catch {
+    logSecurityEvent({
+      request_id: requestId,
+      code: "internal_error",
+      client_ref: clientRef,
+    });
+    return json(500, {
+      ok: false,
+      code: "internal_error",
+      message: "Servicio temporalmente no disponible",
+    });
+  }
 };

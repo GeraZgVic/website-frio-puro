@@ -22,6 +22,11 @@ export const initHeroParticles = (): void => {
   ).matches;
   const heroElement = document.getElementById("hero") as HTMLElement | null;
 
+  // Lightweight perf guard: avoid running the canvas animation on small screens.
+  if (window.innerWidth <= 480) {
+    return;
+  }
+
   if (!canvas || prefersReducedMotion || !heroElement) {
     return;
   }
@@ -38,10 +43,10 @@ export const initHeroParticles = (): void => {
   let pageVisible = document.visibilityState === "visible";
 
   const getParticleTargetCount = (): number => {
-    if (window.innerWidth <= 480) return 28;
-    if (window.innerWidth <= 768) return 42;
-    if (window.innerWidth <= 1024) return 60;
-    return 78;
+    if (window.innerWidth <= 640) return 24;
+    if (window.innerWidth <= 768) return 28;
+    if (window.innerWidth <= 1024) return 40;
+    return 60;
   };
 
   const resizeCanvas = (): void => {

@@ -1097,6 +1097,8 @@ import { commercialContent } from "../../config/commercial";
       const video = section.querySelector(".vcard__video");
 
       if (video) {
+        let lastAttemptAt = 0;
+
         const enableInline = () => {
           video.setAttribute("playsinline", "");
           video.setAttribute("webkit-playsinline", "");
@@ -1110,6 +1112,14 @@ import { commercialContent } from "../../config/commercial";
         };
 
         const attemptPlay = () => {
+          if (document.visibilityState !== "visible") return;
+          if (!video.paused && !video.ended) return;
+
+          const now = Date.now();
+          // Throttle play retries from multiple global events (touch/pointer/pageshow/visibilitychange).
+          if (now - lastAttemptAt < 1200) return;
+          lastAttemptAt = now;
+
           enableInline();
           ensureMuted();
           video.loop = true;

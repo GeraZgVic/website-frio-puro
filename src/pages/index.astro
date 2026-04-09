@@ -24,7 +24,7 @@ import SiteScripts from "../components/SiteScripts.astro";
 >
   <Cursor />
   <Header />
-  <main>
+  <main id="main">
     <Hero />
     <Clients />
     <Products />
@@ -35,7 +35,25 @@ import SiteScripts from "../components/SiteScripts.astro";
     <Footer />
   </main>
   <WhatsAppFloat />
-  <a href="#inicio" id="back-top" aria-label="Volver arriba">&#8593;</a>
+  <a href="#inicio" id="back-top" aria-label="Volver arriba" tabindex="-1" aria-hidden="true">&#8593;</a>
+  <script is:inline>
+    (() => {
+      const el = document.getElementById("back-top");
+      if (!(el instanceof HTMLAnchorElement)) return;
+
+      const sync = () => {
+        const visible = el.classList.contains("visible");
+        el.tabIndex = visible ? 0 : -1;
+        el.setAttribute("aria-hidden", visible ? "false" : "true");
+      };
+
+      sync();
+      new MutationObserver(sync).observe(el, {
+        attributes: true,
+        attributeFilter: ["class"],
+      });
+    })();
+  </script>
   <SiteScripts />
 
   <style>
