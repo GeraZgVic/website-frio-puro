@@ -210,7 +210,7 @@ const sanitizeLine = (value: string): string => {
 };
 
 const isValidEmail = (email: string): boolean => {
-  if (!email) return true;
+  if (!email) return false;
   if (email.length > 254) return false;
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 };
@@ -583,7 +583,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
         return json(400, {
           ok: false,
           code: "validation_error",
-          message: "Revisa el formato del correo electrónico.",
+          message: "Indica un correo electrónico válido.",
         });
       }
 

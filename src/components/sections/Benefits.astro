@@ -406,8 +406,6 @@ import { commercialContent } from "../../config/commercial";
     transition:
       transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
       box-shadow 0.34s ease;
-    transform-style: preserve-3d;
-    will-change: transform;
   }
 
   .hero-kpi:hover {
@@ -564,7 +562,6 @@ import { commercialContent } from "../../config/commercial";
       background 0.24s ease,
       transform 0.24s ease,
       opacity 0.45s ease;
-    will-change: transform;
   }
 
   .blist__item:last-child {
@@ -645,8 +642,6 @@ import { commercialContent } from "../../config/commercial";
     transition:
       transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
       box-shadow 0.5s ease;
-    transform-style: preserve-3d;
-    will-change: transform;
   }
 
   .vcard:hover {
@@ -733,11 +728,11 @@ import { commercialContent } from "../../config/commercial";
   }
 
   .vcard-wrap.reveal {
-    transform: translateY(28px) scale(0.98);
+    transform: translateY(28px);
   }
 
   .vcard-wrap.reveal.in {
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 
   @media (max-width: 1020px) {
@@ -1011,10 +1006,14 @@ import { commercialContent } from "../../config/commercial";
         currentX += (targetX - currentX) * 0.12;
         currentY += (targetY - currentY) * 0.12;
 
-        element.style.transform = `translateY(${lift}px) perspective(${perspective}px) rotateX(${-currentY * rotate}deg) rotateY(${currentX * rotate}deg) scale(${scale})`;
+        const dx = Math.round(currentX * 3);
+        const dy = Math.round(currentY * 3);
+        element.style.transform = `translate(${dx}px, ${lift + dy}px)`;
 
         if (media) {
-          media.style.transform = `scale(1.03) translate(${currentX * 4}px, ${currentY * 3}px)`;
+          media.style.transform = `scale(1.02) translate(${dx * 2}px, ${
+            dy * 2
+          }px)`;
         }
 
         if (

@@ -604,14 +604,12 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
 
   .js-featured-product .featured-product-shell {
     opacity: 0;
-    transform: translateY(28px) scale(0.985);
-    will-change: transform, opacity;
+    transform: translateY(28px);
   }
 
   .js-featured-product .featured-product-panel-inner > * {
     opacity: 0;
     transform: translateY(18px);
-    will-change: transform, opacity;
   }
 
   .js-featured-product.is-visible .featured-product-shell {
@@ -663,11 +661,11 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
   @keyframes productLiftIn {
     from {
       opacity: 0;
-      transform: translateY(28px) scale(0.985);
+      transform: translateY(28px);
     }
     to {
       opacity: 1;
-      transform: translateY(0) scale(1);
+      transform: translateY(0);
     }
   }
 
@@ -1033,7 +1031,7 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
     }
 
     .featured-product-cta:active {
-      transform: scale(0.985);
+      transform: translateY(1px);
     }
   }
 
@@ -1148,7 +1146,9 @@ import { buildWhatsAppUrl, commercialContent } from "../../config/commercial";
           if (frame) cancelAnimationFrame(frame);
 
           frame = requestAnimationFrame(() => {
-            image.style.transform = `scale(1.045) translate3d(${offsetX * 6}px, ${offsetY * 6}px, 0)`;
+            const dx = Math.round(offsetX * 6);
+            const dy = Math.round(offsetY * 6);
+            image.style.transform = `scale(1.04) translate(${dx}px, ${dy}px)`;
           });
         };
 
