@@ -174,7 +174,7 @@ const recaptchaAction = "corporate_quote_submit";
 
             <div class="field">
               <label class="field__label" for="corpEmail">
-                Correo electrónico <span class="field__badge">opcional</span>
+                Correo electrónico
               </label>
               <input
                 class="field__input"
@@ -183,6 +183,7 @@ const recaptchaAction = "corporate_quote_submit";
                 type="email"
                 autocomplete="email"
                 placeholder="contacto@empresa.com"
+                required
                 aria-describedby="corpEmailError"
               />
               <p
@@ -290,7 +291,7 @@ const recaptchaAction = "corporate_quote_submit";
 
             {
               recaptchaSiteKey && (
-                <div class="field field--full">
+                <>
                   <input
                     type="hidden"
                     name="g-recaptcha-response"
@@ -298,12 +299,12 @@ const recaptchaAction = "corporate_quote_submit";
                     data-corp-recaptcha-token
                   />
                   <p
-                    class="field__error"
+                    class="field__error form__recaptcha-error"
                     id="corpRecaptchaError"
                     role="alert"
                     aria-hidden="true"
                   />
-                </div>
+                </>
               )
             }
 
@@ -1022,7 +1023,7 @@ const recaptchaAction = "corporate_quote_submit";
     .form {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px 14px;
+      gap: 12px 14px;
     }
 
     .form__honeypot {
@@ -1326,7 +1327,7 @@ const recaptchaAction = "corporate_quote_submit";
     .btn-submit {
       grid-column: 1 / -1;
       height: 54px;
-      margin-top: 8px;
+      margin-top: 0;
       border-radius: 18px;
       border: 1px solid rgba(255, 255, 255, 0.18);
       background: linear-gradient(
@@ -1820,11 +1821,22 @@ const recaptchaAction = "corporate_quote_submit";
 
     .form__legal {
       grid-column: 1 / -1;
-      margin: 6px 0 0;
+      margin: 2px 0 0;
       text-align: center;
       font-size: 0.74rem;
       color: rgba(255, 255, 255, 0.62);
-      line-height: 1.5;
+      line-height: 1.35;
+      transform: translateY(-2px);
+    }
+
+    .form__recaptcha-error {
+      grid-column: 1 / -1;
+      min-height: 0;
+      margin: 0;
+    }
+
+    .form__recaptcha-error[aria-hidden="true"] {
+      display: none;
     }
 
     .form__status {
@@ -2274,6 +2286,14 @@ const recaptchaAction = "corporate_quote_submit";
         padding: 32px;
       }
 
+      .form {
+        gap: 11px 12px;
+      }
+
+      .btn-submit {
+        margin-top: 0;
+      }
+
       .hero__focus-gradient {
         background:
           linear-gradient(
@@ -2395,7 +2415,7 @@ const recaptchaAction = "corporate_quote_submit";
 
       .form {
         grid-template-columns: 1fr;
-        gap: 11px;
+        gap: 9px;
       }
 
       .field__input,
@@ -2407,7 +2427,7 @@ const recaptchaAction = "corporate_quote_submit";
       .btn-submit {
         height: 49px;
         font-size: 0.9rem;
-        margin-top: 8px;
+        margin-top: 0;
       }
 
       .hero__focus-gradient {
@@ -2897,8 +2917,8 @@ const recaptchaAction = "corporate_quote_submit";
 
         if (emailEl instanceof HTMLInputElement) {
           const value = emailEl.value.trim();
-          if (value && !emailEl.checkValidity()) {
-            setInvalid(emailEl, "Revisa el formato del correo.");
+          if (!value || !emailEl.checkValidity()) {
+            setInvalid(emailEl, "Indica un correo electrónico válido.");
             firstInvalid ??= emailEl;
           }
         }
